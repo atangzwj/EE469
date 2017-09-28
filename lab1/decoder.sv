@@ -1,5 +1,5 @@
 module decoder (
-   output logic [31:0] regEnable,
+   output logic [31:0] wrEnable,
    input  logic [4:0]  WriteRegister,
    input  logic        RegWrite
    );
@@ -30,20 +30,20 @@ module decoder (
    
    genvar j;
    generate
-      for (i = 0; i < 4; i++) begin : regEnables1
-         for (j = 0; j < 8; j++) begin : regEnables2
-            and (regEnable[8 * i + j], enWR[i], wr[j]);
+      for (i = 0; i < 4; i++) begin : wrEnables1
+         for (j = 0; j < 8; j++) begin : wrEnables2
+            and (wrEnable[8 * i + j], enWR[i], wr[j]);
          end
       end
    endgenerate
 endmodule
 
 module decoder_testbench();
-   logic [31:0] regEnable;
+   logic [31:0] wrEnable;
    logic [4:0]  WriteRegister;
    logic        RegWrite;
 
-   decoder dut (.regEnable, .WriteRegister, .RegWrite);
+   decoder dut (.wrEnable, .WriteRegister, .RegWrite);
 
    integer i;
    initial begin
