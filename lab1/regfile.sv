@@ -1,10 +1,10 @@
 module regfile (
-    output [0:63] ReadData1,
-    output [0:63] ReadData2,
-    input  [0:63] WriteData,
-    input  [0:4]  ReadRegister1,
-    input  [0:4]  ReadRegister2,
-    input  [0:4]  WriteRegister,
+    output [63:0] ReadData1,
+    output [63:0] ReadData2,
+    input  [63:0] WriteData,
+    input  [4:0]  ReadRegister1,
+    input  [4:0]  ReadRegister2,
+    input  [4:0]  WriteRegister,
     input         RegWrite,
     input         clk,
     );
