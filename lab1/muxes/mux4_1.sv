@@ -1,7 +1,7 @@
 module mux4_1(
    output logic out, 
-   input  logic i00, i01, i10, i11, 
-   input  logic sel0, sel1
+   input  logic i11, i10, i01, i00, 
+   input  logic sel1, sel0
    );
 
    logic v0, v1;
@@ -20,7 +20,7 @@ module mux4_1_testbench();
    integer i;
    initial begin
       for(i=0; i<64; i++) begin
-         {sel1, sel0, i00, i01, i10, i11} = i; #10;
+         {sel1, sel0, i11, i10, i01, i00} = i; #10;
       end
    end
 endmodule 

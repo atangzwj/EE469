@@ -1,16 +1,29 @@
 module mux8_1(
-   output logic       out;
-   input  logic [2:0] sel;
-   input  logic [7:0] in;
+   output logic out, 
+   input  logic i111, i110, i101, i100, i011, i010, i001, i000,
+   input  logic sel2, sel1, sel0
    );
 
-   // Wires
-   logic [1:0] mOut;
+   logic v0, v1;
 
-   mux4_1 m0(.out(mOut[0]), .i0(in[0]), .i1(in[1]), .sel(sel[1:0])); 
-   mux4_1 m1(.out(mOut[1]), .i0(in[2]), .i1(in[3]), .sel(sel[1:0])); 
-   mux2_1 m2(.out(out), .i0(mOut[0]), .i1(mOut[1]), .sel(sel[2])); 
-
+   mux4_1 m0(.out(v0),  .i00(i000), .i01(i001), .i10(i010), .i11(i011), .sel0(sel0), .sel1(sel1));
+   mux4_1 m1(.out(v1),  .i00(i100), .i01(i101), .i10(i110), .i11(i111), .sel0(sel0), .sel1(sel1));
+   mux2_1 m (.out(out), .i0(v0),  .i1(v1),  .sel(sel2));
 endmodule
+
+module mux8_1_testbench();
+   logic i000, i001, i010, i011, i100, i101, i110, i111;
+   logic sel0, sel1, sel2;
+   logic out;
+
+   mux8_1 dut (.out, .i000, .i001, .i010, .i011, .i100, .i101, .i110, .i111, .sel0, .sel1, .sel2);
+
+   integer i;
+   initial begin
+      for(i=0; i<2048; i++) begin
+         {sel2, sel1, sel0, i111, i110, i101, i100, i011, i010, i001, i000} = i; #10;
+      end
+   end
+endmodule 
 
 
