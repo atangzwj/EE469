@@ -1,7 +1,7 @@
 module mux8_1(
    output logic out, 
-   input  logic i111, i110, i101, i100, i011, i010, i001, i000,
-   input  logic sel2, sel1, sel0
+   input  logic i000, i001, i010, i011, i100, i101, i110, i111,
+   input  logic sel0, sel1, sel2
    );
 
    logic v0, v1;
