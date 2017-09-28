@@ -24,6 +24,8 @@ module decoder (
    and wr2 (wr[2], wrInv[2],         WriteRegister[1], wrInv[0]);
    and wr3 (wr[3], wrInv[2],         WriteRegister[1], WriteRegister[0]);
    and wr4 (wr[4], WriteRegister[2], wrInv[1],         wrInv[0]);
+   and wr5 (wr[5], WriteRegister[2], wrInv[1],         WriteRegister[0]);
+   and wr6 (wr[6], WriteRegister[2], WriteRegister[1], wrInv[0]);
    and wr7 (wr[7], WriteRegister[2], WriteRegister[1], WriteRegister[0]);
    
    genvar j;
