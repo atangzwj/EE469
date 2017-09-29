@@ -9,6 +9,12 @@ module regfile (
    input               clk,
    );
 
-    
+   // 1. Decoder chooses register to write data
+   
+   // 2. WriteData passes data to the selected register
+   
+   // 3. Generate a 2D array with 32 registers and 64 bit data for each register
+   
+   // 4. Instantiate the 64x32_1 mux module twice, passing the ReadRegisters
     
 endmodule
