@@ -33,7 +33,7 @@ module decoder3_8_testbench ();
          sel = i; #10;
       end
       sel = 2'b00;
-      en = 1'b1
+      en = 1'b1;
       for (i = 0; i < 8; i++) begin
          sel = i; #10;
       end
