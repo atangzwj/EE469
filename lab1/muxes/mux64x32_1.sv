@@ -12,13 +12,7 @@ module mux64x32_1(
          for (j = 0; j < 32; j++) begin : eachBit
             buf b(storeBits[j], regs[i][j]);
          end
-         mux32_1 m(.out(readData[i]),
-                     .sel4(sel[4]),
-                     .sel3(sel[3]),
-                     .sel2(sel[2]),
-                     .sel1(sel[1]),
-                     .sel0(sel[0]),
-                     .in(storeBits));
+         mux32_1 m(.out(readData[i]), .sel, .in(storeBits));
       end
    endgenerate
    
