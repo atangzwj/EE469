@@ -7,7 +7,7 @@ module mux32_1(
    logic v0, v1;
 
    mux16_1 m0(.out(v0),  .in(in[15:0]),    .sel(sel[3:0]));
-   mux16_1 m1(.out(v1),  .in(in[31:15]),   .sel(sel[3:0]));
+   mux16_1 m1(.out(v1),  .in(in[31:16]),   .sel(sel[3:0]));
    mux2_1  m (.out(out), .i0(v0), .i1(v1), .sel(sel[4]));
 endmodule
 
