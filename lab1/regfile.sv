@@ -12,7 +12,7 @@ module regfile (
    logic [31:0] regSelect;
    decoder5_32 dec(.d(regSelect), .sel(WriteRegister), .en(RegWrite));
 
-   logic [63:0][31:0] gprConcat;
+   logic [31:0][63:0] gprConcat;
    assign gprConcat[31][63:0] = 64'b0;
    genvar i;
    generate
