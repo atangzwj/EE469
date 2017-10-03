@@ -12,9 +12,15 @@ module regfile (
    // 1. Decoder chooses register to write data
    logic [31:0] regSelect;
    decoder5_32 dec(.d(regSelect), .sel(WriteRegister), .en(RegWrite));
-   
+
    // 2. WriteData passes data to the selected register
-   
+   genvar i;
+   generate
+      for (i = 0; i < 31; i++) begin : reg64s
+         reg64 gpr (.clk, .dOut(), .WriteData, .wrEnable(regSelect[i]));
+      end
+   endgenerate
+
    // 3. Generate a 2D array with 32 registers and 64 bit data for each register
    
    // 4. Instantiate the 64x32_1 mux module twice, passing the ReadRegisters
