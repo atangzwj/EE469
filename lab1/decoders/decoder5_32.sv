@@ -4,7 +4,7 @@ module decoder5_32 (
    input  logic        en
    );
 
-   logic [4:0] en_mid;
+   logic [3:0] en_mid;
    decoder2_4 d2_4 (.d(en_mid), .sel(sel[4:3]), .en);
    
    genvar i;
