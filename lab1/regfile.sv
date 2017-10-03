@@ -13,13 +13,13 @@ module regfile (
    decoder5_32 dec(.d(regSelect), .sel(WriteRegister), .en(RegWrite));
 
    logic [63:0][31:0] gprConcat;
-   assign gprConcat[63:0][31] = 64'b0;
+   assign gprConcat[31][63:0] = 64'b0;
    genvar i;
    generate
       for (i = 0; i < 31; i++) begin : reg64s
          reg64 gpr (
             .clk,
-            .dOut(gprConcat[63:0][i]),
+            .dOut(gprConcat[i][63:0]),
             .WriteData,
             .wrEnable(regSelect[i])
          );
