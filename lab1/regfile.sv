@@ -1,3 +1,6 @@
+// Test bench for Register file
+`timescale 1ns/10ps
+
 module regfile (
    output logic [63:0] ReadData1,
    output logic [63:0] ReadData2,
