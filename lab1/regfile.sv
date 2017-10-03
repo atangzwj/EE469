@@ -5,8 +5,8 @@ module regfile (
    input  logic [4:0]  ReadRegister1,
    input  logic [4:0]  ReadRegister2,
    input  logic [4:0]  WriteRegister,
-   input               RegWrite,
-   input               clk,
+   input  logic        RegWrite,
+   input  logic        clk
    );
 
    logic [31:0] regSelect;
