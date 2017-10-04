@@ -1,4 +1,4 @@
-module mux32_1(
+module mux32_1 (
    output logic        out, 
    input  logic [31:0] in,
    input  logic [4:0]  sel
@@ -6,12 +6,12 @@ module mux32_1(
 
    logic v0, v1;
 
-   mux16_1 m0(.out(v0),  .in(in[15:0]),    .sel(sel[3:0]));
-   mux16_1 m1(.out(v1),  .in(in[31:16]),   .sel(sel[3:0]));
-   mux2_1  m (.out(out), .i0(v0), .i1(v1), .sel(sel[4]));
+   mux16_1 m0 (.out(v0),  .in(in[15:0]),    .sel(sel[3:0]));
+   mux16_1 m1 (.out(v1),  .in(in[31:16]),   .sel(sel[3:0]));
+   mux2_1  m  (.out(out), .i0(v0), .i1(v1), .sel(sel[4]));
 endmodule
 
-module mux32_1_testbench();
+module mux32_1_testbench ();
    logic        out;
    logic [4:0]  sel;
    logic [31:0] in;

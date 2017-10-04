@@ -5,13 +5,13 @@ module decoder2_4 (
    );
 
    logic [1:0] seln;
-   not n0 (seln[0], sel[0]);
-   not n1 (seln[1], sel[1]);
+   not #50 n0 (seln[0], sel[0]);
+   not #50 n1 (seln[1], sel[1]);
 
-   and d0 (d[0], en, seln[1], seln[0]);
-   and d1 (d[1], en, seln[1], sel[0]);
-   and d2 (d[2], en, sel[1],  seln[0]);
-   and d3 (d[3], en, sel[1],  sel[0]);
+   and #50 d0 (d[0], en, seln[1], seln[0]);
+   and #50 d1 (d[1], en, seln[1], sel[0]);
+   and #50 d2 (d[2], en, sel[1],  seln[0]);
+   and #50 d3 (d[3], en, sel[1],  sel[0]);
 endmodule
 
 module decoder2_4_testbench ();

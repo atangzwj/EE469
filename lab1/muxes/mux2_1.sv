@@ -1,4 +1,4 @@
-module mux2_1(
+module mux2_1 (
    output logic out,
    input  logic i0, i1, sel
    );
@@ -6,15 +6,15 @@ module mux2_1(
    // Wires
    logic out0, out1, notSel;
 
-   not  n(notSel, sel);
-   and a1(out0, i1, sel);
-   and a2(out1, i0, notSel);
+   not #50  n (notSel, sel);
+   and #50 a1 (out0, i1, sel);
+   and #50 a2 (out1, i0, notSel);
 
-   or(out, out0, out1);
+   or #50 o (out, out0, out1);
 
 endmodule
 
-module mux2_1_testbench();
+module mux2_1_testbench ();
    logic i0, i1, sel;
    logic out;
 
