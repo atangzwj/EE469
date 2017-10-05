@@ -1,18 +1,18 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate -label ReadRegister1 /regstim/ReadRegister1
-add wave -noupdate -label ReadRegister2 /regstim/ReadRegister2
-add wave -noupdate -label WriteRegister /regstim/WriteRegister
-add wave -noupdate -label WriteData /regstim/WriteData
+add wave -noupdate -label ReadRegister1 -radix unsigned /regstim/ReadRegister1
+add wave -noupdate -label ReadRegister2 -radix unsigned /regstim/ReadRegister2
+add wave -noupdate -label WriteRegister -radix unsigned /regstim/WriteRegister
+add wave -noupdate -label WriteData -radix hexadecimal /regstim/WriteData
 add wave -noupdate -label RegWrite /regstim/RegWrite
 add wave -noupdate -label clk /regstim/clk
-add wave -noupdate -label ReadData1 /regstim/ReadData1
-add wave -noupdate -label ReadData2 /regstim/ReadData2
+add wave -noupdate -label ReadData1 -radix hexadecimal /regstim/ReadData1
+add wave -noupdate -label ReadData2 -radix hexadecimal /regstim/ReadData2
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {0 ps} 0}
-quietly wave cursor active 0
-configure wave -namecolwidth 181
-configure wave -valuecolwidth 100
+WaveRestoreCursors {{Cursor 1} {117500000 ps} 0}
+quietly wave cursor active 1
+configure wave -namecolwidth 130
+configure wave -valuecolwidth 110
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
 configure wave -snapdistance 10
@@ -25,4 +25,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {966 ps}
+WaveRestoreZoom {110411689 ps} {134628137 ps}
