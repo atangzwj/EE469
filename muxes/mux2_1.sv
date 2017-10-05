@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module mux2_1 (
    output logic out,
    input  logic i0, i1, sel

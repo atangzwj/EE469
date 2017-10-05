@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module mux8_1 (
    output logic       out, 
    input  logic [7:0] in,

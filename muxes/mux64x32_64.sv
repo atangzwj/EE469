@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module mux64x32_64 (
    output logic [63:0]       readData,
    input  logic [31:0][63:0] regs,

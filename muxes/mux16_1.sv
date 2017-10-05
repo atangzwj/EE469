@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module mux16_1 (
    output logic        out, 
    input  logic [15:0] in,

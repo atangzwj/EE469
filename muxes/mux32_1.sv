@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module mux32_1 (
    output logic        out, 
    input  logic [31:0] in,

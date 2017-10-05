@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module mux4_1 (
    output logic       out, 
    input  logic [3:0] in, 
