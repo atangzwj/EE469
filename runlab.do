@@ -29,7 +29,7 @@ vsim -voptargs="+acc" -t 1ps -lib work regstim
 #     This should be the file that sets up the signal window for
 #     the module you are testing.
 
-do regstim_wave.do
+do registers/regstim_wave.do
 
 # Set the window types
 view wave
