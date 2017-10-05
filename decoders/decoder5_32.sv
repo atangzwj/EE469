@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module decoder5_32 (
    output logic [31:0] d,
    input  logic [4:0]  sel,

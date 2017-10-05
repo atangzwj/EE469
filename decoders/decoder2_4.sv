@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module decoder2_4 (
    output logic [3:0] d,
    input  logic [1:0] sel,

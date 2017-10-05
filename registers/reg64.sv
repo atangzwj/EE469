@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module reg64 (
    input  logic        clk,
    output logic [63:0] dOut,

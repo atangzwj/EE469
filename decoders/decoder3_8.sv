@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module decoder3_8 (
    output [7:0] d,
    input  [2:0] sel,
