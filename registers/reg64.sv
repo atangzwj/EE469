@@ -7,10 +7,6 @@ module reg64 (
    input  logic        wrEnable
    );
 
-   logic wrEnable_delay, wrEnable_clean;
-   D_FF in1 (.q(wrEnable_delay), .d(wrEnable), .reset(1'b0), .clk);
-   D_FF in2 (.q(wrEnable_clean), .d(wrEnable_delay), .reset(1'b0), .clk);
-
    logic [63:0] dIn;
 
    genvar i;
@@ -20,7 +16,7 @@ module reg64 (
             .out(dIn[i]),
             .i0(dOut[i]),
             .i1(WriteData[i]),
-            .sel(wrEnable_clean)
+            .sel(wrEnable)
          );
       end
    endgenerate
