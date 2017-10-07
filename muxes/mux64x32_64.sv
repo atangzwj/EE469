@@ -12,7 +12,7 @@ module mux64x32_64 (
       for (i = 0; i < 64; i++) begin : eachBit
          logic [31:0] storeBits;
          for (j = 0; j < 32; j++) begin : eachReg
-            buf #50 b (storeBits[j], regs[j][i]);
+            assign storeBits[j] = regs[j][i];
          end
          mux32_1 m (.out(readData[i]), .sel, .in(storeBits));
       end
