@@ -1,6 +1,6 @@
 `timescale 1ns/10ps
 
-module cla_1bit_adder (
+module cla_1bit (
    output logic s, p, g,
    input  logic a, b, c_in
    ); 
@@ -14,11 +14,11 @@ endmodule
 
 // Note: testbench only worked when the #50s
 //       were omitted
-module cla_1bit_adder_testbench ();
+module cla_1bit_testbench ();
    logic s, p, g;
    logic a, b, c_in;
 
-   cla_1bit_adder dut (.s, .p, .g, .a, .b, .c_in);
+   cla_1bit dut (.s, .p, .g, .a, .b, .c_in);
 
    integer i;
    initial begin

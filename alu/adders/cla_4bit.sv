@@ -1,6 +1,6 @@
 `timescale 1ns/10ps
 
-module cla_4bit_adder (
+module cla_4bit (
    output logic [3:0] sum,
    output logic       PG, GG,
    input  logic [3:0] a, b,
@@ -14,7 +14,7 @@ module cla_4bit_adder (
    genvar i;
    generate
       for (i = 0; i < 4; i++) begin : eachBitAdder
-         cla_1bit_adder a1 (
+         cla_1bit a1 (
             .s(sum[i]),
             .p(p[i]),
             .g(g[i]),
@@ -26,7 +26,7 @@ module cla_4bit_adder (
    endgenerate
    
    // feed the ps and gs into the cla unit to calc carry
-   cla_4bit_unit u1(
+   lcu_4bit u1 (
       .PG,
       .GG,
       .c_add(c_add[3:1]), // excludes c_in
@@ -40,13 +40,13 @@ endmodule
 
 // Note: testbench only worked when the #50s
 //       were omitted
-module cla_4bit_adder_testbench ();
+module cla_4bit_testbench ();
    logic [3:0] sum;
    logic       PG, GG;
    logic [3:0] a, b;
    logic       c_in;
 
-   cla_4bit_adder dut (.sum, .PG, .GG, .a, .b, .c_in);
+   cla_4bit dut (.sum, .PG, .GG, .a, .b, .c_in);
 
    integer i;
    initial begin
