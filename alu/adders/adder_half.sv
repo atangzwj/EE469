@@ -5,8 +5,8 @@ module adder_half (
    input  logic a, b
    );
    
-   xor #50 x1(sum,   a, b);
-   and #50 a1(c_out, a, b);
+   xor #50 x1 (sum,   a, b);
+   and #50 a1 (c_out, a, b);
 
 endmodule
 

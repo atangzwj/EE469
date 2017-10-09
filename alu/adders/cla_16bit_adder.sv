@@ -11,10 +11,38 @@ module cla_16bit_adder (
    logic [3:0] p, g;
    
    // calc the sum bits from the 4bit adders
-   cla_4bit_adder a1(.sum(sum[3:0]),   .PG(p[0]), .GG(g[0]), .a(a[3:0]),   .b(b[3:0]),   .c_in);
-   cla_4bit_adder a2(.sum(sum[7:4]),   .PG(p[1]), .GG(g[1]), .a(a[7:4]),   .b(b[7:4]),   .c_in(c_add[1]));
-   cla_4bit_adder a3(.sum(sum[11:8]),  .PG(p[2]), .GG(g[2]), .a(a[11:8]),  .b(b[11:8]),  .c_in(c_add[2]));
-   cla_4bit_adder a4(.sum(sum[15:12]), .PG(p[3]), .GG(g[3]), .a(a[15:12]), .b(b[15:12]), .c_in(c_add[3]));
+   cla_4bit_adder a1 (
+      .sum(sum[3:0]),
+      .PG(p[0]),
+      .GG(g[0]),
+      .a(a[3:0]),
+      .b(b[3:0]),
+      .c_in
+   );
+   cla_4bit_adder a2 (
+      .sum(sum[7:4]),
+      .PG(p[1]),
+      .GG(g[1]),
+      .a(a[7:4]),
+      .b(b[7:4]),
+      .c_in(c_add[1])
+   );
+   cla_4bit_adder a3 (
+      .sum(sum[11:8]),
+      .PG(p[2]),
+      .GG(g[2]),
+      .a(a[11:8]),
+      .b(b[11:8]),
+      .c_in(c_add[2])
+   );
+   cla_4bit_adder a4 (
+      .sum(sum[15:12]),
+      .PG(p[3]),
+      .GG(g[3]),
+      .a(a[15:12]),
+      .b(b[15:12]),
+      .c_in(c_add[3])
+   );
    
    // feed the ps and gs into the cla unit to calc carry
    cla_4bit_unit u1(.PG, .GG, .c_add, .p, .g, .c_in);

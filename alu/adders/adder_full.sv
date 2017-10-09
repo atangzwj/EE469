@@ -7,16 +7,20 @@ module adder_full (
    
    logic h1Carry, h2Carry, h1Sum;
    
-   adder_half h1(.sum(h1Sum),
-                 .c_out(h1Carry),
-                 .a,
-                 .b);
-   adder_half h2(.sum,
-                 .c_out(h2Carry),
-                 .a(h1Sum),
-                 .b(c_in));
+   adder_half h1 (
+      .sum(h1Sum),
+      .c_out(h1Carry),
+      .a,
+      .b
+   );
+   adder_half h2 (
+      .sum,
+      .c_out(h2Carry),
+      .a(h1Sum),
+      .b(c_in)
+   );
 
-   or x1(c_out, h1Carry, h2Carry);
+   or x1 (c_out, h1Carry, h2Carry);
 
 endmodule
 

@@ -5,9 +5,9 @@ module cla_1bit_adder (
    input  logic a, b, c_in
    ); 
    
-   xor pro(p, a, b);
-   xor sum(s, p, c_in);
-   and gen(g, a, b);
+   xor pro (p, a, b);
+   xor sum (s, p, c_in);
+   and gen (g, a, b);
 
 endmodule
 

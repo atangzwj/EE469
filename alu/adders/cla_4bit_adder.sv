@@ -14,23 +14,26 @@ module cla_4bit_adder (
    genvar i;
    generate
       for (i = 0; i < 4; i++) begin : eachBitAdder
-         cla_1bit_adder a1(.s(sum[i]),
-                           .p(p[i]),
-                           .g(g[i]),
-                           .a(a[i]),
-                           .b(b[i]),
-                           .c_in(c_add[i]));
-      
+         cla_1bit_adder a1 (
+            .s(sum[i]),
+            .p(p[i]),
+            .g(g[i]),
+            .a(a[i]),
+            .b(b[i]),
+            .c_in(c_add[i])
+         );
       end
    endgenerate
    
    // feed the ps and gs into the cla unit to calc carry
-   cla_4bit_unit u1(.PG,
-                    .GG,
-                    .c_add(c_add[3:1]), // excludes c_in
-                    .p,
-                    .g,
-                    .c_in);
+   cla_4bit_unit u1(
+      .PG,
+      .GG,
+      .c_add(c_add[3:1]), // excludes c_in
+      .p,
+      .g,
+      .c_in
+   );
 
 endmodule
 
