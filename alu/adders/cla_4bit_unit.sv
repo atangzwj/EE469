@@ -23,7 +23,7 @@ module cla_4bit_unit (
    and(b3, p[2], p[1], p[0], c_in);
    and(b4, p[2], p[1], g[0]);
    and(b5, p[2], g[1]);
-   or (c_add[3], b5, b4, b3);
+   or (c_add[3], g[2], b5, b4, b3);
    
    // -- GROUP SIGNALS --//
    // -- for the p and g produced by the 4bit adder into higher level cla -- //
