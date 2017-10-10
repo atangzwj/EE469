@@ -51,5 +51,31 @@ module cla_64bit (
 endmodule
 
 module cla_64bit_testbench ();
+   logic [63:0] sum;
+   logic        PG, GG;
+   logic [63:0] a, b;
+   logic        c_in;
 
+   cla_64bit dut (.sum, .PG, .GG, .a, .b, .c_in);
+
+   initial begin
+      c_in = 1'b0;
+      a = 64'h00000000000000000000000000000000; // Both zero
+      b = 64'h00000000000000000000000000000000; #10;
+
+      a = 64'h0000000000000000000000000000FFFF; // One input zero
+      b = 64'h00000000000000000000000000000000; #10;
+
+      a = 64'h00000000000000000000000000000000; // Other input zero
+      b = 64'h0000000000000000000000000000CCCC; #10;
+
+      a = 64'h0000000000000000000000000000000C; // Output negative
+      b = 64'h8000000000000000000000000000000F; #10;
+
+      a = 64'hFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4; // Carry all the way through
+      b = 64'h0000000000000000000000000000000C; #10;
+
+      a = 64'h7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF; // Carry through to top bit;
+      b = 64'h00000000000000000000000000000001; #10;
+   end
 endmodule
