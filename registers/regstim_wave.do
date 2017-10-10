@@ -9,7 +9,7 @@ add wave -noupdate -label clk /regstim/clk
 add wave -noupdate -label ReadData1 -radix hexadecimal /regstim/ReadData1
 add wave -noupdate -label ReadData2 -radix hexadecimal /regstim/ReadData2
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {117500000 ps} 0}
+WaveRestoreCursors {{Cursor 1} {0 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 130
 configure wave -valuecolwidth 110
@@ -23,6 +23,6 @@ configure wave -gridoffset 0
 configure wave -gridperiod 1
 configure wave -griddelta 40
 configure wave -timeline 0
-configure wave -timelineunits ps
+configure wave -timelineunits ns
 update
-WaveRestoreZoom {110411689 ps} {134628137 ps}
+WaveRestoreZoom {0 ps} {501375 ns}
