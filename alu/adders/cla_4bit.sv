@@ -10,7 +10,7 @@ module cla_4bit (
    logic [3:0] c_add, p, g;
    assign c_add[0] = c_in;
    
-   // calc the sum bits from the 1bit adders
+   // Calc the sum bits from the 1bit adders
    genvar i;
    generate
       for (i = 0; i < 4; i++) begin : eachBitAdder
@@ -25,7 +25,7 @@ module cla_4bit (
       end
    endgenerate
    
-   // feed the ps and gs into the cla unit to calc carry
+   // Feed the ps and gs into the lcu to calc carry
    lcu_4bit u1 (
       .PG,
       .GG,
