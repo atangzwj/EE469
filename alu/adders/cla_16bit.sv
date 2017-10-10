@@ -56,9 +56,9 @@ endmodule
 //       were omitted
 module cla_16bit_testbench ();
    logic [15:0] sum;
-   logic       PG, GG;
+   logic        PG, GG;
    logic [15:0] a, b;
-   logic       c_in;
+   logic        c_in;
 
    cla_16bit dut (.sum, .PG, .GG, .a, .b, .c_in);
 
@@ -70,4 +70,4 @@ module cla_16bit_testbench ();
          b = i * 7; #10;
       end    
    end
-endmodule 
+endmodule
