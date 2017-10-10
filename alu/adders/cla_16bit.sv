@@ -65,9 +65,9 @@ module cla_16bit_testbench ();
    integer i;
    initial begin
       c_in = 1'b0;
-      a = 16'd128; b = 16'd64; #10;
+      a = 16'd128; b = 16'd64; #1000;
       for (i = 63; i < 100000; i++) begin
-         b = i * 7; #10;
+         b = i * 7; #1000;
       end    
    end
 endmodule

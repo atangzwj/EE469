@@ -52,7 +52,7 @@ module cla_4bit_testbench ();
    initial begin
       c_in = 1'b0;
       for (i = 0; i < 520; i++) begin
-         {c_in, a, b} = i; #10;
+         {c_in, a, b} = i; #1000;
       end
    end
 endmodule 

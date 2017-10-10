@@ -61,21 +61,21 @@ module cla_64bit_testbench ();
    initial begin
       c_in = 1'b0;
       a = 64'h               0; // Both zero
-      b = 64'h               0; #10;
+      b = 64'h               0; #1000;
 
       a = 64'h            FFFF; // One input zero
-      b = 64'h               0; #10;
+      b = 64'h               0; #1000;
 
       a = 64'h               0; // Other input zero
-      b = 64'h            CCCC; #10;
+      b = 64'h            CCCC; #1000;
 
       a = 64'h               C; // Output negative
-      b = 64'h800000000000000F; #10;
+      b = 64'h800000000000000F; #1000;
 
       a = 64'hFFFFFFFFFFFFFFF4; // Carry all the way through
-      b = 64'h               C; #10;
+      b = 64'h               C; #1000;
 
       a = 64'h7FFFFFFFFFFFFFFF; // Carry through to top bit;
-      b = 64'h               1; #10;
+      b = 64'h               1; #1000;
    end
 endmodule

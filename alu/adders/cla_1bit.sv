@@ -23,7 +23,7 @@ module cla_1bit_testbench ();
    integer i;
    initial begin
       for (i = 0; i < 8; i++) begin
-         {c_in, b, a} = i; #10;
+         {c_in, b, a} = i; #1000;
       end
    end
 endmodule 
