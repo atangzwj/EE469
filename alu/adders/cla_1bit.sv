@@ -5,9 +5,9 @@ module cla_1bit (
    input  logic a, b, c_in
    ); 
    
-   xor pro (p, a, b);
-   xor sum (s, p, c_in);
-   and gen (g, a, b);
+   xor #50 pro (p, a, b);
+   xor #50 sum (s, p, c_in);
+   and #50 gen (g, a, b);
 
 endmodule
 
