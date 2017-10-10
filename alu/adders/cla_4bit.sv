@@ -14,7 +14,7 @@ module cla_4bit (
    genvar i;
    generate
       for (i = 0; i < 4; i++) begin : eachBitAdder
-         cla_1bit a1 (
+         cla_1bit a (
             .s(sum[i]),
             .p(p[i]),
             .g(g[i]),

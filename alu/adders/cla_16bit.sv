@@ -11,7 +11,7 @@ module cla_16bit (
    logic [3:0] p, g;
    
    // Calc the sum bits from the 4bit adders
-   cla_4bit a1 (
+   cla_4bit a0 (
       .sum(sum[3:0]),
       .PG(p[0]),
       .GG(g[0]),
@@ -20,7 +20,7 @@ module cla_16bit (
       .c_in
    );
 
-   cla_4bit a2 (
+   cla_4bit a1 (
       .sum(sum[7:4]),
       .PG(p[1]),
       .GG(g[1]),
@@ -29,7 +29,7 @@ module cla_16bit (
       .c_in(c_add[1])
    );
 
-   cla_4bit a3 (
+   cla_4bit a2 (
       .sum(sum[11:8]),
       .PG(p[2]),
       .GG(g[2]),
@@ -38,7 +38,7 @@ module cla_16bit (
       .c_in(c_add[2])
    );
 
-   cla_4bit a4 (
+   cla_4bit a3 (
       .sum(sum[15:12]),
       .PG(p[3]),
       .GG(g[3]),
