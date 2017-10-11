@@ -33,7 +33,14 @@ module alu (
          xor #50 x1 (xorOut[i], A[i], B[i]);
       end
    endgenerate
-    
+
+   logic [63:0] sum;
+   cla_64bit cla (
+      .sum,
+      .a(A),
+      .b(B),
+      .c_in(cntrl[0])
+   );
 endmodule
 
 module alu_testbench ();
