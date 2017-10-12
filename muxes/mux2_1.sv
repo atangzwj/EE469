@@ -4,15 +4,17 @@ module mux2_1 (
    output logic out,
    input  logic i0, i1, sel
    );
-
+   
+   parameter DELAY = 0.05;
+   
    // Wires
    logic out0, out1, notSel;
 
-   not #50  n (notSel, sel);
-   and #50 a1 (out0, i1, sel);
-   and #50 a2 (out1, i0, notSel);
+   not #DELAY  n (notSel, sel);
+   and #DELAY a1 (out0, i1, sel);
+   and #DELAY a2 (out1, i0, notSel);
 
-   or #50 o (out, out0, out1);
+   or #DELAY o (out, out0, out1);
 
 endmodule
 

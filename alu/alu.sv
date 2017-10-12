@@ -24,21 +24,25 @@ module alu (
    // 101:			result = bitwise A | B		value of overflow and carry_out unimportant
    // 110:			result = bitwise A XOR B	value of overflow and carry_out unimportant
    
-   logic [63:0] andOut, orrOut, xorOut; 
+   logic [63:0] andOut, orrOut, xorOut, B_intoTheAdder; 
    genvar i;
    generate
       for (i = 0; i < 64; i++) begin : bitwiseGates
          and #50 a1 (andOut[i], A[i], B[i]);
          or  #50 o1 (orrOut[i], A[i], B[i]);
          xor #50 x1 (xorOut[i], A[i], B[i]);
+         
+         // For adder/subtractor
+         xor #50 x2 (B_intoTheAdder[i], B[i], cntrl[0]);
       end
    endgenerate
 
    logic [63:0] sum;
+   
    cla_64bit cla (
       .sum,
       .a(A),
-      .b(B),
+      .b(B_intoTheAdder),
       .c_in(cntrl[0])
    );
 endmodule
@@ -54,6 +58,7 @@ module alu_testbench ();
    
    alu dut(.result, .negative, .zero, .overflow, .carry_out, .A, .B, .cntrl);
    initial begin
+      cntrl = 3'b011;
       A = 64'h               0; // DEFAULT case
       B = 64'h               0; #1000;
 
@@ -71,6 +76,9 @@ module alu_testbench ();
 
       A = 64'hFFFFFFFFFFFFFFFF; // AND case
       B = 64'hFFFFFFFFFFFFFFFF; #1000;
+      
+      A = 64'h00ABC00000000000;
+      B = 64'h00ABC00000000000; #1000;   
    
    end
 endmodule

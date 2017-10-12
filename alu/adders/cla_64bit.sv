@@ -2,13 +2,14 @@
 
 module cla_64bit (
    output logic [63:0] sum,
-   output logic        PG, GG,
+   output logic        carry_out, overflow,
    input  logic [63:0] a, b,
    input  logic        c_in
    );
 
    logic [3:1] c_add;
    logic [3:0] p, g;
+   logic       PG, GG;
 
    cla_16bit a0 (
       .sum(sum[15:0]),
@@ -47,6 +48,14 @@ module cla_64bit (
    );
 
    lcu_4bit lcu (.PG, .GG, .c_add, .p, .g, .c_in);
+   
+   // carry out flag
+   assign carry_out = c_add[3];
+   
+   
+   logic cin_top;
+   xor #50 o1(overflow,  cin_top, GG);   
+   
 
 endmodule
 
