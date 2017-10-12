@@ -5,9 +5,11 @@ module cla_1bit (
    input  logic a, b, c_in
    ); 
    
-   xor #50 pro (p, a, b);
-   xor #50 sum (s, p, c_in);
-   and #50 gen (g, a, b);
+   parameter DELAY = 0.05;
+   
+   xor #DELAY pro (p, a, b);
+   xor #DELAY sum (s, p, c_in);
+   and #DELAY gen (g, a, b);
 
 endmodule
 

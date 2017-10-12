@@ -24,16 +24,17 @@ module alu (
    // 101:			result = bitwise A | B		value of overflow and carry_out unimportant
    // 110:			result = bitwise A XOR B	value of overflow and carry_out unimportant
    
+   parameter DELAY = 0.05;
    logic [63:0] andOut, orrOut, xorOut, B_intoTheAdder; 
    genvar i;
    generate
       for (i = 0; i < 64; i++) begin : bitwiseGates
-         and #50 a1 (andOut[i], A[i], B[i]);
-         or  #50 o1 (orrOut[i], A[i], B[i]);
-         xor #50 x1 (xorOut[i], A[i], B[i]);
+         and #DELAY a1 (andOut[i], A[i], B[i]);
+         or  #DELAY o1 (orrOut[i], A[i], B[i]);
+         xor #DELAY x1 (xorOut[i], A[i], B[i]);
          
          // For adder/subtractor
-         xor #50 x2 (B_intoTheAdder[i], B[i], cntrl[0]);
+         xor #DELAY x2 (B_intoTheAdder[i], B[i], cntrl[0]);
       end
    endgenerate
 

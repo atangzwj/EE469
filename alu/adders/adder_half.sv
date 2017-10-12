@@ -4,9 +4,10 @@ module adder_half (
    output logic sum, c_out,
    input  logic a, b
    );
+   parameter DELAY = 0.05;
    
-   xor #50 x1 (sum,   a, b);
-   and #50 a1 (c_out, a, b);
+   xor #DELAY x1 (sum,   a, b);
+   and #DELAY a1 (c_out, a, b);
 
 endmodule
 
