@@ -1,6 +1,6 @@
 # MODELSIM Files #
 work
 *.wlf
-
+wlf*
 # Lab submission zip files
 submissions/*
