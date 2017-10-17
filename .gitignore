@@ -2,5 +2,6 @@
 work
 *.wlf
 wlf*
+*.vstf
 # Lab submission zip files
 submissions/*

@@ -29,7 +29,7 @@ module alustim();
 	parameter ALU_PASS_B=3'b000, ALU_ADD=3'b010, ALU_SUBTRACT=3'b011, ALU_AND=3'b100, ALU_OR=3'b101, ALU_XOR=3'b110;
 	
 
-	alu dut (.A, .B, .cntrl, .result, .negative, .zero, .overflow, .carry_out);
+	alu_64bit dut (.A, .B, .cntrl, .result, .negative, .zero, .overflow, .carry_out);
 
 	// Force %t's to print in a nice format.
 	initial $timeformat(-9, 2, " ns", 10);
@@ -40,17 +40,74 @@ module alustim();
 	
 		$display("%t testing PASS_A operations", $time);
 		cntrl = ALU_PASS_B;
-		for (i=0; i<100; i++) begin
+		for (i=0; i<10; i++) begin
 			A = $random(); B = $random();
 			#(delay);
 			assert(result == B && negative == B[63] && zero == (B == '0));
 		end
-		
+      
 		$display("%t testing addition", $time);
 		cntrl = ALU_ADD;
 		A = 64'h0000000000000001; B = 64'h0000000000000001;
 		#(delay);
 		assert(result == 64'h0000000000000002 && carry_out == 0 && overflow == 0 && negative == 0 && zero == 0);
+		A = 64'h7FFFFFFFFFFFFFFF; B = 64'h0000000000000001;
+		#(delay);
+		assert(carry_out == 0 && overflow == 1 && negative == 1 && zero == 0);      
+		A = 64'hFFFFFFFFFFFFFFFF; B = 64'h0000000000000001;
+		#(delay);      
+		assert(carry_out == 1 && overflow == 0 && negative == 0 && zero == 1);      
+		A = -64'd4; B = 64'd4;
+		assert(result == 0 && carry_out == 1 && overflow == 0 && negative == 0 && zero == 1);      
+		#(delay);
+		A = -64'd4; B = -64'd4;
+		#(delay);      
+		assert(result == -64'd8 && carry_out == 1 && overflow == 0 && negative == 1 && zero == 0);
+		for (i=0; i<10; i++) begin
+			A = $random(); B = $random();
+			#(delay);
+			assert(result == A + B);
+		end      
 		
+      $display("%t testing subtraction", $time);      
+      cntrl = ALU_SUBTRACT;
+      A = 64'd0; B = 64'd0;
+		#(delay);      
+		assert(result == 0 && carry_out == 1 && overflow == 0 && negative == 0 && zero == 1);         
+      A = 64'd5; B = 64'd5;
+		#(delay);      
+		assert(result == 0 && carry_out == 1 && overflow == 0 && negative == 0 && zero == 1);
+      A = 64'd5; B = -64'd5;
+		#(delay);      
+		assert(result == 64'd10 && carry_out == 0 && overflow == 0 && negative == 0 && zero == 0);
+		for (i=0; i<10; i++) begin
+			A = $random(); B = $random();
+			#(delay);
+			assert(result == A - B);
+		end
+
+      $display("%t testing and", $time);      
+      cntrl = ALU_AND;
+		for (i=0; i<10; i++) begin
+			A = $random(); B = $random();
+			#(delay);
+			assert(result == (A & B));
+		end
+      
+      $display("%t testing or", $time);      
+      cntrl = ALU_OR;
+		for (i=0; i<10; i++) begin
+			A = $random(); B = $random();
+			#(delay);
+			assert(result == (A | B)); 
+		end
+      
+      $display("%t testing xor", $time);      
+      cntrl = ALU_XOR;
+		for (i=0; i<10; i++) begin
+			A = $random(); B = $random();
+			#(delay);
+			assert(result == (A ^ B));
+		end      
 	end
 endmodule
