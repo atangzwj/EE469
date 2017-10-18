@@ -1,7 +1,7 @@
 `timescale 1ns/10ps
 
 module reg64 (
-   input  logic        clk,
+   input  logic        clk, reset,
    output logic [63:0] dOut,
    input  logic [63:0] WriteData,
    input  logic        wrEnable
@@ -23,18 +23,18 @@ module reg64 (
 
    generate
       for (i = 0; i < 64; i++) begin : regFFs
-         D_FF dff (.q(dOut[i]), .d(dIn[i]), .reset(1'b0), .clk);
+         D_FF dff (.q(dOut[i]), .d(dIn[i]), .reset, .clk);
       end
    endgenerate
 endmodule
 
 module reg64_testbench ();
-   logic        clk;
+   logic        clk, reset;
    logic [63:0] dOut;
    logic [63:0] WriteData;
    logic        wrEnable;
 
-   reg64 dut (.clk, .dOut, .WriteData, .wrEnable);
+   reg64 dut (.clk, .reset, .dOut, .WriteData, .wrEnable);
 
    parameter CLK_PERIOD = 10;
    initial begin
@@ -43,6 +43,7 @@ module reg64_testbench ();
    end
 
    initial begin
+      reset = 1'b0;
       WriteData <= 64'h0000000000000000; wrEnable <= 1'b0; @(posedge clk);
       WriteData <= 64'h00000000000000FF; wrEnable <= 1'b1; @(posedge clk);
                                          wrEnable <= 1'b0; @(posedge clk);

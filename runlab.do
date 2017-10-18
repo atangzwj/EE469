@@ -30,6 +30,7 @@ vlog "./alu/adders/adder_half.sv"
 # Call vsim to invoke simulator
 #     Make sure the last item on the line is the name of the
 #     testbench module you want to execute.
+#vsim -voptargs="+acc" -t 1ps -lib work regstim
 vsim -voptargs="+acc" -t 1ps -lib work alustim
 
 # Source the wave do file

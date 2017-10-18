@@ -23,7 +23,8 @@ module regfile (
             .clk,
             .dOut(gprConcat[i][63:0]),
             .WriteData,
-            .wrEnable(regSelect[i])
+            .wrEnable(regSelect[i]),
+			.reset(1'b0)
          );
       end
    endgenerate
