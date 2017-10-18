@@ -17,11 +17,15 @@ module alu_1bit (
    // [5] 101:			result = bitwise A | B		value of overflow and carry_out unimportant
    // [6] 110:			result = bitwise A XOR B	value of overflow and carry_out unimportant   
    
-   // For add and subtract operations
-   parameter DELAY = 0.05;
-   
+   parameter DELAY = 0.05;   
    logic notB, b_muxed, sum;
+   
+   // Generate the inverted pattern of b 
    not #DELAY n1 (notB, b);
+   
+   // If subtract op, set b_muxed to the invert of B
+   // If add op, set b_muxed to B
+   // Feed b_muxed into the full adder
    mux2_1 m2 (.out(b_muxed), .i0(b), .i1(notB), .sel(cntrl[0]));
    adder_full af (.sum, .c_out, .a, .b(b_muxed), .c_in);
 
@@ -31,6 +35,7 @@ module alu_1bit (
    or   #DELAY o1 (orrOut, a, b);
    xor  #DELAY x1 (xorOut, a, b);
    
+   // Store the outputs into the corresponding cntrl pattern in toMux 
    assign toMux[0] = b;
    assign toMux[2] = sum;
    assign toMux[3] = sum;
@@ -38,6 +43,7 @@ module alu_1bit (
    assign toMux[5] = orrOut;
    assign toMux[6] = xorOut;
    
+   // Select the result from toMux based on the cntrl bit
    mux8_1 m8 (.out(result), .in(toMux), .sel(cntrl));
 endmodule
 
