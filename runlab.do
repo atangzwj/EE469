@@ -20,16 +20,25 @@ vlog "./muxes/mux16_1.sv"
 vlog "./muxes/mux32_1.sv"
 vlog "./muxes/mux64x32_64.sv"
 
+vlog "./alu/alustim.sv"
+vlog "./alu/alu_1bit.sv"
+vlog "./alu/alu.sv"
+vlog "./alu/adders/adder_full.sv"
+vlog "./alu/adders/adder_half.sv"
+
+
 # Call vsim to invoke simulator
 #     Make sure the last item on the line is the name of the
 #     testbench module you want to execute.
-vsim -voptargs="+acc" -t 1ps -lib work regstim
+vsim -voptargs="+acc" -t 1ps -lib work alustim
 
 # Source the wave do file
 #     This should be the file that sets up the signal window for
 #     the module you are testing.
 
-do registers/regstim_wave.do
+#do registers/regstim_wave.do
+do alu/alustim_wave.do
+
 
 # Set the window types
 view wave

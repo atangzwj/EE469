@@ -29,7 +29,7 @@ module alustim();
 	parameter ALU_PASS_B=3'b000, ALU_ADD=3'b010, ALU_SUBTRACT=3'b011, ALU_AND=3'b100, ALU_OR=3'b101, ALU_XOR=3'b110;
 	
 
-	alu_64bit dut (.A, .B, .cntrl, .result, .negative, .zero, .overflow, .carry_out);
+	alu dut (.A, .B, .cntrl, .result, .negative, .zero, .overflow, .carry_out);
 
 	// Force %t's to print in a nice format.
 	initial $timeformat(-9, 2, " ns", 10);
