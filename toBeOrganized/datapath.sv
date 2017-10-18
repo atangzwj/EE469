@@ -11,10 +11,6 @@ module datapath (
                 
                 );
    
-   // control logic 
-
-   );
-   
    // 5 2_1 muxes
    
    // 3 ALUs (2 only adders)
