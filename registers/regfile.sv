@@ -24,7 +24,7 @@ module regfile (
             .dOut(gprConcat[i][63:0]),
             .WriteData,
             .wrEnable(regSelect[i]),
-			.reset(1'b0)
+            .reset(1'b0)
          );
       end
    endgenerate
