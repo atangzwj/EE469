@@ -2,36 +2,31 @@
 
 module datapath (
    input  logic clk, reset
-   //output logic [31:0][63:0] displayRegs // ??
-   //output logic someShit[]
    );
    
-   logic [63:0] instructAddr, nextAddr;
+   logic [63:0] instAddr, instAddrNext;
    logic [31:0] instruction;
-   
-   // not using it? 
-   logic n1, z1, o1, c1;
    
    // Program Counter, 
    reg64 pc (.clk,
              .reset,
-             .dOut(instructAddr),
-             .WriteData(nextAddr),
+             .dOut(instAddr),
+             .WriteData(instAddrNext),
              .wrEnable(1'b1));
    
-   instructmem im (.clk, .instruction, .address(instructAddr));
-   alu addInst_4 (.result(nextAddr),
-                  .negative(n1),
-                  .zero(z1),
-                  .overflow(o1),
-                  .carry_out(c1),
-                  .A(instructAddr),
+   instructmem im (.clk, .instruction, .address(instAddr));
+   alu addInst_4 (.result(instAddrNext),
+                  .negative(),
+                  .zero(),
+                  .overflow(),
+                  .carry_out(),
+                  .A(instAddr),
                   .B(64'd4),
                   .cntrl(3'b010));
 endmodule
 
 module datapath_testbench ();
-   logic        clk, reset;
+   logic clk, reset;
 
    datapath dut (.clk, .reset);
 

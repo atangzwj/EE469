@@ -2,8 +2,6 @@ onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate /datapath_testbench/clk
 add wave -noupdate /datapath_testbench/reset
-add wave -noupdate -radix decimal /datapath_testbench/dut/instructAddr
-add wave -noupdate -radix decimal /datapath_testbench/dut/nextAddr
 add wave -noupdate /datapath_testbench/dut/instruction
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {9714 ps} 0}
