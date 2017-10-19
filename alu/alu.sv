@@ -104,6 +104,7 @@ module alu_testbench ();
    
       // -- A + B -- //      
       cntrl = 3'b010;
+
       A = -64'd              10;
       B = 64'd               10; #5000;
       
@@ -128,10 +129,8 @@ module alu_testbench ();
       // -- A - B -- //      
       cntrl = 3'b011;
 
-
-
-      A = 64'h            4; // One input zero
-      B = 64'h             5; #5000;
+      A = 64'h               4; // One input zero
+      B = 64'h               5; #5000;
 
       A = 64'h               0; // Other input zero
       B = 64'h            CCCC; #5000;
@@ -144,65 +143,40 @@ module alu_testbench ();
 
       A = 64'h7FFFFFFFFFFFFFFF; // Carry through to top bit;
       B = 64'h               1; #5000;
-      
+
       // -- bitwise A & B -- //      
       cntrl = 3'b100;
-      A = 64'h               0; // Both zero
+
+      A = 64'h               0;
       B = 64'h               0; #5000;
 
-      A = 64'h            FFFF; // One input zero
-      B = 64'h               0; #5000;
+      A = 64'hFFFFFFFFFFFFFFFF;
+      B = 64'hFFFFFFFFFFFFFFFF; #5000;
 
-      A = 64'h               0; // Other input zero
-      B = 64'h            CCCC; #5000;
+      A = 64'hAAAAAAAAAAAAAAAA;
+      B = 64'h5555555555555555; #5000;
 
-      A = 64'h               C; // Output negative
-      B = 64'h800000000000000F; #5000;
-
-      A = 64'hFFFFFFFFFFFFFFF4; // Carry all the way through
-      B = 64'h               C; #5000;
-
-      A = 64'h7FFFFFFFFFFFFFFF; // Carry through to top bit;
-      B = 64'h               1; #5000;
-      
       // -- bitwise A | B -- //      
       cntrl = 3'b101;
-      A = 64'h               0; // Both zero
+
+      A = 64'h               0;
       B = 64'h               0; #5000;
 
-      A = 64'h            FFFF; // One input zero
-      B = 64'h               0; #5000;
+      A = 64'hFFFFFFFFFFFFFFFF;
+      B = 64'hFFFFFFFFFFFFFFFF; #5000;
 
-      A = 64'h               0; // Other input zero
-      B = 64'h            CCCC; #5000;
+      A = 64'hAAAAAAAAAAAAAAAA;
+      B = 64'h5555555555555555; #5000;
 
-      A = 64'h               C; // Output negative
-      B = 64'h800000000000000F; #5000;
-
-      A = 64'hFFFFFFFFFFFFFFF4; // Carry all the way through
-      B = 64'h               C; #5000;
-
-      A = 64'h7FFFFFFFFFFFFFFF; // Carry through to top bit;
-      B = 64'h               1; #5000;
-      
       // -- bitwise A XOR B -- //      
       cntrl = 3'b110;
-      A = 64'h               0; // Both zero
+      A = 64'h               0;
       B = 64'h               0; #5000;
 
-      A = 64'h            FFFF; // One input zero
-      B = 64'h               0; #5000;
+      A = 64'hFFFFFFFFFFFFFFFF;
+      B = 64'hFFFFFFFFFFFFFFFF; #5000;
 
-      A = 64'h               0; // Other input zero
-      B = 64'h            CCCC; #5000;
-
-      A = 64'h               C; // Output negative
-      B = 64'h800000000000000F; #5000;
-
-      A = 64'hFFFFFFFFFFFFFFF4; // Carry all the way through
-      B = 64'h               C; #5000;
-
-      A = 64'h7FFFFFFFFFFFFFFF; // Carry through to top bit;
-      B = 64'h               1; #5000;     
+      A = 64'hAAAAAAAAAAAAAAAA;
+      B = 64'h5555555555555555; #5000;
    end
 endmodule 
