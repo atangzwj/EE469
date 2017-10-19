@@ -53,13 +53,13 @@ module alustim();
 		assert(result == 64'h0000000000000002 && carry_out == 0 && overflow == 0 && negative == 0 && zero == 0);
 
 		/* Our Test Cases */
-      A = 64'h7FFFFFFFFFFFFFFF; B = 64'h0000000000000001;
+      A = 64'h7FFFFFFFFFFFFFFF; B = 64'h0000000000000001; // Carry to top bit
       #(delay);
       assert(carry_out == 0 && overflow == 1 && negative == 1 && zero == 0);      
-      A = 64'hFFFFFFFFFFFFFFFF; B = 64'h0000000000000001;
+      A = 64'hFFFFFFFFFFFFFFFF; B = 64'h0000000000000001; // Carry through
       #(delay);
       assert(carry_out == 1 && overflow == 0 && negative == 0 && zero == 1);      
-      A = -64'd4; B = 64'd4;
+      A = -64'd4; B = 64'd4; // Sum to 0
       assert(result == 0 && carry_out == 1 && overflow == 0 && negative == 0 && zero == 1);
       #(delay);
       A = -64'd4; B = -64'd4;
