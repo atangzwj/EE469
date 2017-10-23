@@ -82,6 +82,9 @@ module alustim();
       A = 64'd5; B = -64'd5;
       #(delay);
       assert(result == 64'd10 && carry_out == 0 && overflow == 0 && negative == 0 && zero == 0);
+      A = 64'b1; B = 64'b1;
+      #(delay);
+      assert(result == 0 && carry_out == 1);
       for (i=0; i<10; i++) begin
          A = $random(); B = $random();
          #(delay);
@@ -101,7 +104,7 @@ module alustim();
 
       A = 64'hAAAAAAAAAAAAAAAA;
       B = 64'h5555555555555555; #5000;
-      assert(result == (A &B));
+      assert(result == (A & B));
 
       for (i=0; i<10; i++) begin
          A = $random(); B = $random();

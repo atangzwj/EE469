@@ -1,15 +1,15 @@
 `timescale 1ns/10ps
 
 module datapath (
-   input logic       clk, reset,
-   input logic [4:0] Rd, Rm, Rn,
+   input logic         clk, reset,
+   output logic [31:0] instruction,
+   input logic   [4:0] Rd, Rm, Rn,
    // Control Logic
-   input logic [2:0] ALUOp,
-   input logic       RegWrite
+   input logic   [2:0] ALUOp,
+   input logic         RegWrite
    );
    
    logic [63:0] instAddr, instAddrNext;
-   logic [31:0] instruction;
    
    // Program Counter
    reg64 pc (.clk,
@@ -18,7 +18,7 @@ module datapath (
              .WriteData(instAddrNext),
              .wrEnable(1'b1));
              
-   // Instruction Memory
+   // Instruction Memory, outputs the instruction
    instructmem im (.clk, .instruction, .address(instAddr));
    
    // Next instruction address: Adds 4 to the instruction memory
@@ -54,14 +54,12 @@ module datapath (
 endmodule
 
 module datapath_testbench ();
-   logic        clk, reset;
-   logic [2:0]  ALUOp;
-   logic        RegWrite;
+   logic       clk, reset;
+   logic [2:0] ALUOp;
+   logic       RegWrite;
    logic [4:0] Rd, Rm, Rn;
-   logic [63:0] in;
-   logic flag;
 
-   datapath dut (.clk, .reset, .ALUOp, .RegWrite, .Rd, .Rm, .Rn);
+   datapath dut (.clk, .reset, .instruction, .ALUOp, .RegWrite, .Rd, .Rm, .Rn);
 
    parameter CLK_PERIOD = 10;
    initial begin
