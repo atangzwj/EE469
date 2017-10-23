@@ -1,39 +1,35 @@
 `timescale 1ns/10ps
 
 module datapath (
-   input logic         clk, reset,
-   output logic [31:0] instruction,
-   input logic   [4:0] Rd, Rm, Rn,
+   input  logic       clk, reset,
+   output logic       zeroFlag,
+   // Data fields
+   input  logic [4:0] Rd, Rm, Rn,
+   input  logic [8:0] Daddr9,
    // Control Logic
-   input logic   [2:0] ALUOp,
-   input logic         RegWrite
+   input  logic       Reg2Loc,
+   input  logic       ALUSrc,
+   input  logic       MemToReg,
+   input  logic       RegWrite,
+   input  logic       MemWrite,
+   input  logic [2:0] ALUOp
    );
    
-   logic [63:0] instAddr, instAddrNext;
+   // Gate delay
+   parameter DELAY = 0.05;
    
-   // Program Counter
-   reg64 pc (.clk,
-             .reset,
-             .dOut(instAddr),
-             .WriteData(instAddrNext),
-             .wrEnable(1'b1));
-             
-   // Instruction Memory, outputs the instruction
-   instructmem im (.clk, .instruction, .address(instAddr));
+   // Selects between Rd and Rm to output to address Ab in regfile
+   // If Reg2Loc == 1, instruction was STUR 
+   logic [4:0] Ab_in;
+   selectData #(.TOP_BIT(4)) intoAb (
+                       .out(Ab_in),
+                       .A(Rd),
+                       .B(Rm),
+                       .sel(Reg2Loc));  
    
-   // Next instruction address: Adds 4 to the instruction memory
-   alu addInst_4 (.result(instAddrNext),
-                  .negative(),
-                  .zero(),
-                  .overflow(),
-                  .carry_out(),
-                  .A(instAddr),
-                  .B(64'd4),
-                  .cntrl(3'b010));
-
-   // Regfile
+   // Regfile for holding and writing the values into the 32 Registers
    logic [63:0] Dw, Da, Db;
-   regfile rf (.clk,
+   regfile rf (.clk, // to be inverted in Lab4
                .ReadData1(Da),
                .ReadData2(Db),
                .WriteData(Dw),
@@ -42,24 +38,96 @@ module datapath (
                .WriteRegister(Rd),
                .RegWrite
                );
-               
-   alu op (.result(Dw),
+   
+   // ALU used for arithmetic between the outputs of the regfile
+   // or as an address offset from DAddr9 (from STUR or LDUR)
+   logic [63:0] ALU_out;
+   alu op (.result(ALU_out),
            .negative(),
-           .zero(),
+           .zero(zeroFlag), // output to be used for cond branch in CPU_64
            .overflow(),
            .carry_out(),
            .A(Da),
-           .B(Db),
+           .B(Db_ALU),
            .cntrl(ALUOp));
+   
+   // Sign extends Daddr_9 to a 64bit number
+   logic [63:0] Daddr9_SE, Db_ALU;
+   assign Daddr9_SE = {55{Daddr9[8]}, Daddr9};
+   
+   // Selects between Db from regfile and the sign extended Daddr9
+   // Output goes into the ALU
+   selectData intoAlu (.out(Db_ALU),
+                       .A(Db),
+                       .B(Daddr9_SE),
+                       .sel(ALUSrc));
+
+   // Data Memory
+   logic [63:0] Dmem_out;
+   not #DELAY n1 (NOTMemWrite, MemWrite);
+   datamem dm (.clk,
+               .read_data(Dmem_out),
+               .address(ALU_out),
+               .write_enable(MemWrite),
+               .read_enable(NOTMemWrite),
+               .write_data(Db),
+               .xfer_size(),
+               );
+   
+   // selects between the output from the ALU and from the data memory
+   // writes this selected value into the register
+   selectData intoReg (.out(Dw),
+                       .A(ALU_out),
+                       .B(Dmem_out),
+                       .sel(MemToReg));
 endmodule
 
-module datapath_testbench ();
-   logic       clk, reset;
-   logic [2:0] ALUOp;
-   logic       RegWrite;
-   logic [4:0] Rd, Rm, Rn;
 
-   datapath dut (.clk, .reset, .instruction, .ALUOp, .RegWrite, .Rd, .Rm, .Rn);
+
+// Used to select data for Reg2Loc, ALUSrc, MemToReg muxes 
+module selectData #(parameter TOP_BIT = 63) (
+   output logic [TOP_BIT:0] out, 
+   input  logic [TOP_BIT:0] A,
+   input  logic [TOP_BIT:0] B,
+   input  logic             sel
+   );
+
+   genvar i;
+   generate
+      for (i = 0; i < TOP_BIT + 1; i++) begin : muxing
+         mux2_1 m (.out(out[i]),
+                   .i0(A[i]),
+                   .i1(B[i]),
+                   .sel);
+      end
+   endgenerate
+endmodule
+
+
+module datapath_testbench ();
+   logic       clk, reset,
+   logic       zeroFlag,
+   // Data fields
+   logic [4:0] Rd, Rm, Rn,
+   logic [7:0] Daddr9,
+   // Control Logic
+   logic       Reg2Loc,
+   logic       ALUSrc,
+   logic       MemToReg,
+   logic       RegWrite,
+   logic       MemWrite,
+   logic [2:0] ALUOp
+
+   datapath dut (.clk, .reset,
+                 .zeroFlag,
+                 .Rd, Rm, Rn,
+                 .Daddr9,
+                 .Reg2Loc,
+                 .ALUSrc,
+                 .MemToReg,
+                 .RegWrite,
+                 .MemWrite,
+                 .ALUOp);
 
    parameter CLK_PERIOD = 10;
    initial begin
