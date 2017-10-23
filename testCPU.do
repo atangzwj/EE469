@@ -6,6 +6,19 @@ vlib work
 #     their own "vlog" line below.
 
 vlog "./registers/reg64.sv"
+vlog "./registers/regfile.sv"
+vlog "./D_FF.sv"
+
+vlog "./decoders/decoder2_4.sv"
+vlog "./decoders/decoder3_8.sv"
+vlog "./decoders/decoder5_32.sv"
+
+vlog "./muxes/mux2_1.sv"
+vlog "./muxes/mux4_1.sv"
+vlog "./muxes/mux8_1.sv"
+vlog "./muxes/mux16_1.sv"
+vlog "./muxes/mux32_1.sv"
+vlog "./muxes/mux64x32_64.sv"
 
 vlog "./alu/alu_1bit.sv"
 vlog "./alu/alu.sv"

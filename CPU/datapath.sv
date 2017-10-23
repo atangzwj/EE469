@@ -3,7 +3,9 @@
 module datapath (
    input logic       clk, reset,
    input logic [4:0] Rd, Rm, Rn,
-   input logic [2:0] ALUOp
+   // Control Logic
+   input logic [2:0] ALUOp,
+   input logic       RegWrite
    );
    
    logic [63:0] instAddr, instAddrNext;
@@ -28,35 +30,38 @@ module datapath (
                   .A(instAddr),
                   .B(64'd4),
                   .cntrl(3'b010));
-   
+
    // Regfile
    logic [63:0] Dw, Da, Db;
    regfile rf (.clk,
                .ReadData1(Da),
                .ReadData2(Db),
-               .WriteData(),
-               .ReadRegister1(),
-               .ReadRegister2(),
-               .WriteREgister(),
-               .RegWrite()
+               .WriteData(Dw),
+               .ReadRegister1(Rm),
+               .ReadRegister2(Rn),
+               .WriteRegister(Rd),
+               .RegWrite
                );
-   
-   alu gpr (.result(Dw),
-            .negative(),
-            .zero(),
-            .overflow(),
-            .carry_out(),
-            .A(Da),
-            .B(Db),
-            .cntrl(ALUOp));   
-   
-   
+               
+   alu op (.result(Dw),
+           .negative(),
+           .zero(),
+           .overflow(),
+           .carry_out(),
+           .A(Da),
+           .B(Db),
+           .cntrl(ALUOp));
 endmodule
 
 module datapath_testbench ();
-   logic clk, reset;
+   logic        clk, reset;
+   logic [2:0]  ALUOp;
+   logic        RegWrite;
+   logic [4:0] Rd, Rm, Rn;
+   logic [63:0] in;
+   logic flag;
 
-   datapath dut (.clk, .reset);
+   datapath dut (.clk, .reset, .ALUOp, .RegWrite, .Rd, .Rm, .Rn);
 
    parameter CLK_PERIOD = 10;
    initial begin
@@ -68,12 +73,30 @@ module datapath_testbench ();
    initial begin
    reset <= 1'b1; @(posedge clk);
    reset <= 1'b0; @(posedge clk);
-   
-   for (i = 0; i < 10; i++) begin
+   // write to all registers
+   $display("%t Writing to all registers.", $time);   
+   for (i=0; i<31; i=i+1) begin
+      RegWrite <= 0;
+      Rm <= i - 1;
+      Rd <= i;
+      in <= i*64'b10;
+      @(posedge clk);
+      
+      RegWrite <= 1;
       @(posedge clk);
    end
+   $display("%t Testing ADD X1, X2, X3", $time);
+   flag <= 0;
+   // ADD X1, X2, X3
+   Rm <= 5'd2;
+   Rn <= 5'd3;
+   Rd <= 5'd1;
+   ALUOp <= 3'b010;
+   RegWrite <= 1;
+   #500;
    
    $stop;
-   
    end
+   
+   
 endmodule
