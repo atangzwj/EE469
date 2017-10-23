@@ -4,6 +4,32 @@ module CPU_64 (
    input logic clk, reset,
    );
    
+   logic [63:0] instrAddr, instrAddrNext;
+   logic [31:0] instruction;
+
+   // Program Counter
+   reg64 pc (
+      .clk,
+      .reset,
+      .dOut(instrAddr),
+      .WriteData(instrAddrNext),
+      .wrEnable(1'b1)
+   );
+
+   // Instruction Memory
+   instructmem iMem (.clk, .instruction, .address(instAddr));
+
+   // 
+   alu pcPlus4 (
+      .result(instrAddrNext),
+      .negative(),
+      .zero(),
+      .overflow(),
+      .carry_out(),
+      .A(instrAddr),
+      .B(64'd4),
+      .cntrl(3'b010)
+   );
 endmodule
 
 module CPU_64_testbench ();
