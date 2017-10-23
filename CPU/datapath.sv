@@ -39,9 +39,21 @@ module datapath (
                .RegWrite
                );
    
+   // Sign extends Daddr_9 to a 64bit number
+   logic [63:0] Daddr9_SE;
+   assign Daddr9_SE = {{55{Daddr9[8]}}, Daddr9};
+   
+   // Selects between Db from regfile and the sign extended Daddr9
+   // Output goes into the ALU
+   logic [63:0] Db_ALU;   
+   selectData intoAlu (.out(Db_ALU),
+                       .A(Db),
+                       .B(Daddr9_SE),
+                       .sel(ALUSrc));   
+
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
-   logic [63:0] ALU_out;
+   logic [63:0] ALU_out;    
    alu op (.result(ALU_out),
            .negative(),
            .zero(zeroFlag), // output to be used for cond branch in CPU_64
@@ -51,16 +63,6 @@ module datapath (
            .B(Db_ALU),
            .cntrl(ALUOp));
    
-   // Sign extends Daddr_9 to a 64bit number
-   logic [63:0] Daddr9_SE, Db_ALU;
-   assign Daddr9_SE = {55{Daddr9[8]}, Daddr9};
-   
-   // Selects between Db from regfile and the sign extended Daddr9
-   // Output goes into the ALU
-   selectData intoAlu (.out(Db_ALU),
-                       .A(Db),
-                       .B(Daddr9_SE),
-                       .sel(ALUSrc));
 
    // Data Memory
    logic [63:0] Dmem_out;
@@ -71,7 +73,7 @@ module datapath (
                .write_enable(MemWrite),
                .read_enable(NOTMemWrite),
                .write_data(Db),
-               .xfer_size(),
+               .xfer_size(4'd8) // HongWei told me to use case 2
                );
    
    // selects between the output from the ALU and from the data memory
@@ -105,22 +107,22 @@ endmodule
 
 
 module datapath_testbench ();
-   logic       clk, reset,
-   logic       zeroFlag,
+   logic       clk, reset;
+   logic       zeroFlag;
    // Data fields
-   logic [4:0] Rd, Rm, Rn,
-   logic [7:0] Daddr9,
+   logic [4:0] Rd, Rm, Rn;
+   logic [8:0] Daddr9;
    // Control Logic
-   logic       Reg2Loc,
-   logic       ALUSrc,
-   logic       MemToReg,
-   logic       RegWrite,
-   logic       MemWrite,
-   logic [2:0] ALUOp
+   logic       Reg2Loc;
+   logic       ALUSrc;
+   logic       MemToReg;
+   logic       RegWrite;
+   logic       MemWrite;
+   logic [2:0] ALUOp;
 
    datapath dut (.clk, .reset,
                  .zeroFlag,
-                 .Rd, Rm, Rn,
+                 .Rd, .Rm, .Rn,
                  .Daddr9,
                  .Reg2Loc,
                  .ALUSrc,
@@ -140,27 +142,30 @@ module datapath_testbench ();
    reset <= 1'b1; @(posedge clk);
    reset <= 1'b0; @(posedge clk);
    // write to all registers
-   $display("%t Writing to all registers.", $time);   
+   $display("%t Loading from datamem to all registers.", $time);
+   Reg2Loc <= 0;
+   ALUSrc <= 1;
+   MemToReg <= 0;
+   MemWrite <= 0;
+   ALUOp <= 3'b010;
+   
+   for (i = 0; i < 31; i = i+1) begin
+   
+   end
+   
+   /*
    for (i=0; i<31; i=i+1) begin
       RegWrite <= 0;
+      Rn <= 31;
       Rm <= i - 1;
+      Daddr9 <= i * 8;
       Rd <= i;
-      in <= i*64'b10;
       @(posedge clk);
       
       RegWrite <= 1;
       @(posedge clk);
    end
-   $display("%t Testing ADD X1, X2, X3", $time);
-   flag <= 0;
-   // ADD X1, X2, X3
-   Rm <= 5'd2;
-   Rn <= 5'd3;
-   Rd <= 5'd1;
-   ALUOp <= 3'b010;
-   RegWrite <= 1;
-   #500;
-   
+   */
    $stop;
    end
    
