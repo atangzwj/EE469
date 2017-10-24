@@ -26,6 +26,7 @@ vlog "./alu/adders/adder_full.sv"
 vlog "./alu/adders/adder_half.sv"
 
 vlog "./CPU/datapath.sv"
+vlog "./CPU/datapath_testbench.sv"
 vlog "./CPU/memory/instructmem.sv"
 vlog "./CPU/memory/datamem.sv"
 

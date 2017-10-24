@@ -52,21 +52,38 @@ module datapath_testbench ();
    reset <= 1'b1; @(posedge clk);
    reset <= 1'b0; @(posedge clk);
    
-   
    $display("%t ADDI X0, X31, #420", $time);   
    ctrlBus <= {1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
-   ALUOp <= 3'b010;
-   Rn <= 31;
-   Rd <= 0;
-   Imm12 <= 420;
+   ALUOp   <= 3'b010;
+   Rn      <= 31;
+   Rd      <= 0;
+   Imm12   <= 420;
    @(posedge clk);
    $display("%t Reading Reg Rm = X0, (Output @ Db)", $time);
-   RegWrite <= 0;
+   ctrlBus[2] <= 0; // RegWrite
    Rm <= 0;
    @(posedge clk);   
 
+   $display("%t STUR X0, [X31, 0].", $time);   
+   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'bx, 1'b0, 1'b1, 1'b0};
+   ALUOp   <= 3'b010;
+   Daddr9  <= 0;
+   Rd      <= 0;
+   Rn      <= 31;
+   @(posedge clk);   
+
+   $display("%t LDUR X30, [X31, 0].", $time);   
+   ctrlBus <= {1'b0, 1'bx, 1'b1, 1'b1, 1'b1, 1'b0, 1'b1};
+   ALUOp   <= 3'b010;   
+   Daddr9  <= 0;
+   Rd      <= 30;
+   Rn      <= 31;
+   @(posedge clk);   
+   $display("%t Reading Reg Rn = X30, (Output @ Da)", $time);
+   ctrlBus <= {1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0};
+   ALUOp   <= 3'b010;
+   Rn      <= 30;   
+   @(posedge clk);
    $stop;
    end
-   
-   
 endmodule
