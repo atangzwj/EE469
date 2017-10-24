@@ -163,7 +163,7 @@ module datapath_testbench ();
    reset <= 1'b0; @(posedge clk);
    
    
-   $display("%t ADDI X0, X31, #69", $time);
+   $display("%t ADDI X0, X31, #420", $time);
    Reg2Loc   <= 1;
    ALUSrc    <= 0;
    MemToReg  <= 0;
@@ -175,7 +175,7 @@ module datapath_testbench ();
    RegWrite <= 1;
    Rn <= 31;
    Rd <= 0;
-   Imm12 <= 69;
+   Imm12 <= 420;
    @(posedge clk);
    RegWrite <= 0;
    Rm <= 0;
