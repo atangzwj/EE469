@@ -35,6 +35,3 @@ module mux2_1_testbench ();
       sel=1; i0=1; i1=1; #10;
    end
 endmodule
-
-
-

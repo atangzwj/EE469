@@ -28,5 +28,3 @@ module mux8_1_testbench ();
       end
    end
 endmodule 
-
-

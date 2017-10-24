@@ -5,7 +5,7 @@ module mux64x32_64 (
    input  logic [31:0][63:0] regs,
    input  logic [4:0]        sel
    );
-   
+
    genvar i, j;
 
    generate

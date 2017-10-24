@@ -36,4 +36,3 @@ module mux32_1_testbench ();
       end
    end
 endmodule 
-
