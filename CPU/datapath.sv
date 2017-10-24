@@ -37,7 +37,7 @@ module datapath (
                .ReadData2(Db),
                .WriteData(Dw),
                .ReadRegister1(Rn),
-               .ReadRegister2(Rm),
+               .ReadRegister2(Ab_in),
                .WriteRegister(Rd),
                .RegWrite
                );
@@ -89,7 +89,7 @@ module datapath (
                //.read_enable(NOTMemWrite),
                .read_enable(MemRead),               
                .write_data(Db),
-               .xfer_size(4'b0)
+               .xfer_size(4'b1)
                );
    
    // selects between the output from the ALU and from the data memory
@@ -99,8 +99,6 @@ module datapath (
                        .B(Dmem_out),
                        .sel(MemToReg));
 endmodule
-
-
 
 // Used to select data for Reg2Loc, ALUSrc, MemToReg muxes 
 module selectData #(parameter TOP_BIT = 63) (
@@ -163,67 +161,108 @@ module datapath_testbench ();
    initial begin
    reset <= 1'b1; @(posedge clk);
    reset <= 1'b0; @(posedge clk);
-   $display("%t ADDI to all registers.", $time);
-   Reg2Loc <= 1;
-   ALUSrc <= 0;
-   MemToReg <= 0;
-   MemWrite <= 0;
-   MemRead <= 0;
+   
+   
+   $display("%t ADDI X0, X31, #69", $time);
+   Reg2Loc   <= 1;
+   ALUSrc    <= 0;
+   MemToReg  <= 0;
+   MemWrite  <= 0;
+   MemRead   <= 0;
    ChooseImm <= 1;
    ALUOp <= 3'b010;
    
+   RegWrite <= 1;
+   Rn <= 31;
+   Rd <= 0;
+   Imm12 <= 69;
+   @(posedge clk);
+   RegWrite <= 0;
+   Rm <= 0;
+   @(posedge clk);
+
+   // ADDI to all registers with random values   
+   /*
    for (i = 0; i < 31; i = i+1) begin
       RegWrite <= 0;
-      Rn <= 31;
-      Rd <= i;
-      Rm <= i - 1;      
-      Imm12 <= $random();
+      Rn       <= 31;
+      Rd       <= i;
+      Rm       <= i - 1;      
+      Imm12    <= $random();
       @(posedge clk);
       RegWrite <= 1;      
       @(posedge clk);
    end
+   */
    
-   $display("%t testing ADD command.", $time);   
-   Reg2Loc <= 1;
-   ALUSrc <= 0;
-   MemToReg <= 0;
-   MemWrite <= 0;
+   /*
+   $display("%t ADD X10, X5, X3.", $time);   
+   Reg2Loc   <= 1;
+   ALUSrc    <= 0;
+   MemToReg  <= 0;
+   MemWrite  <= 0;
    ChooseImm <= 0;
    ALUOp <= 3'b010;
    
    // ADD X10, X5, X3
    RegWrite <= 1;   
-   Rd <= 10;   
-   Rn <= 5;
-   Rm <= 3;
+   Rd       <= 10;   
+   Rn       <= 5;
+   Rm       <= 3;
    @(posedge clk);
    RegWrite <= 0;
    Rm <= 10;
    @(posedge clk);   
-
+   */
+   
    // STUR values from registers to data memory
-   $display("%t testing STUR command.", $time);   
-   Reg2Loc <= 0;
-   ALUSrc <= 1;
-   MemToReg <= 0;
-   RegWrite <= 1;   
+   $display("%t STUR at address 0.", $time);   
+   Reg2Loc   <= 0;
+   ALUSrc    <= 1;
+   MemToReg  <= 1'bx;
+   RegWrite  <= 0;   
    ChooseImm <= 0;
    ALUOp <= 3'b010;
+   Rd        <= 0;
+   Rn        <= 31;   
+   Daddr9    <= 0;
+   MemWrite  <= 1;
+   @(posedge clk);   
+   
+   // LDUR value from address 0 (X31 + SE(0))
+   $display("%t testing LDUR command from addr 0 into X30.", $time);   
+   MemRead   <= 1;
+   Reg2Loc   <= 1'bx;
+   ALUSrc    <= 1;
+   MemToReg  <= 1;
+   RegWrite  <= 1;
+   MemWrite  <= 0;   
+   ChooseImm <= 0;
+   ALUOp <= 3'b010;   
+   Rn        <= 31;
+   Daddr9    <= 0;
+   Rd        <= 30;
+   @(posedge clk);   
+   RegWrite  <= 0;
+   Rm        <= 30;
+   @(posedge clk);    
+   
+   /*
    for (i = 0; i < 31; i++) begin
       Rd <= i - 0;
       Daddr9 <= i * 8;
       MemWrite <= 1;
-      @(posedge clk);
+      #100;
    end
-
-      MemWrite <= 0;
-      MemRead <= 1;
+   */
       
-   for (i = 0; i < 31; i++) begin
-      Rd <= i - 0;
-      Daddr9 <= i * 8;
-      @(posedge clk);
-   end   
+   
+      
+   // for (i = 0; i < 31; i++) begin
+      // Rd <= i - 0;
+      // Daddr9 <= i * 8;
+      // @(posedge clk);
+   // end   
    
    $stop;
    end
