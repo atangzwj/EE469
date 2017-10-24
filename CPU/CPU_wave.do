@@ -1,13 +1,16 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /datapath_testbench/clk
-add wave -noupdate /datapath_testbench/reset
-add wave -noupdate /datapath_testbench/dut/instruction
+add wave -noupdate -radix unsigned /datapath_testbench/dut/Rm
+add wave -noupdate -radix unsigned /datapath_testbench/dut/Rd
+add wave -noupdate -radix unsigned /datapath_testbench/dut/Rn
+add wave -noupdate -radix unsigned /datapath_testbench/dut/Imm12
+add wave -noupdate -radix decimal /datapath_testbench/dut/Da
+add wave -noupdate -radix decimal /datapath_testbench/dut/Db
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {9714 ps} 0}
+WaveRestoreCursors {{Cursor 1} {659780 ps} 0}
 quietly wave cursor active 1
-configure wave -namecolwidth 240
-configure wave -valuecolwidth 202
+configure wave -namecolwidth 230
+configure wave -valuecolwidth 449
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
 configure wave -snapdistance 10
@@ -20,4 +23,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {628608 ps}
+WaveRestoreZoom {0 ps} {666750 ps}

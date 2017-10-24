@@ -27,6 +27,7 @@ vlog "./alu/adders/adder_half.sv"
 
 vlog "./CPU/datapath.sv"
 vlog "./CPU/memory/instructmem.sv"
+vlog "./CPU/memory/datamem.sv"
 
 
 # Call vsim to invoke simulator
