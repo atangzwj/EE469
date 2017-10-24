@@ -1,8 +1,8 @@
 `timescale 1ns/10ps
 
 module datapath (
-   input  logic       clk, reset,
-   output logic       zeroFlag,
+   input  logic        clk, reset,
+   output logic  [3:0] flags,
    // Data fields
    input  logic  [4:0] Rd, Rm, Rn,
    input  logic  [8:0] Daddr9,
@@ -68,16 +68,22 @@ module datapath (
 
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
-   logic [63:0] ALU_out;    
+   logic [63:0] ALU_out;
+   logic  [3:0] ALU_flags;
    alu op (.result(ALU_out),
-           .negative(),
-           .zero(zeroFlag), // output to be used for cond branch in CPU_64
-           .overflow(),
-           .carry_out(),
+           .negative(ALU_flags[3]),
+           .zero(ALU_flags[2]), // output to be used for cond branch in CPU_64
+           .overflow(ALU_flags[1]),
+           .carry_out(ALU_flags[0]),
            .A(Da),
            .B(Db_ALU),
            .cntrl(ALUOp));
    
+   D_FF negFlag      (.q(flags[3]), .d(ALU_flags[3]), .reset, .clk);
+   D_FF zeroFlag     (.q(flags[2]), .d(ALU_flags[2]), .reset, .clk);
+   D_FF overflowFlag (.q(flags[1]), .d(ALU_flags[1]), .reset, .clk);
+   D_FF cOutFlag     (.q(flags[0]), .d(ALU_flags[0]), .reset, .clk);
+
 
    // Data Memory
    logic [63:0] Dmem_out;
