@@ -42,7 +42,7 @@ vsim -voptargs="+acc" -t 1ps -lib work datapath_testbench
 #     This should be the file that sets up the signal window for
 #     the module you are testing.
 
-do CPU/CPU_wave.do
+do CPU/datapath_wave.do
 
 
 # Set the window types
