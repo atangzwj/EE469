@@ -63,12 +63,12 @@ module CPU_64 (
    );
 
    // Select between PC + 4 and PC + SE(branch)
-   mux2_1 toBranchOrNotToBranchThatIsTheQuestion (
+   selectData #(.WIDTH(32)) toBranchOrNotToBranchThatIsTheQuestion (
       .out(instrAddrNext),
-      .i0(pcPlus4),
-      .i1(pcPlusSEBranch),
+      .A(pcPlus4),
+      .B(pcPlusSEBranch),
       .sel(brTaken)
-   );
+   )
 
    // Instruction Memory
    instructmem iMem (.address(instrAddr), .instruction, .clk);
