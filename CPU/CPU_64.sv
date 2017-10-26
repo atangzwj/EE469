@@ -68,7 +68,7 @@ module CPU_64 (
       .A(pcPlus4),
       .B(pcPlusSEBranch),
       .sel(brTaken)
-   )
+   );
 
    // Instruction Memory
    instructmem iMem (.address(instrAddr), .instruction, .clk);
