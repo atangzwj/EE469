@@ -87,11 +87,11 @@ module datapath (
       .cntrl(ALUOp)
    );
    
+   // Flag Register
    D_FF negFlag      (.q(flags[3]), .d(ALU_flags[3]), .reset, .clk);
    D_FF zeroFlag     (.q(flags[2]), .d(ALU_flags[2]), .reset, .clk);
    D_FF overflowFlag (.q(flags[1]), .d(ALU_flags[1]), .reset, .clk);
    D_FF cOutFlag     (.q(flags[0]), .d(ALU_flags[0]), .reset, .clk);
-
 
    // Data Memory
    logic [63:0] Dmem_out;
@@ -101,10 +101,15 @@ module datapath (
       .read_data(Dmem_out),
       .address(ALU_out),
       .write_enable(MemWrite),
-      //.read_enable(NOTMemWrite),
       .read_enable(MemRead),               
       .write_data(Db),
-      .xfer_size(4'd8)
+      // xfer_size:
+         // 4'd8 = 64bits transferred
+         // 4'd4 = 32bits transferred
+         // 4'd2 = 16bits transferred
+         // 4'd1 =  8bits transferred
+      .xfer_size(4'd8) 
+      
    );
    
    // selects between the output from the ALU and from the data memory
