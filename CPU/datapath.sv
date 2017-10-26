@@ -13,8 +13,9 @@ module datapath (
    input  logic        MemToReg,
    input  logic        RegWrite,
    input  logic        MemWrite,
-   input  logic        MemRead, // TEMPORARY?   
-   input  logic        ChooseImm,   
+   input  logic        MemRead,
+   input  logic        ChooseImm,
+   input  logic        xferByte,
    input  logic  [2:0] ALUOp
    );
 
@@ -24,7 +25,7 @@ module datapath (
    // Selects between Rd and Rm to output to address Ab in regfile
    // If Reg2Loc == 0, instruction was STUR 
    logic [4:0] Ab_in;
-   selectData #(.TOP_BIT(4)) intoAb (
+   selectData #(.WIDTH(5)) intoAb (
       .out(Ab_in),
       .A(Rd),
       .B(Rm),
@@ -93,6 +94,15 @@ module datapath (
    D_FF overflowFlag (.q(flags[1]), .d(ALU_flags[1]), .reset, .clk);
    D_FF cOutFlag     (.q(flags[0]), .d(ALU_flags[0]), .reset, .clk);
 
+   // Select if we are loading/storing 1 byte or 8 bytes (LDURB vs LDUR)
+      // xfer_size:
+      // 4'b1000 = 64bits transferred
+      // 4'd0001 =  8bits transferred
+   logic [3:0] xfer_size;
+   assign xfer_size[2:1] = 2'b0; // set middle two bits to 0
+   assign xfer_size[0] = xferByte;
+   not #DELAY (xfer_size[3], xferByte);
+   
    // Data Memory
    logic [63:0] Dmem_out;
    not #DELAY n1 (NOTMemWrite, MemWrite);
@@ -103,13 +113,17 @@ module datapath (
       .write_enable(MemWrite),
       .read_enable(MemRead),               
       .write_data(Db),
-      // xfer_size:
-         // 4'd8 = 64bits transferred
-         // 4'd4 = 32bits transferred
-         // 4'd2 = 16bits transferred
-         // 4'd1 =  8bits transferred
-      .xfer_size(4'd8) 
-      
+      .xfer_size
+   );
+   
+   // Replaces top 56 bits of datamem's output with zeros
+   logic [63:0] ReplacedZero_56, fromDataMem;
+   assign ReplacedZero_56 = {56'b0, Dmem_out[7:0]};
+   selectData chooseZeroReplace (
+      .out(fromDataMem),
+      .A(Dmem_out),
+      .B(ReplacedZero_56),
+      .sel(xferByte)
    );
    
    // selects between the output from the ALU and from the data memory
@@ -117,26 +131,7 @@ module datapath (
    selectData intoReg (
       .out(Dw),
       .A(ALU_out),
-      .B(Dmem_out),
+      .B(fromDataMem),
       .sel(MemToReg)
    );
-endmodule
-
-// Used to select data for Reg2Loc, ALUSrc, MemToReg muxes 
-module selectData #(parameter TOP_BIT = 63) (
-   output logic [TOP_BIT:0] out, 
-   input  logic [TOP_BIT:0] A,
-   input  logic [TOP_BIT:0] B,
-   input  logic             sel
-   );
-
-   genvar i;
-   generate
-      for (i = 0; i < TOP_BIT + 1; i++) begin : muxing
-         mux2_1 m (.out(out[i]),
-                   .i0(A[i]),
-                   .i1(B[i]),
-                   .sel);
-      end
-   endgenerate
 endmodule
