@@ -14,10 +14,11 @@ module datapath_testbench ();
    logic        RegWrite;
    logic        MemWrite;
    logic        MemRead;
-   logic        ChooseImm;  
+   logic        ChooseImm;
+   logic        xferByte;
    logic  [2:0] ALUOp;
    
-   logic  [6:0] ctrlBus;
+   logic  [7:0] ctrlBus;
    
    datapath dut (.clk, .reset,
                  .flags,
@@ -31,8 +32,10 @@ module datapath_testbench ();
                  .MemWrite,
                  .MemRead,
                  .ChooseImm,
+                 .xferByte,
                  .ALUOp);
                  
+   assign xferByte  = ctrlBus[7];              
    assign ChooseImm = ctrlBus[6];
    assign Reg2Loc   = ctrlBus[5];
    assign ALUSrc    = ctrlBus[4];
@@ -61,11 +64,11 @@ module datapath_testbench ();
       // Step 4. SUBS X5, X31, X30    -- Compute 0 - 420 = -420 into X5
    
    $display("%t ADDI X0, X31, #420", $time);   
-   ctrlBus <= {1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus <= {1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ALUOp   <= 3'b010;
    Rn      <= 31;
    Rd      <= 0;
-   Imm12   <= 420;
+   Imm12   <= 512;
    @(posedge clk);
    $display("%t Reading Reg Rm = X0, (Output @ Db)", $time);
    ctrlBus[2] <= 0; // RegWrite
@@ -73,7 +76,7 @@ module datapath_testbench ();
    @(posedge clk);   
 
    $display("%t STUR X0, [X31, 0].", $time);   
-   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'bx, 1'b0, 1'b1, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'bx, 1'b0, 1'b1, 1'b0};
    ALUOp   <= 3'b010;
    Daddr9  <= 0;
    Rd      <= 0;
@@ -81,19 +84,19 @@ module datapath_testbench ();
    @(posedge clk);   
 
    $display("%t LDUR X30, [X31, 0].", $time);   
-   ctrlBus <= {1'b0, 1'bx, 1'b1, 1'b1, 1'b1, 1'b0, 1'b1};
+   ctrlBus <= {1'b0, 1'b0, 1'bx, 1'b1, 1'b1, 1'b1, 1'b0, 1'b1};
    ALUOp   <= 3'b010;   
    Daddr9  <= 0;
    Rd      <= 30;
    Rn      <= 31;
    @(posedge clk);   
    $display("%t Reading Reg Rn = X30, (Output @ Da)", $time);
-   ctrlBus <= {1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0};
    ALUOp   <= 3'b010;
    Rn      <= 30;   
    @(posedge clk);
    $display("%t SUBS X5, X31, X30", $time);
-   ctrlBus <= {1'b0, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ALUOp   <= 3'b011;
    Rd <= 5;
    Rn <= 31;   
@@ -106,9 +109,27 @@ module datapath_testbench ();
    // ***************
    // END PRELIMINARY
    // ***************
-   
-   
-   
+   $display("%t STURB X5, [X31, #16]", $time);
+   ctrlBus <= {1'b1, 1'b0, 1'b0, 1'b1, 1'bx, 1'b0, 1'b1, 1'b0};
+   ALUOp   <= 3'b010;   
+   Daddr9  <= 16;
+   Rd      <= 5;
+   Rn      <= 31;
+   @(posedge clk);   
+   $display("%t LDURB X9, [X31, #16].", $time);   
+   ctrlBus <= {1'b1, 1'b0, 1'bx, 1'b1, 1'b1, 1'b1, 1'b0, 1'b1};
+   ALUOp   <= 3'b010;   
+   Daddr9  <= 16;
+   Rd      <= 9;
+   Rn      <= 31;
+   @(posedge clk);   
+   $display("%t reading Reg Rm = X9, (Output @ Db)", $time);
+   ctrlBus <= {1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus[2] <= 0; // RegWrite
+   Rm <= 9;   
+   @(posedge clk);   
+   @(posedge clk);   
+   @(posedge clk);   
    
    $stop;
    end
