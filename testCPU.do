@@ -29,18 +29,21 @@ vlog "./CPU/datapath.sv"
 vlog "./CPU/datapath_testbench.sv"
 vlog "./CPU/memory/instructmem.sv"
 vlog "./CPU/memory/datamem.sv"
+vlog "./CPU/selectdata.sv"
 
+vlog "./CPU/CPU_64.sv"
+vlog "./CPU/CPU_64_testbench.sv"
 
 # Call vsim to invoke simulator
 #     Make sure the last item on the line is the name of the
 #     testbench module you want to execute.
-vsim -voptargs="+acc" -t 1ps -lib work datapath_testbench
+vsim -voptargs="+acc" -t 1ps -lib work CPU_64_testbench
 
 # Source the wave do file
 #     This should be the file that sets up the signal window for
 #     the module you are testing.
 
-do CPU/CPU_wave.do
+do CPU/cpu_at_wave.do
 
 
 # Set the window types
