@@ -26,10 +26,10 @@ module CPU_64 (
    assign brAddr26_SE = {{38{brAddr26[25]}}, brAddr26};
 
    logic [63:0] brChoice, brChoice4x;
-   mux2_1 branchSelector (
+   selectData branchSelector (
       .out(brChoice),
-      .i0(condAddr19_SE),
-      .i1(brAddr26_SE),
+      .A(condAddr19_SE),
+      .B(brAddr26_SE),
       .sel(uncondBr)
    );
 
