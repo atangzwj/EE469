@@ -4,7 +4,7 @@ module CPU_64 (
    input logic clk, reset,
    input logic uncondBr, brTaken, // To be removed
    input logic [18:0] condAddr19, // To be removed
-   input logic [25:0] brAddr26,   // To be removed
+   input logic [25:0] brAddr26    // To be removed
    );
 
    logic [63:0] instrAddr, instrAddrNext;
@@ -22,11 +22,11 @@ module CPU_64 (
    //logic [18:0] condAddr19;
    //logic [25:0] brAddr26;
    logic [63:0] condAddr19_SE, brAddr26_SE;
-   assign condAddr19_SE = {45{condAddr19[18]}, condAddr19};
-   assign brAddr26_SE = {38{brAddr26[25]}, brAddr26};
+   assign condAddr19_SE = {{45{condAddr19[18]}}, condAddr19};
+   assign brAddr26_SE = {{38{brAddr26[25]}}, brAddr26};
 
    logic [63:0] brChoice, brChoice4x;
-   mux2_1 (
+   mux2_1 branchSelector (
       .out(brChoice),
       .i0(condAddr19_SE),
       .i1(brAddr26_SE),
@@ -39,7 +39,7 @@ module CPU_64 (
    logic [63:0] pcPlus4, pcPlusSEBranch;
 
    // Adder that produces PC + 4
-   alu pcPlus4 (
+   alu pcPlusFour (
       .result(pcPlus4),
       .negative(),
       .zero(),
@@ -51,19 +51,19 @@ module CPU_64 (
    );
 
    // Adder that produces PC + SE(branch)
-   alu pcPlusSEBranch (
+   alu pcPlusSEBr (
       .result(pcPlusSEBranch),
       .negative(),
       .zero(),
       .overflow(),
       .carry_out(),
       .A(brChoice4x),
-      .B(intrAddr),
+      .B(instrAddr),
       .cntrl(3'b010)
    );
 
    // Select between PC + 4 and PC + SE(branch)
-   mux2_1 (
+   mux2_1 toBranchOrNotToBranchThatIsTheQuestion (
       .out(instrAddrNext),
       .i0(pcPlus4),
       .i1(pcPlusSEBranch),
@@ -71,7 +71,7 @@ module CPU_64 (
    );
 
    // Instruction Memory
-   instructmem iMem (.address(instAddr), .instruction, .clk);
+   instructmem iMem (.address(instrAddr), .instruction, .clk);
 endmodule
 
 module CPU_64_testbench ();
