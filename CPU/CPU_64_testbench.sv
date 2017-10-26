@@ -18,7 +18,7 @@ module CPU_64_testbench ();
 
       reset <= 1'b0; @(posedge clk);
       reset <= 1'b1; @(posedge clk);
-      reset <= 1'b0; @(posedge clk);
+      reset <= 1'b0;
 
       $display("%t Take Unconditional Branch", $time);
       brAddr26 <= 64'd12; condAddr19 <= 64'd24; @(posedge clk);
