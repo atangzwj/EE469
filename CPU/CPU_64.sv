@@ -2,9 +2,11 @@
 
 module CPU_64 (
    input logic clk, reset,
-   input logic uncondBR, brTaken
+   input logic uncondBr, brTaken, // To be removed
+   input logic [18:0] condAddr19, // To be removed
+   input logic [25:0] brAddr26,   // To be removed
    );
-   
+
    logic [63:0] instrAddr, instrAddrNext;
    logic [31:0] instruction;
 
@@ -17,8 +19,8 @@ module CPU_64 (
       .wrEnable(1'b1)
    );
 
-   logic [18:0] condAddr19;
-   logic [25:0] brAddr26;
+   //logic [18:0] condAddr19;
+   //logic [25:0] brAddr26;
    logic [63:0] condAddr19_SE, brAddr26_SE;
    assign condAddr19_SE = {45{condAddr19[18]}, condAddr19};
    assign brAddr26_SE = {38{brAddr26[25]}, brAddr26};
@@ -82,7 +84,7 @@ module CPU_64_testbench ();
       clk <= 0;
       forever #(CLK_PERIOD / 2) clk <= ~clk;
    end
-   
+
    integer i;   
    initial begin
    reset <= 1'b1; @(posedge clk);
