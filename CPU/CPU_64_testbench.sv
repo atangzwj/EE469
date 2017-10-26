@@ -6,7 +6,7 @@ module CPU_64_testbench ();
    logic [18:0] condAddr19;
    logic [25:0] brAddr26;
 
-   CPU_64 dut (.clk, .reset, .uncondBR, .brTaken, .condAddr19, .brAddr26);
+   CPU_64 dut (.clk, .reset, .uncondBr, .brTaken, .condAddr19, .brAddr26);
 
    parameter CLK_PERIOD = 10;
    initial begin
