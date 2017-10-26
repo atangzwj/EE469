@@ -63,7 +63,7 @@ module CPU_64 (
    );
 
    // Select between PC + 4 and PC + SE(branch)
-   selectData #(.WIDTH(32)) toBranchOrNotToBranchThatIsTheQuestion (
+   selectData toBranchOrNotToBranchThatIsTheQuestion (
       .out(instrAddrNext),
       .A(pcPlus4),
       .B(pcPlusSEBranch),
