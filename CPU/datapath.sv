@@ -64,7 +64,7 @@ module datapath (
    assign Imm12_ZE = {52'b0, Imm12};
 
    // Selects between the output from Db_Imm (which is either Db from regfile
-   // or from address offset Daddr9), or the immediate constant
+   // or from address offset Daddr9) and the immediate constant
    // Output goes into ALU
    selectData intoALU (
       .out(Db_ALU),

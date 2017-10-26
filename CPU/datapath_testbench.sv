@@ -50,7 +50,8 @@ module datapath_testbench ();
       forever #(CLK_PERIOD / 2) clk <= ~clk;
    end
    
-   integer i;   
+   integer CONST = 512;
+   integer i;
    initial begin
    reset <= 1'b1; @(posedge clk);
    reset <= 1'b0; @(posedge clk);
@@ -58,17 +59,19 @@ module datapath_testbench ();
    // ****************
    // PRELIMINARY TEST
    // ****************
-      // Step 1. ADDI X0, X31, #420   -- Add 420 into X0
-      // Step 2. STUR X0, [X31, 0]    -- Store 420 into address 0 in datamem
-      // Step 3. LDUR X30, [X31, 0]   -- Load 420 from address 0 into X30
-      // Step 4. SUBS X5, X31, X30    -- Compute 0 - 420 = -420 into X5
+      // Step 1. ADDI X0, X31, #CONST -- Add CONST into X0
+      // Step 2. STUR X0, [X31, 0]    -- Store CONST into address 0 in datamem
+      // Step 3. LDUR X30, [X31, 0]   -- Load CONST from address 0 into X30
+      // Step 4. SUBS X5, X31, X30    -- Compute 0 - CONST = -COSNT into X5
+      // Step 5. STURB X5, [X31, #16] -- Store 8 bits from X5 into Addr 16
+      // Step 6. LDURB X9, [X31, #16] -- Load value from Addr 16 into X9     
    
    $display("%t ADDI X0, X31, #420", $time);   
    ctrlBus <= {1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ALUOp   <= 3'b010;
    Rn      <= 31;
    Rd      <= 0;
-   Imm12   <= 512;
+   Imm12   <= CONST;
    @(posedge clk);
    $display("%t Reading Reg Rm = X0, (Output @ Db)", $time);
    ctrlBus[2] <= 0; // RegWrite
@@ -105,10 +108,7 @@ module datapath_testbench ();
    $display("%t reading Reg Rm = X5, (Output @ Db)", $time);
    ctrlBus[2] <= 0; // RegWrite
    Rm <= 5;
-   @(posedge clk);   
-   // ***************
-   // END PRELIMINARY
-   // ***************
+   @(posedge clk);
    $display("%t STURB X5, [X31, #16]", $time);
    ctrlBus <= {1'b1, 1'b0, 1'b0, 1'b1, 1'bx, 1'b0, 1'b1, 1'b0};
    ALUOp   <= 3'b010;   
@@ -128,9 +128,9 @@ module datapath_testbench ();
    ctrlBus[2] <= 0; // RegWrite
    Rm <= 9;   
    @(posedge clk);   
-   @(posedge clk);   
-   @(posedge clk);   
-   
+   // ***************
+   // END PRELIMINARY
+   // ***************
    $stop;
    end
 endmodule
