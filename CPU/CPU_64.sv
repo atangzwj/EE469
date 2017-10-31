@@ -1,7 +1,7 @@
 `timescale 1ns/10ps
 
 module CPU_64 (
-   input logic clk, reset,
+   input logic clk, reset
    );
 
    logic [63:0] instrAddr, instrAddrNext;
