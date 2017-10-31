@@ -2,9 +2,6 @@
 
 module CPU_64 (
    input logic clk, reset,
-   input logic uncondBr, brTaken, // To be removed
-   input logic [18:0] condAddr19, // To be removed
-   input logic [25:0] brAddr26    // To be removed
    );
 
    logic [63:0] instrAddr, instrAddrNext;
@@ -19,11 +16,13 @@ module CPU_64 (
       .wrEnable(1'b1)
    );
 
-   //logic [18:0] condAddr19;
-   //logic [25:0] brAddr26;
+   logic [18:0] condAddr19;
+   logic [25:0] brAddr26;
    logic [63:0] condAddr19_SE, brAddr26_SE;
+   assign condAddr19    = instruction[23:5];
+   assign brAddr26      = instruction[25:0];
    assign condAddr19_SE = {{45{condAddr19[18]}}, condAddr19};
-   assign brAddr26_SE = {{38{brAddr26[25]}}, brAddr26};
+   assign brAddr26_SE   = {{38{brAddr26[25]}}, brAddr26};
 
    logic [63:0] brChoice, brChoice4x;
    selectData branchSelector (
