@@ -7,6 +7,8 @@ module datapath (
    input  logic  [4:0] Rd, Rm, Rn,
    input  logic  [8:0] Daddr9,
    input  logic [11:0] Imm12,
+   input  logic  [1:0] Shamt,
+   input  logic [15:0] Imm16,
    // Control Logic
    input  logic        Reg2Loc,
    input  logic        ALUSrc,
@@ -65,13 +67,67 @@ module datapath (
    // Selects between the output from Db_Imm (which is either Db from regfile
    // or from address offset Daddr9) and the immediate constant
    // Output goes into ALU
-   selectData intoALU (
-      .out(Db_ALU),
+   logic [63:0] Db_Movk;   
+   selectData intoMovkMux (
+      .out(Db_Movk),
       .A(Db_Imm),
       .B(Imm12_ZE),
       .sel(ChooseImm)
    );   
 
+      //////////////////////////////////////////////////////////////////
+   //MOVK Rd, Imm16, LSL Shamt: Reg[Rd][16*Shamt+15:16*Shamt] = Imm16. 
+   //////////////////////////////////////////////////////////////////
+   logic [63:0] ShamtMult16, ShamtTop;
+   // shamt = 2'b00: shift by 0
+   // shamt = 2'b01: shift by 16
+   // shamt = 2'b10: shift by 32
+   // shamt = 2'b11: shift by 48
+   assign ShamtMult16 = {58'b0, Shamt, 4'b0};
+   alu add15 (
+      .result(ShamtTop),
+      .negative(),
+      .zero(),
+      .overflow(),
+      .carry_out(),
+      .A(ShamtMult16),
+      .B(64'hF),
+      .cntrl(ALUOp)
+   );
+
+   logic [63:0] movkOut;
+   assign movkOut = Db;
+   assign movkOut[ShamtTop:ShamtMult16] = Imm16;
+   
+   selectData intoALU (
+      .out(Db_ALU),
+      .A(Db_Movk),
+      .B(movkOut),
+      .sel(ChooseMovk)
+   );
+   
+   
+   
+   
+   // **********************************************************************
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
    logic [63:0] ALU_out;
