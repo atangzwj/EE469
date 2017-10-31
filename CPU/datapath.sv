@@ -23,8 +23,7 @@ module datapath (
    parameter DELAY = 0.05;
 
    // Selects between Rd and Rm to output to address Ab in regfile
-   // If Reg2Loc == 0, instruction was STUR 
-   logic [4:0] Ab_in;
+      logic [4:0] Ab_in;
    selectData #(.WIDTH(5)) intoAb (
       .out(Ab_in),
       .A(Rd),
@@ -105,7 +104,6 @@ module datapath (
    
    // Data Memory
    logic [63:0] Dmem_out;
-   not #DELAY n1 (NOTMemWrite, MemWrite);
    datamem dm (
       .clk,
       .read_data(Dmem_out),
