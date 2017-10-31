@@ -32,6 +32,9 @@ module CPU_64 (
       .sel(uncondBr)
    );
 
+   // Branching control signals
+   logic uncondBr, brTaken;
+
    // Branch amount times 4
    assign brChoice4x = {brChoice[61:0], 2'b0};
 
