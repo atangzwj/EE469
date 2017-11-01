@@ -134,10 +134,24 @@ module datapath_testbench ();
    ctrlBus <= {1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ctrlBus[2] <= 0; // RegWrite
    Rm <= 9;   
-   @(posedge clk);   
+   @(posedge clk);
    // ***************
    // END PRELIMINARY
    // ***************
+   //MOVK Rd, Imm16, LSL Shamt: Reg[Rd][16*Shamt+15:16*Shamt] = Imm16.
+   $display("%t MOVK X0, FFFF, LSL 16", $time);
+   ctrlBus <= {1'b1, 1'bx, 1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ALUOp   <= 3'b000;
+   Shamt   <= 2'b01;
+   Imm16   <= 16'hFFFF;
+   Rd      <= 0;
+   @(posedge clk);
+   $display("%t reading Reg Rm = X0, (Output @ Db)", $time);
+   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus[2] <= 0; // RegWrite
+   Rm <= 0;   
+   @(posedge clk);
+   
    $stop;
    end
 endmodule

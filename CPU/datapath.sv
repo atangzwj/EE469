@@ -18,6 +18,7 @@ module datapath (
    input  logic        MemRead,
    input  logic        ChooseImm,
    input  logic        xferByte,
+   input  logic        ChooseMovk,
    input  logic  [2:0] ALUOp
    );
 
@@ -66,7 +67,7 @@ module datapath (
 
    // Selects between the output from Db_Imm (which is either Db from regfile
    // or from address offset Daddr9) and the immediate constant
-   // Output goes into ALU
+   // Output goes into the movkMux
    logic [63:0] Db_Movk;   
    selectData intoMovkMux (
       .out(Db_Movk),
@@ -78,38 +79,48 @@ module datapath (
       //////////////////////////////////////////////////////////////////
    //MOVK Rd, Imm16, LSL Shamt: Reg[Rd][16*Shamt+15:16*Shamt] = Imm16. 
    //////////////////////////////////////////////////////////////////
-   logic [63:0] ShamtMult16, ShamtTop;
-   // shamt = 2'b00: shift by 0
-   // shamt = 2'b01: shift by 16
-   // shamt = 2'b10: shift by 32
-   // shamt = 2'b11: shift by 48
-   assign ShamtMult16 = {58'b0, Shamt, 4'b0};
-   alu add15 (
-      .result(ShamtTop),
-      .negative(),
-      .zero(),
-      .overflow(),
-      .carry_out(),
-      .A(ShamtMult16),
-      .B(64'hF),
-      .cntrl(ALUOp)
-   );
-
-   logic [63:0] movkOut;
-   assign movkOut = Db;
-   assign movkOut[ShamtTop:ShamtMult16] = Imm16;
+   // multiplies the Shamt by 16 
+   logic  [5:0] distance;
+   assign distance = {Shamt, 4'b0};
    
+   // shifts our 16 bit of 1s to specified distance
+   logic [63:0] clearBar, clear;
+   shifter shiftClear (
+      .result(clearBar),
+      .value(64'hFFFF),
+      .direction(1'b0),
+      .distance
+   );
+   
+   logic [63:0] Imm16_ZE, ShiftedImm16;
+   assign Imm16_ZE = {48'b0, Imm16};
+   
+   shifter shiftImm (
+      .result(ShiftedImm16),
+      .value(Imm16_ZE),
+      .direction(1'b0),
+      .distance
+   );
+ 
+   logic [63:0] cleared, movk_done;
+   genvar i;
+   generate
+      for (i = 0; i < 64; i++) begin : movk_gates
+         // inverts each bit of clearBar to get our clear mask      
+         not #DELAY (clear[i], clearBar[i]);
+         and #DELAY (cleared[i], Db[i], clear[i]);
+         or  #DELAY (movk_done[i], cleared[i], ShiftedImm16[i]); 
+      end
+   endgenerate
+
    selectData intoALU (
       .out(Db_ALU),
       .A(Db_Movk),
-      .B(movkOut),
+      .B(movk_done),
       .sel(ChooseMovk)
-   );
+   );      
    
    
-   
-   
-   // **********************************************************************
    
    
    

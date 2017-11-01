@@ -30,7 +30,7 @@ vlog "./CPU/datapath.sv"
 vlog "./CPU/datapath_testbench.sv"
 vlog "./CPU/memory/instructmem.sv"
 vlog "./CPU/memory/datamem.sv"
-
+vlog "./CPU/math.sv"
 
 
 # Call vsim to invoke simulator
