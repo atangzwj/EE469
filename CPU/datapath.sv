@@ -19,6 +19,7 @@ module datapath (
    input  logic        ChooseImm,
    input  logic        xferByte,
    input  logic        ChooseMovk,
+   input  logic        ChooseMovz,
    input  logic  [2:0] ALUOp
    );
 
@@ -113,12 +114,20 @@ module datapath (
       end
    endgenerate
 
-   selectData intoALU (
-      .out(Db_ALU),
+   logic [63:0] Db_Movz;
+   selectData intoMovzMux (
+      .out(Db_Movz),
       .A(Db_Movk),
       .B(movk_done),
       .sel(ChooseMovk)
-   );      
+   );
+   
+   selectData intoALU (
+      .out(Db_ALU),
+      .A(Db_Movz),
+      .B(ShiftedImm16),
+      .sel(ChooseMovz)
+   );
    
    
    

@@ -19,9 +19,10 @@ module datapath_testbench ();
    logic        ChooseImm;
    logic        xferByte;
    logic        ChooseMovk;
+   logic        ChooseMovz;
    logic  [2:0] ALUOp;
    
-   logic  [8:0] ctrlBus;
+   logic  [9:0] ctrlBus;
    
    datapath dut (.clk, .reset,
                  .flags,
@@ -39,8 +40,10 @@ module datapath_testbench ();
                  .ChooseImm,
                  .xferByte,
                  .ChooseMovk,
+                 .ChooseMovz,
                  .ALUOp);
-                 
+   
+   assign ChooseMovz = ctrlBus[9];
    assign ChooseMovk = ctrlBus[8];
    assign xferByte   = ctrlBus[7];              
    assign ChooseImm  = ctrlBus[6];
@@ -66,15 +69,19 @@ module datapath_testbench ();
    // ****************
    // PRELIMINARY TEST
    // ****************
-      // Step 1. ADDI X0, X31, #CONST -- Add CONST into X0
-      // Step 2. STUR X0, [X31, 0]    -- Store CONST into address 0 in datamem
-      // Step 3. LDUR X30, [X31, 0]   -- Load CONST from address 0 into X30
-      // Step 4. SUBS X5, X31, X30    -- Compute 0 - CONST = -COSNT into X5
-      // Step 5. STURB X5, [X31, #16] -- Store 8 bits from X5 into Addr 16
-      // Step 6. LDURB X9, [X31, #16] -- Load value from Addr 16 into X9     
+      // Step  1. ADDI X0, X31, #CONST  -- Add CONST into X0
+      // Step  2. STUR X0, [X31, 0]     -- Store CONST into address 0 in datamem
+      // Step  3. LDUR X30, [X31, 0]    -- Load CONST from address 0 into X30
+      // Step  4. SUBS X5, X31, X30     -- Compute 0 - CONST = -COSNT into X5
+      // Step  5. STURB X5, [X31, #16]  -- Store 8 bits from X5 into Addr 16
+      // Step  6. LDURB X9, [X31, #16]  -- Load value from Addr 16 into X9
+      // Step  7. MOVK X0, FFFF, LSL 16 -- Write in 16b'1s into X0[16:31]
+      // Step  8. MOVK X0, rand, LSL 32 -- Write in 16 bit random value into X0[47:32]
+      // Step  9. MOVK X0, rand, LSL 48 -- Write in 16 bit random value into X0[63:48]
+      // Step 10. MOVZ X0, rand, LSL 32 -- Write in rand value into X0[47, 32] and zero everything else
    
    $display("%t ADDI X0, X31, #420", $time);   
-   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ALUOp   <= 3'b010;
    Rn      <= 31;
    Rd      <= 0;
@@ -86,7 +93,7 @@ module datapath_testbench ();
    @(posedge clk);   
 
    $display("%t STUR X0, [X31, 0].", $time);   
-   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'bx, 1'b0, 1'b1, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'bx, 1'b0, 1'b1, 1'b0};
    ALUOp   <= 3'b010;
    Daddr9  <= 0;
    Rd      <= 0;
@@ -94,19 +101,19 @@ module datapath_testbench ();
    @(posedge clk);   
 
    $display("%t LDUR X30, [X31, 0].", $time);   
-   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'bx, 1'b1, 1'b1, 1'b1, 1'b0, 1'b1};
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b0, 1'bx, 1'b1, 1'b1, 1'b1, 1'b0, 1'b1};
    ALUOp   <= 3'b010;   
    Daddr9  <= 0;
    Rd      <= 30;
    Rn      <= 31;
    @(posedge clk);   
    $display("%t Reading Reg Rn = X30, (Output @ Da)", $time);
-   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0};
    ALUOp   <= 3'b010;
    Rn      <= 30;   
    @(posedge clk);
    $display("%t SUBS X5, X31, X30", $time);
-   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ALUOp   <= 3'b011;
    Rd <= 5;
    Rn <= 31;   
@@ -117,41 +124,73 @@ module datapath_testbench ();
    Rm <= 5;
    @(posedge clk);
    $display("%t STURB X5, [X31, #16]", $time);
-   ctrlBus <= {1'b0, 1'b1, 1'b0, 1'b0, 1'b1, 1'bx, 1'b0, 1'b1, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'b0, 1'b0, 1'b1, 1'bx, 1'b0, 1'b1, 1'b0};
    ALUOp   <= 3'b010;   
    Daddr9  <= 16;
    Rd      <= 5;
    Rn      <= 31;
    @(posedge clk);   
    $display("%t LDURB X9, [X31, #16].", $time);   
-   ctrlBus <= {1'b0, 1'b1, 1'b0, 1'bx, 1'b1, 1'b1, 1'b1, 1'b0, 1'b1};
+   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'b0, 1'bx, 1'b1, 1'b1, 1'b1, 1'b0, 1'b1};
    ALUOp   <= 3'b010;   
    Daddr9  <= 16;
    Rd      <= 9;
    Rn      <= 31;
    @(posedge clk);   
    $display("%t reading Reg Rm = X9, (Output @ Db)", $time);
-   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ctrlBus[2] <= 0; // RegWrite
    Rm <= 9;   
    @(posedge clk);
-   // ***************
-   // END PRELIMINARY
-   // ***************
    //MOVK Rd, Imm16, LSL Shamt: Reg[Rd][16*Shamt+15:16*Shamt] = Imm16.
    $display("%t MOVK X0, FFFF, LSL 16", $time);
-   ctrlBus <= {1'b1, 1'bx, 1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus <= {1'b0, 1'b1, 1'bx, 1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ALUOp   <= 3'b000;
    Shamt   <= 2'b01;
    Imm16   <= 16'hFFFF;
    Rd      <= 0;
    @(posedge clk);
    $display("%t reading Reg Rm = X0, (Output @ Db)", $time);
-   ctrlBus <= {1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ctrlBus[2] <= 0; // RegWrite
    Rm <= 0;   
    @(posedge clk);
-   
+   $display("%t MOVK X0, $random, LSL 32", $time);
+   ctrlBus <= {1'b0, 1'b1, 1'bx, 1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ALUOp   <= 3'b000;
+   Shamt   <= 2'b10;
+   Imm16   <= $random();
+   Rd      <= 0;
+   @(posedge clk);
+   $display("%t reading Reg Rm = X0, (Output @ Db)", $time);
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus[2] <= 0; // RegWrite
+   Rm <= 0;   
+   @(posedge clk);
+   $display("%t MOVK X0, $random, LSL 48", $time);
+   ctrlBus <= {1'b0, 1'b1, 1'bx, 1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ALUOp   <= 3'b000;
+   Shamt   <= 2'b11;
+   Imm16   <= $random();
+   Rd      <= 0;
+   @(posedge clk);
+   $display("%t reading Reg Rm = X0, (Output @ Db)", $time);
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus[2] <= 0; // RegWrite
+   Rm <= 0;   
+   @(posedge clk);
+   $display("%t MOVZ X0, $random, LSL 32", $time);
+   ctrlBus <= {1'b1, 1'b0, 1'bx, 1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ALUOp   <= 3'b000;
+   Shamt   <= 2'b10;
+   Imm16   <= $random();
+   Rd      <= 0;
+   @(posedge clk);
+   $display("%t reading Reg Rm = X0, (Output @ Db)", $time);
+   ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
+   ctrlBus[2] <= 0; // RegWrite
+   Rm <= 0;   
+   @(posedge clk);      
    $stop;
    end
 endmodule
