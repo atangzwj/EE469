@@ -100,6 +100,28 @@ module CPU_64 (clk, reset);
    // Instruction Memory
    instructmem iMem (.address(instrAddr), .instruction, .clk);
 
+   // Control logic
+   logic       Reg2Loc, AluSrc, MemToReg, RegWrite, MemWrite, MemRead,
+               ChooseImm, xferByte, ChooseMovk, ChooseMovz;
+   logic [2:0] ALUOp, flags;
+   main_control control (
+      .Reg2Loc,
+      .ALUSrc,
+      .MemToReg,
+      .RegWrite,
+      .MemWrite,
+      .MemRead,
+      .ChooseImm,
+      .xferByte,
+      .BrTaken,
+      .UncondBr,
+      .ChooseMovk,
+      .ChooseMovz,
+      .ALUOp,
+      .opcode,
+      .flags
+   );
+
    // Datapath
    datpath dp (
       .clk,
