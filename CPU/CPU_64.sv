@@ -148,18 +148,17 @@ module CPU_64 (clk, reset);
       .ALUOp
    );
    
-   // For B.LT:
-      // Flag Register
-      
-   logic [3:0] writeToFG;   
-   
+   // Selects between the old flags in the register and 
+   // new flags from the most recent ALU execution
+   // Output gets written into the flag register
+   logic [3:0] writeToFR;
    selectData #(.WIDTH(4)) toFlagReg (
-      .out(writeToFG),
+      .out(writeToFR),
       .A(regFlags),
       .B(flags),
       .sel(storeFlags)
    );   
-      
+
    // Hold the flags until the next clock cycle for B.LT to use
    // flag[3] = negative
    // flag[2] = zero
@@ -168,9 +167,8 @@ module CPU_64 (clk, reset);
    genvar i;
    generate
       for(i = 0; i < 4; i++) begin : flagRegisters
-         D_FF fg (.q(regFlags[i]), .d(writeToFG[i]), .reset, .clk);
+         D_FF fr (.q(regFlags[i]), .d(writeToFR[i]), .reset, .clk);
       end
    endgenerate
-   
    
 endmodule

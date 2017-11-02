@@ -61,7 +61,7 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'bx;
-                      BrTaken    = flags[2]; // zero flag
+                      BrTaken    = flags[2]; // zero flag from same clk cycle
                       UncondBr   = 1'b0;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
@@ -77,7 +77,7 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'bx;
                       xferByte   = 1'bx;
-                      BrTaken    = regFlags[3] ^ regFlags[1];
+                      BrTaken    = regFlags[3] ^ regFlags[1]; // from flag reg
                       UncondBr   = 1'b0;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'bx;
