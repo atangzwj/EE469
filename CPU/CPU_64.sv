@@ -92,7 +92,7 @@ module CPU_64 (clk, reset);
       .out(instrAddrNext),
       .A(pcPlus4),
       .B(pcPlusSEBranch),
-      .sel(brTaken)
+      .sel(BrTaken)
    );
 
    // Instruction Memory
