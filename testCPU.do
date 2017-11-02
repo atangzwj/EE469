@@ -30,6 +30,8 @@ vlog "./CPU/datapath_testbench.sv"
 vlog "./CPU/memory/instructmem.sv"
 vlog "./CPU/memory/datamem.sv"
 vlog "./CPU/selectdata.sv"
+vlog "./CPU/math.sv"
+
 
 vlog "./CPU/CPU_64.sv"
 vlog "./CPU/CPU_64_testbench.sv"
@@ -43,7 +45,7 @@ vsim -voptargs="+acc" -t 1ps -lib work CPU_64_testbench
 #     This should be the file that sets up the signal window for
 #     the module you are testing.
 
-do CPU/cpu_at_wave.do
+do CPU/cpu_wave.do
 
 
 # Set the window types
