@@ -13,6 +13,7 @@ module main_control (
    output logic        UncondBr,
    output logic        ChooseMovk,
    output logic        ChooseMovz,
+   output logic        storeFlags,
    output logic  [2:0] ALUOp,
    input  logic [10:0] opcode,
    input  logic  [3:0] flags, regFlags
@@ -48,6 +49,7 @@ module main_control (
                       UncondBr   = 1'b1;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'bx;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'bxxx;
                    end
          CBZ:      begin
@@ -63,6 +65,7 @@ module main_control (
                       UncondBr   = 1'b0;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
+                      storeFlags = 1'b0;                    
                       ALUOp      = 3'b000;
                    end
          B_LT:     begin
@@ -78,6 +81,7 @@ module main_control (
                       UncondBr   = 1'b0;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'bx;
+                      storeFlags = 1'b0;                      
                       ALUOp      = 3'bxxx;
                    end
          ADDS:     begin
@@ -93,6 +97,7 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
+                      storeFlags = 1'b1;
                       ALUOp      = 3'b010;
                    end
          SUBS:     begin
@@ -108,6 +113,7 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
+                      storeFlags = 1'b1;
                       ALUOp      = 3'b011;
                    end
          ADDI:     begin
@@ -123,6 +129,7 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          LDUR:     begin
@@ -138,6 +145,7 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          LDURB:    begin
@@ -153,6 +161,7 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          STUR:     begin
@@ -168,6 +177,7 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          STURB:    begin
@@ -183,6 +193,7 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          MOVK:     begin
@@ -198,6 +209,7 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'b1;
                       ChooseMovz = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b000;
                    end
          MOVZ:     begin
@@ -213,6 +225,7 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'b1;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b000;
                    end
          default:  begin
@@ -228,9 +241,11 @@ module main_control (
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'bx;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b000;
                    end
       endcase
+            
    end
 endmodule
 
@@ -248,6 +263,7 @@ module main_control_testbench ();
    logic        UncondBr;
    logic        ChooseMovk;
    logic        ChooseMovz;
+   logic        storeFlags;
    logic  [2:0] ALUOp;
    logic [10:0] opcode;
    logic  [3:0] flags, regFlags; 
@@ -265,6 +281,7 @@ module main_control_testbench ();
       .UncondBr,
       .ChooseMovk,
       .ChooseMovz,
+      .storeFlags,
       .ALUOp,
       .opcode,
       .flags,

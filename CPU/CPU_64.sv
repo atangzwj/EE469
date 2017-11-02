@@ -100,9 +100,9 @@ module CPU_64 (clk, reset);
 
    // Control logic
    logic       Reg2Loc, ALUSrc, MemToReg, RegWrite, MemWrite, MemRead,
-               ChooseImm, xferByte, ChooseMovk, ChooseMovz;
+               ChooseImm, xferByte, ChooseMovk, ChooseMovz, storeFlags;
    logic [2:0] ALUOp;
-   logic [3:0] flags;
+   logic [3:0] flags, regFlags;
    main_control control (
       .Reg2Loc,
       .ALUSrc,
@@ -116,6 +116,7 @@ module CPU_64 (clk, reset);
       .UncondBr,
       .ChooseMovk,
       .ChooseMovz,
+      .storeFlags,
       .ALUOp,
       .opcode,
       .flags,
@@ -149,12 +150,27 @@ module CPU_64 (clk, reset);
    
    // For B.LT:
       // Flag Register
-      // Hold the flags until the next clock cycle for B.LT to use  
-   logic [3:0] regFlags; 
-   D_FF negFlag      (.q(regFlags[3]), .d(flags[3]), .reset, .clk);
-   D_FF zeroFlag     (.q(regFlags[2]), .d(flags[2]), .reset, .clk);
-   D_FF overflowFlag (.q(regFlags[1]), .d(flags[1]), .reset, .clk);
-   D_FF cOutFlag     (.q(regFlags[0]), .d(flags[0]), .reset, .clk);     
+      
+   logic [3:0] writeToFG;   
+   
+   selectData #(.WIDTH(4)) toFlagReg (
+      .out(writeToFG),
+      .A(regFlags),
+      .B(flags),
+      .sel(storeFlags)
+   );   
+      
+   // Hold the flags until the next clock cycle for B.LT to use
+   // flag[3] = negative
+   // flag[2] = zero
+   // flag[1] = overflow
+   // flag[0] = carry_out
+   genvar i;
+   generate
+      for(i = 0; i < 4; i++) begin : flagRegisters
+         D_FF fg (.q(regFlags[i]), .d(writeToFG[i]), .reset, .clk);
+      end
+   endgenerate
    
    
 endmodule
