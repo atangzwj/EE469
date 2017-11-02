@@ -251,5 +251,62 @@ module main_control_testbench ();
    logic [10:0] opcode;
    logic  [3:0] flags; 
 
-   
+   main_control dut (
+      .Reg2Loc,
+      .ALUSrc,
+      .MemToReg,
+      .RegWrite,
+      .MemWrite,
+      .MemRead,
+      .ChooseImm,
+      .xferByte,
+      .BrTaken,
+      .UncondBr,
+      .ChooseMovk,
+      .ChooseMovz,
+      .ALUOp,
+      .opcode,
+      .flags
+   );
+
+   parameter CLK_PERIOD = 10;
+   initial begin
+      clk <= 0;
+      forever #(CLK_PERIOD / 2) clk <= ~clk;
+   end
+
+   parameter
+   B     = 10'b000_101x_xxxx,
+   CBZ   = 10'b101_1010_0xxx,
+   B_LT  = 10'b010_1010_0xxx,
+   ADDS  = 10'b101_0101_1000,
+   SUBS  = 10'b111_0101_1000,
+   ADDI  = 10'b100_1000_1000,
+   LDUR  = 10'b111_1100_0010,
+   LDURB = 10'b001_1100_0010,
+   STUR  = 10'b111_1100_0000,
+   STURB = 10'b001_1100_0000,
+   MOVK  = 10'b001_1110_0101,
+   MOVZ  = 10'b001_1010_0101;
+
+   initial begin
+      opcode <= B;     flags <= 4'b0000; @(posedge clk);
+      opcode <= CBZ;                     @(posedge clk);
+                       flags <= 4'b0100; @(posedge clk);
+      opcode <= B_LT;                    @(posedge clk);
+                       flags <= 4'b0010; @(posedge clk);
+                       flags <= 4'b1000; @(posedge clk);
+                       flags <= 4'b1010; @(posedge clk);
+      opcode <= ADDS;                    @(posedge clk);
+      opcode <= SUBS;                    @(posedge clk);
+      opcode <= ADDI;                    @(posedge clk);
+      opcode <= LDUR;                    @(posedge clk);
+      opcode <= LDURB;                   @(posedge clk);
+      opcode <= STUR;                    @(posedge clk);
+      opcode <= STURB;                   @(posedge clk);
+      opcode <= MOVK;                    @(posedge clk);
+      opcode <= MOVZ;                    @(posedge clk);
+                                         @(posedge clk);
+      $stop;
+   end
 endmodule
