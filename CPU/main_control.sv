@@ -15,20 +15,8 @@ module main_control (
    output logic        ChooseMovz,
    output logic  [2:0] ALUOp,
    input  logic [10:0] opcode,
-   input  logic  [3:0] flags
+   input  logic  [3:0] flags, regFlags
    );
-
-
-   
-   
-   // For B.LT:
-      // Flag Register
-      // Hold the flags until the next clock cycle for B.LT to use  
-   logic [3:0] regFlags; 
-   D_FF negFlag      (.q(regFlags[3]), .d(flags[3]), .reset, .clk);
-   D_FF zeroFlag     (.q(regFlags[2]), .d(flags[2]), .reset, .clk);
-   D_FF overflowFlag (.q(regFlags[1]), .d(flags[1]), .reset, .clk);
-   D_FF cOutFlag     (.q(regFlags[0]), .d(flags[0]), .reset, .clk);   
    
    // Instruction opcodes
    parameter
@@ -262,7 +250,7 @@ module main_control_testbench ();
    logic        ChooseMovz;
    logic  [2:0] ALUOp;
    logic [10:0] opcode;
-   logic  [3:0] flags; 
+   logic  [3:0] flags, regFlags; 
 
    main_control dut (
       .Reg2Loc,
@@ -279,7 +267,8 @@ module main_control_testbench ();
       .ChooseMovz,
       .ALUOp,
       .opcode,
-      .flags
+      .flags,
+      .regFlags
    );
 
    parameter CLK_PERIOD = 10;

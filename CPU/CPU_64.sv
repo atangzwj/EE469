@@ -118,7 +118,8 @@ module CPU_64 (clk, reset);
       .ChooseMovz,
       .ALUOp,
       .opcode,
-      .flags
+      .flags,
+      .regFlags
    );
 
    // Datapath
@@ -145,4 +146,15 @@ module CPU_64 (clk, reset);
       .ChooseMovz,
       .ALUOp
    );
+   
+   // For B.LT:
+      // Flag Register
+      // Hold the flags until the next clock cycle for B.LT to use  
+   logic [3:0] regFlags; 
+   D_FF negFlag      (.q(regFlags[3]), .d(flags[3]), .reset, .clk);
+   D_FF zeroFlag     (.q(regFlags[2]), .d(flags[2]), .reset, .clk);
+   D_FF overflowFlag (.q(regFlags[1]), .d(flags[1]), .reset, .clk);
+   D_FF cOutFlag     (.q(regFlags[0]), .d(flags[0]), .reset, .clk);     
+   
+   
 endmodule
