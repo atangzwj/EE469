@@ -20,18 +20,18 @@ module main_control (
 
    // Intstruction opcodes
    parameter
-   B     = 10'b000_101x_xxxx,
-   CBZ   = 10'b101_1010_0xxx,
-   B_LT  = 10'b010_1010_0xxx,
-   ADDS  = 10'b101_0101_1000,
-   SUBS  = 10'b111_0101_1000,
-   ADDI  = 10'b100_1000_1000,
-   LDUR  = 10'b111_1100_0010,
-   LDURB = 10'b001_1100_0010,
-   STUR  = 10'b111_1100_0000,
-   STURB = 10'b001_1100_0000,
-   MOVK  = 10'b001_1110_0101,
-   MOVZ  = 10'b001_1010_0101;
+   B     = 11'b000_101x_xxxx,
+   CBZ   = 11'b101_1010_0xxx,
+   B_LT  = 11'b010_1010_0xxx,
+   ADDS  = 11'b101_0101_1000,
+   SUBS  = 11'b111_0101_1000,
+   ADDI  = 11'b100_1000_1000,
+   LDUR  = 11'b111_1100_0010,
+   LDURB = 11'b001_1100_0010,
+   STUR  = 11'b111_1100_0000,
+   STURB = 11'b001_1100_0000,
+   MOVK  = 11'b001_1110_0101,
+   MOVZ  = 11'b001_1010_0101;
 
    always_comb begin
       casex (opcode)
@@ -277,18 +277,18 @@ module main_control_testbench ();
    end
 
    parameter
-   B     = 10'b000_101x_xxxx,
-   CBZ   = 10'b101_1010_0xxx,
-   B_LT  = 10'b010_1010_0xxx,
-   ADDS  = 10'b101_0101_1000,
-   SUBS  = 10'b111_0101_1000,
-   ADDI  = 10'b100_1000_1000,
-   LDUR  = 10'b111_1100_0010,
-   LDURB = 10'b001_1100_0010,
-   STUR  = 10'b111_1100_0000,
-   STURB = 10'b001_1100_0000,
-   MOVK  = 10'b001_1110_0101,
-   MOVZ  = 10'b001_1010_0101;
+   B     = 11'b000_1010_1101,
+   CBZ   = 11'b101_1010_0xxx,
+   B_LT  = 11'b010_1010_0xxx,
+   ADDS  = 11'b101_0101_1000,
+   SUBS  = 11'b111_0101_1000,
+   ADDI  = 11'b100_1000_1000,
+   LDUR  = 11'b111_1100_0010,
+   LDURB = 11'b001_1100_0010,
+   STUR  = 11'b111_1100_0000,
+   STURB = 11'b001_1100_0000,
+   MOVK  = 11'b001_1110_0101,
+   MOVZ  = 11'b001_1010_0101;
 
    initial begin
       opcode <= B;     flags <= 4'b0000; @(posedge clk);
