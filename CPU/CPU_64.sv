@@ -46,17 +46,17 @@ module CPU_64 (clk, reset);
    assign condAddr19_SE = {{45{condAddr19[18]}}, condAddr19};
    assign brAddr26_SE   = {{38{brAddr26[25]}}, brAddr26};
 
+   // Branching control signals
+   logic UncondBr, BrTaken;
+   
    // Select between conditional or unconditional branch amount
    logic [63:0] brChoice, brChoice4x;
    selectData branchSelector (
       .out(brChoice),
       .A(condAddr19_SE),
       .B(brAddr26_SE),
-      .sel(uncondBr)
+      .sel(UncondBr)
    );
-
-   // Branching control signals
-   logic UncondBr, BrTaken;
 
    // Branch amount times 4
    assign brChoice4x = {brChoice[61:0], 2'b0};
