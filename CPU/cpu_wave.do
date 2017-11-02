@@ -19,6 +19,48 @@ add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ChooseMovz
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ALUOp
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/opcode
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/flags
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/storeFlags
+add wave -noupdate -group {In Datapath} /CPU_64_testbench/dut/dp/Dw
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Rd
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Rm
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Rn
+add wave -noupdate -group {In Datapath} -group {Data Fields} -label {After Reg2Loc Ab_in} /CPU_64_testbench/dut/dp/Ab_in
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Daddr9
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Imm12
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Shamt
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Imm16
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/Reg2Loc
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ALUSrc
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/MemToReg
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/RegWrite
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/MemWrite
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/MemRead
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ChooseImm
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/xferByte
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ChooseMovk
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ChooseMovz
+add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ALUOp
+add wave -noupdate -group {In Datapath} /CPU_64_testbench/dut/dp/Da
+add wave -noupdate -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db
+add wave -noupdate -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db_Imm
+add wave -noupdate -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db_Movk
+add wave -noupdate -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db_Movz
+add wave -noupdate -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db_ALU
+add wave -noupdate -group {In Datapath} -group {Db 1 line before ALU} /CPU_64_testbench/dut/dp/Daddr9_SE
+add wave -noupdate -group {In Datapath} -group {Db 1 line before ALU} /CPU_64_testbench/dut/dp/Imm12_ZE
+add wave -noupdate -group {In Datapath} -group {Db 1 line before ALU} /CPU_64_testbench/dut/dp/movk_done
+add wave -noupdate -group {In Datapath} -group {Db 1 line before ALU} /CPU_64_testbench/dut/dp/ShiftedImm16
+add wave -noupdate -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/distance
+add wave -noupdate -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/clearBar
+add wave -noupdate -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/clear
+add wave -noupdate -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/Imm16_ZE
+add wave -noupdate -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/cleared
+add wave -noupdate -group {In Datapath} /CPU_64_testbench/dut/dp/ALU_out
+add wave -noupdate -group {In Datapath} /CPU_64_testbench/dut/dp/flags
+add wave -noupdate -group {In Datapath} -group {Datamem Wires} /CPU_64_testbench/dut/dp/xfer_size
+add wave -noupdate -group {In Datapath} -group {Datamem Wires} /CPU_64_testbench/dut/dp/Dmem_out
+add wave -noupdate -group {In Datapath} -group {Datamem Wires} /CPU_64_testbench/dut/dp/ReplacedZero_56
+add wave -noupdate -group {In Datapath} -group {Datamem Wires} /CPU_64_testbench/dut/dp/fromDataMem
 add wave -noupdate -expand -group {In CPU_64} -group {Program Counter} -radix hexadecimal /CPU_64_testbench/dut/pc/dOut
 add wave -noupdate -expand -group {In CPU_64} -group {Program Counter} -radix hexadecimal -childformat {{{/CPU_64_testbench/dut/pc/WriteData[63]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[62]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[61]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[60]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[59]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[58]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[57]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[56]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[55]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[54]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[53]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[52]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[51]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[50]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[49]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[48]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[47]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[46]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[45]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[44]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[43]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[42]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[41]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[40]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[39]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[38]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[37]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[36]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[35]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[34]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[33]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[32]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[31]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[30]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[29]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[28]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[27]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[26]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[25]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[24]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[23]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[22]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[21]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[20]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[19]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[18]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[17]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[16]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[15]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[14]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[13]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[12]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[11]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[10]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[9]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[8]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[7]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[6]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[5]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[4]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[3]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[2]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[1]} -radix hexadecimal} {{/CPU_64_testbench/dut/pc/WriteData[0]} -radix hexadecimal}} -subitemconfig {{/CPU_64_testbench/dut/pc/WriteData[63]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[62]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[61]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[60]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[59]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[58]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[57]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[56]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[55]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[54]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[53]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[52]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[51]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[50]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[49]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[48]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[47]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[46]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[45]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[44]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[43]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[42]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[41]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[40]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[39]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[38]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[37]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[36]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[35]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[34]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[33]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[32]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[31]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[30]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[29]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[28]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[27]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[26]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[25]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[24]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[23]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[22]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[21]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[20]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[19]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[18]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[17]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[16]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[15]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[14]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[13]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[12]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[11]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[10]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[9]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[8]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[7]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[6]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[5]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[4]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[3]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[2]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[1]} {-height 15 -radix hexadecimal} {/CPU_64_testbench/dut/pc/WriteData[0]} {-height 15 -radix hexadecimal}} /CPU_64_testbench/dut/pc/WriteData
 add wave -noupdate -expand -group {In CPU_64} -group {Program Counter} /CPU_64_testbench/dut/pc/wrEnable
@@ -45,49 +87,12 @@ add wave -noupdate -expand -group {In CPU_64} -group {BrTaken Mux} /CPU_64_testb
 add wave -noupdate -expand -group {In CPU_64} -group {BrTaken Mux} /CPU_64_testbench/dut/pcPlus4
 add wave -noupdate -expand -group {In CPU_64} -group {BrTaken Mux} /CPU_64_testbench/dut/pcPlusSEBranch
 add wave -noupdate -expand -group {In CPU_64} -group {BrTaken Mux} /CPU_64_testbench/dut/BrTaken
-add wave -noupdate -expand -group {In Datapath} /CPU_64_testbench/dut/dp/Dw
-add wave -noupdate -expand -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Rd
-add wave -noupdate -expand -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Rm
-add wave -noupdate -expand -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Rn
-add wave -noupdate -expand -group {In Datapath} -group {Data Fields} -label {After Reg2Loc Ab_in} /CPU_64_testbench/dut/dp/Ab_in
-add wave -noupdate -expand -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Daddr9
-add wave -noupdate -expand -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Imm12
-add wave -noupdate -expand -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Shamt
-add wave -noupdate -expand -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Imm16
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/Reg2Loc
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ALUSrc
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/MemToReg
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/RegWrite
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/MemWrite
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/MemRead
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ChooseImm
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/xferByte
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ChooseMovk
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ChooseMovz
-add wave -noupdate -expand -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ALUOp
-add wave -noupdate -expand -group {In Datapath} /CPU_64_testbench/dut/dp/Da
-add wave -noupdate -expand -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db
-add wave -noupdate -expand -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db_Imm
-add wave -noupdate -expand -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db_Movk
-add wave -noupdate -expand -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db_Movz
-add wave -noupdate -expand -group {In Datapath} -expand -group {Db 0 line before ALU} /CPU_64_testbench/dut/dp/Db_ALU
-add wave -noupdate -expand -group {In Datapath} -group {Db 1 line before ALU} /CPU_64_testbench/dut/dp/Daddr9_SE
-add wave -noupdate -expand -group {In Datapath} -group {Db 1 line before ALU} /CPU_64_testbench/dut/dp/Imm12_ZE
-add wave -noupdate -expand -group {In Datapath} -group {Db 1 line before ALU} /CPU_64_testbench/dut/dp/movk_done
-add wave -noupdate -expand -group {In Datapath} -group {Db 1 line before ALU} /CPU_64_testbench/dut/dp/ShiftedImm16
-add wave -noupdate -expand -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/distance
-add wave -noupdate -expand -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/clearBar
-add wave -noupdate -expand -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/clear
-add wave -noupdate -expand -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/Imm16_ZE
-add wave -noupdate -expand -group {In Datapath} -group {MOVK/MOVZ logic } /CPU_64_testbench/dut/dp/cleared
-add wave -noupdate -expand -group {In Datapath} /CPU_64_testbench/dut/dp/ALU_out
-add wave -noupdate -expand -group {In Datapath} /CPU_64_testbench/dut/dp/flags
-add wave -noupdate -expand -group {In Datapath} -group {Datamem Wires} /CPU_64_testbench/dut/dp/xfer_size
-add wave -noupdate -expand -group {In Datapath} -group {Datamem Wires} /CPU_64_testbench/dut/dp/Dmem_out
-add wave -noupdate -expand -group {In Datapath} -group {Datamem Wires} /CPU_64_testbench/dut/dp/ReplacedZero_56
-add wave -noupdate -expand -group {In Datapath} -group {Datamem Wires} /CPU_64_testbench/dut/dp/fromDataMem
+add wave -noupdate -expand -group {In CPU_64} -expand -group {Flag Register} /CPU_64_testbench/dut/writeToFG
+add wave -noupdate -expand -group {In CPU_64} -expand -group {Flag Register} /CPU_64_testbench/dut/regFlags
+add wave -noupdate -expand -group {In CPU_64} -expand -group {Flag Register} /CPU_64_testbench/dut/flags
+add wave -noupdate -expand -group {In CPU_64} -expand -group {Flag Register} /CPU_64_testbench/dut/storeFlags
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {195000 ps} 0}
+WaveRestoreCursors {{Cursor 1} {23816 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 346
 configure wave -valuecolwidth 440
