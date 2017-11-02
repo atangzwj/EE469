@@ -185,9 +185,11 @@ module datapath (
       .xfer_size
    );
    
-   // Replaces top 56 bits of datamem's output with zeros
+   // For LDURB:
+   // Replaces top 56 bits of datamem's output with zeros (OR xs??????)
+   // Output is sent to the regfile
    logic [63:0] ReplacedZero_56, fromDataMem;
-   assign ReplacedZero_56 = {56'b0, Dmem_out[7:0]};
+   assign ReplacedZero_56 = {56'b0, Dmem_out[7:0]}; // CLARIFY 56'b0 or 56'bx??????????
    selectData chooseZeroReplace (
       .out(fromDataMem),
       .A(Dmem_out),
