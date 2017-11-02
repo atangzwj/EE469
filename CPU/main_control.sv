@@ -232,3 +232,23 @@ module main_control (
                    end
    endcase
 endmodule
+
+module main_control_testbench ();
+   logic        Reg2Loc;
+   logic        ALUSrc;
+   logic        MemToReg;
+   logic        RegWrite;
+   logic        MemWrite;
+   logic        MemRead;
+   logic        ChooseImm;
+   logic        xferByte;
+   logic        BrTaken;
+   logic        UncondBr;
+   logic        ChooseMovk;
+   logic        ChooseMovz;
+   logic  [2:0] ALUOp;
+   logic [10:0] opcode;
+   logic  [3:0] flags; 
+
+   
+endmodule
