@@ -230,5 +230,6 @@ module main_control (
                       ChooseMovz = 1'bx;
                       ALUOp      = 3'b000;
                    end
-   endcase
+      endcase
+   end
 endmodule

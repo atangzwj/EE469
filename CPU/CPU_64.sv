@@ -101,7 +101,8 @@ module CPU_64 (clk, reset);
    // Control logic
    logic       Reg2Loc, ALUSrc, MemToReg, RegWrite, MemWrite, MemRead,
                ChooseImm, xferByte, ChooseMovk, ChooseMovz;
-   logic [2:0] ALUOp, flags;
+   logic [2:0] ALUOp;
+   logic [3:0] flags;
    main_control control (
       .Reg2Loc,
       .ALUSrc,
@@ -121,7 +122,7 @@ module CPU_64 (clk, reset);
    );
 
    // Datapath
-   datpath dp (
+   datapath dp (
       .clk,
       .reset,
       .flags,

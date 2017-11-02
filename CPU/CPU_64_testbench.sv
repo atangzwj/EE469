@@ -11,12 +11,12 @@ module CPU_64_testbench ();
       forever #(CLK_PERIOD / 2) clk <= ~clk;
    end
 
+   integer i;
    initial begin
       reset <= 1'b0; @(posedge clk);
       reset <= 1'b1; @(posedge clk);
       reset <= 1'b0;
       
-      integer i;
       for (i = 0; i < 12; i++) begin
          @(posedge clk);
       end
