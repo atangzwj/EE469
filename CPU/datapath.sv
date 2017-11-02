@@ -77,9 +77,15 @@ module datapath (
       .sel(ChooseImm)
    );   
 
-      //////////////////////////////////////////////////////////////////
-   //MOVK Rd, Imm16, LSL Shamt: Reg[Rd][16*Shamt+15:16*Shamt] = Imm16. 
-   //////////////////////////////////////////////////////////////////
+   ////////////////////////
+   //MOVK and MOVZ section/
+   
+   // General concept for MOVK:
+   //    1. Set the 16 bit section of Db we want to replace to zeros
+   //    2. Shift the Imm16 to the desired bit range, zero out everything else
+   //       Aside. (This number is used as the output for Movz)
+   //    3. "Or" Db with ShiftedImm16 
+   
    // multiplies the Shamt by 16 
    logic  [5:0] distance;
    assign distance = {Shamt, 4'b0};
@@ -93,9 +99,10 @@ module datapath (
       .distance
    );
    
-   logic [63:0] Imm16_ZE, ShiftedImm16;
+   // Zero extend our input Imm16, send through the shifter to get the 
+   // ShiftedImm16 mask
+   logic [63:0] Imm16_ZE, ShiftedImm16;   
    assign Imm16_ZE = {48'b0, Imm16};
-   
    shifter shiftImm (
       .result(ShiftedImm16),
       .value(Imm16_ZE),
@@ -103,17 +110,22 @@ module datapath (
       .distance
    );
  
+   // Gate logic for masking Db and replacing the appropriate section
    logic [63:0] cleared, movk_done;
    genvar i;
    generate
       for (i = 0; i < 64; i++) begin : movk_gates
-         // inverts each bit of clearBar to get our clear mask      
+         // invert each bit of clearBar to get our clear mask
          not #DELAY (clear[i], clearBar[i]);
+         // set the desired section of Db to 0
          and #DELAY (cleared[i], Db[i], clear[i]);
+         // replace the 0 section with the ShiftedImm 16
          or  #DELAY (movk_done[i], cleared[i], ShiftedImm16[i]); 
       end
    endgenerate
 
+   // Selects between output from previous Db value and the result from 
+   // the MOVK op. Output goes into the Movz Mux
    logic [63:0] Db_Movz;
    selectData intoMovzMux (
       .out(Db_Movz),
@@ -122,31 +134,14 @@ module datapath (
       .sel(ChooseMovk)
    );
    
+   // Selects between output from previous Db value and result from MOVZ op.
+   // Output goes into the ALU
    selectData intoALU (
       .out(Db_ALU),
       .A(Db_Movz),
       .B(ShiftedImm16),
       .sel(ChooseMovz)
    );
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
    
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
@@ -174,7 +169,7 @@ module datapath (
       // 4'b1000 = 64bits transferred
       // 4'd0001 =  8bits transferred
    logic [3:0] xfer_size;
-   assign xfer_size[2:1] = 2'b0; // set middle two bits to 0
+   assign xfer_size[2:1] = 2'b0; // set middle two bits of xfer_size to 0
    assign xfer_size[0] = xferByte;
    not #DELAY (xfer_size[3], xferByte);
    

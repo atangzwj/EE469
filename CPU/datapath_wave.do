@@ -13,10 +13,10 @@ add wave -noupdate -radix decimal -childformat {{{/datapath_testbench/dut/Dw[63]
 add wave -noupdate -radix hexadecimal /datapath_testbench/Imm16
 add wave -noupdate /datapath_testbench/Shamt
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {187288 ps} 0}
+WaveRestoreCursors {{Cursor 1} {159608 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 230
-configure wave -valuecolwidth 390
+configure wave -valuecolwidth 115
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
 configure wave -snapdistance 10
@@ -29,4 +29,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {147696 ps} {197490 ps}
+WaveRestoreZoom {82852 ps} {166044 ps}
