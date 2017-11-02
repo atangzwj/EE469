@@ -80,7 +80,7 @@ module datapath_testbench ();
       // Step  9. MOVK X0, rand, LSL 48 -- Write in 16 bit random value into X0[63:48]
       // Step 10. MOVZ X0, rand, LSL 32 -- Write in rand value into X0[47, 32] and zero everything else
    
-   $display("%t ADDI X0, X31, #420", $time);   
+   $display("%t ADDI X0, X31, #CONST", $time);   
    ctrlBus <= {1'b0, 1'b0, 1'b0, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b0, 1'b0};
    ALUOp   <= 3'b010;
    Rn      <= 31;
