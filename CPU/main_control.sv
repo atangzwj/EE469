@@ -18,7 +18,19 @@ module main_control (
    input  logic  [3:0] flags
    );
 
-   // Intstruction opcodes
+
+   
+   
+   // For B.LT:
+      // Flag Register
+      // Hold the flags until the next clock cycle for B.LT to use  
+   logic [3:0] regFlags; 
+   D_FF negFlag      (.q(regFlags[3]), .d(flags[3]), .reset, .clk);
+   D_FF zeroFlag     (.q(regFlags[2]), .d(flags[2]), .reset, .clk);
+   D_FF overflowFlag (.q(regFlags[1]), .d(flags[1]), .reset, .clk);
+   D_FF cOutFlag     (.q(regFlags[0]), .d(flags[0]), .reset, .clk);   
+   
+   // Instruction opcodes
    parameter
    B     = 11'b000_101x_xxxx,
    CBZ   = 11'b101_1010_0xxx,
@@ -59,7 +71,7 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'bx;
-                      BrTaken    = flags[2];
+                      BrTaken    = flags[2]; // zero flag
                       UncondBr   = 1'b0;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
@@ -74,7 +86,7 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'bx;
                       xferByte   = 1'bx;
-                      BrTaken    = flags[3] ^ flags[1];
+                      BrTaken    = regFlags[3] ^ regFlags[1];
                       UncondBr   = 1'b0;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'bx;
