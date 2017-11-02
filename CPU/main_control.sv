@@ -235,6 +235,7 @@ module main_control (
 endmodule
 
 module main_control_testbench ();
+   logic        clk
    logic        Reg2Loc;
    logic        ALUSrc;
    logic        MemToReg;
