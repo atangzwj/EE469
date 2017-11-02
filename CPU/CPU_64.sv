@@ -12,8 +12,8 @@ module CPU_64 (clk, reset);
    
    logic [18:0] condAddr19;
    logic [25:0] brAddr26;
-   assign brAddr26   = instruction[25:0];
    assign condAddr19 = instruction[23:5];
+   assign brAddr26   = instruction[25:0];
 
    logic [4:0] Rd, Rm, Rn;
    assign Rd = instruction[4:0];
@@ -43,8 +43,6 @@ module CPU_64 (clk, reset);
 
    // Sign extend condAddr19 and brAddr26
    logic [63:0] condAddr19_SE, brAddr26_SE;
-   assign condAddr19    = instruction[23:5];
-   assign brAddr26      = instruction[25:0];
    assign condAddr19_SE = {{45{condAddr19[18]}}, condAddr19};
    assign brAddr26_SE   = {{38{brAddr26[25]}}, brAddr26};
 
