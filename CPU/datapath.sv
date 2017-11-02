@@ -146,23 +146,17 @@ module datapath (
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
    logic [63:0] ALU_out;
-   logic  [3:0] ALU_flags;
+
    alu op (
       .result(ALU_out),
-      .negative(ALU_flags[3]),
-      .zero(ALU_flags[2]), // output to be used for cond branch in CPU_64
-      .overflow(ALU_flags[1]),
-      .carry_out(ALU_flags[0]),
+      .negative(flags[3]),
+      .zero(flags[2]), // output to be used for cond branch in CPU_64
+      .overflow(flags[1]),
+      .carry_out(flags[0]),
       .A(Da),
       .B(Db_ALU),
       .cntrl(ALUOp)
    );
-   
-   // Flag Register
-   D_FF negFlag      (.q(flags[3]), .d(ALU_flags[3]), .reset, .clk);
-   D_FF zeroFlag     (.q(flags[2]), .d(ALU_flags[2]), .reset, .clk);
-   D_FF overflowFlag (.q(flags[1]), .d(ALU_flags[1]), .reset, .clk);
-   D_FF cOutFlag     (.q(flags[0]), .d(ALU_flags[0]), .reset, .clk);
 
    // Select if we are loading/storing 1 byte or 8 bytes (LDURB vs LDUR)
       // xfer_size:

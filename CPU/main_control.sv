@@ -51,18 +51,18 @@ module main_control (
                       ALUOp      = 3'bxxx;
                    end
          CBZ:      begin
-                      Reg2Loc    = 1'bx;
+                      Reg2Loc    = 1'b0;
                       ALUSrc     = 1'b0;
                       MemToReg   = 1'bx;
                       RegWrite   = 1'b0;
                       MemWrite   = 1'b0;
                       MemRead    = 1'bx;
-                      ChooseImm  = 1'bx;
+                      ChooseImm  = 1'b0;
                       xferByte   = 1'bx;
                       BrTaken    = flags[2];
                       UncondBr   = 1'b0;
-                      ChooseMovk = 1'bx;
-                      ChooseMovz = 1'bx;
+                      ChooseMovk = 1'b0;
+                      ChooseMovz = 1'b0;
                       ALUOp      = 3'b000;
                    end
          B_LT:     begin
