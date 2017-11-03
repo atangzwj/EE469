@@ -148,15 +148,15 @@ module CPU_64 (clk, reset);
       .ALUOp
    );
    
-   // Selects between the old flags in the register and 
+   // Selects between the preexisting flags in the register and 
    // new flags from the most recent ALU execution
-   // Output gets written into the flag register
+   // Output gets written (or rewritten) into the flag register
    logic [3:0] writeToFR;
    selectData #(.WIDTH(4)) toFlagReg (
       .out(writeToFR),
       .A(regFlags),
       .B(flags),
-      .sel(storeFlags)
+      .sel(storeFlags) // 1 if instruction is ADDS or SUBS
    );   
 
    // Hold the flags until the next clock cycle for B.LT to use
