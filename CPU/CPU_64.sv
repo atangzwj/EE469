@@ -148,10 +148,6 @@ module CPU_64 (clk, reset);
       .ALUOp
    );
 
-   // Delay storeFlags by 1 clock cycle
-   logic storeFlags_d;
-   D_FF storeFlagsDelay (.q(storeFlags_d), .d(storeFlags), .reset, .clk);
-
    // Selects between the preexisting flags in the register and 
    // new flags from the most recent ALU execution
    // Output gets written (or rewritten) into the flag register
@@ -160,7 +156,7 @@ module CPU_64 (clk, reset);
       .out(writeToFR),
       .A(regFlags),
       .B(flags),
-      .sel(storeFlags_d) // 1 if instruction is ADDS or SUBS
+      .sel(storeFlags) // 1 if instruction is ADDS or SUBS
    );   
 
    // Hold the flags until the next clock cycle for B.LT to use
