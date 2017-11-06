@@ -31,8 +31,8 @@ module main_control (
    LDURB = 11'b001_1100_0010,
    STUR  = 11'b111_1100_0000,
    STURB = 11'b001_1100_0000,
-   MOVK  = 11'b001_1110_0101,
-   MOVZ  = 11'b001_1010_0101;
+   MOVK  = 11'b111_1001_01xx,
+   MOVZ  = 11'b110_1001_01xx,
 
    always_comb begin
       casex (opcode)
