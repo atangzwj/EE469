@@ -160,7 +160,7 @@ module CPU_64 (clk, reset);
       .out(writeToFR),
       .A(regFlags),
       .B(flags),
-      .sel(storeFlags) // 1 if instruction is ADDS or SUBS
+      .sel(storeFlags_d) // 1 if instruction is ADDS or SUBS
    );   
 
    // Hold the flags until the next clock cycle for B.LT to use
