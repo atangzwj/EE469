@@ -17,7 +17,7 @@ module CPU_64_testbench ();
       reset <= 1'b1; @(posedge clk);
       reset <= 1'b0;
       
-      for (i = 0; i < 24; i++) begin
+      for (i = 0; i < 920; i++) begin
          @(posedge clk);
       end
       $stop;
