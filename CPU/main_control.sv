@@ -26,13 +26,13 @@ module main_control (
    B_LT  = 11'b010_1010_0xxx,
    ADDS  = 11'b101_0101_1000,
    SUBS  = 11'b111_0101_1000,
-   ADDI  = 11'b100_1000_1000,
+   ADDI  = 11'b100_1000_100x,
    LDUR  = 11'b111_1100_0010,
    LDURB = 11'b001_1100_0010,
    STUR  = 11'b111_1100_0000,
    STURB = 11'b001_1100_0000,
-   MOVK  = 11'b001_1110_0101,
-   MOVZ  = 11'b001_1010_0101;
+   MOVK  = 11'b111_1001_01xx,
+   MOVZ  = 11'b110_1001_01xx;
 
    always_comb begin
       casex (opcode)
