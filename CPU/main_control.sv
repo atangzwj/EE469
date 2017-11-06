@@ -188,7 +188,7 @@ module main_control (
                       MemWrite   = 1'b1;
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b0;
-                      xferByte   = 1'b0;
+                      xferByte   = 1'b1;
                       BrTaken    = 1'b0;
                       UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
