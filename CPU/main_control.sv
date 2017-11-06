@@ -197,7 +197,7 @@ module main_control (
                       ALUOp      = 3'b010;
                    end
          MOVK:     begin
-                      Reg2Loc    = 1'bx;
+                      Reg2Loc    = 1'b0;
                       ALUSrc     = 1'bx;
                       MemToReg   = 1'b0;
                       RegWrite   = 1'b1;
