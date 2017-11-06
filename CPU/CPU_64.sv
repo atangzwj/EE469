@@ -147,7 +147,11 @@ module CPU_64 (clk, reset);
       .ChooseMovz,
       .ALUOp
    );
-   
+
+   // Delay storeFlags by 1 clock cycle
+   logic storeFlags_d;
+   D_FF storeFlagsDelay (.q(storeFlags_d), .d(storeFlags), .reset, .clk);
+
    // Selects between the preexisting flags in the register and 
    // new flags from the most recent ALU execution
    // Output gets written (or rewritten) into the flag register
