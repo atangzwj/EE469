@@ -35,10 +35,14 @@ module datapath (
       .sel(Reg2Loc)
    );  
 
+   // Invert clk to regfile
+   logic clk_regfile;
+   not (clk_regfile, clk);
+
    // Regfile for holding and writing the values into the 32 Registers
    logic [63:0] Dw, Da, Db;
    regfile rf (
-      .clk, // to be inverted in Lab4
+      .clk(clk_regfile),
       .ReadData1(Da),
       .ReadData2(Db),
       .WriteData(Dw),
