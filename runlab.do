@@ -5,7 +5,7 @@ vlib work
 #     All Verilog files that are part of this design should have
 #     their own "vlog" line below.
 
-vlog "./registers/reg64.sv"
+vlog "./registers/register.sv"
 vlog "./registers/regfile.sv"
 vlog "./D_FF.sv"
 
