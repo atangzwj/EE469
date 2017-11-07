@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module pipelineRegs (
    input  logic        clk, reset,
    //output logic        Reg2Loc,
@@ -81,6 +83,52 @@ module pipelineRegs (
    );
  
    // Note: Could be more direct and say .dOut(RegWrite) but maybe have to extend it later?
-   assign RegWrite = stage4; 
+   assign RegWrite = stage4;
+endmodule
+
+module pipelineRegs_testbench ();
+   logic clk, reset;
    
+   pipelineRegs dut (
+      .clk, .reset,
+      .ALUSrc,
+      .MemToReg,
+      .RegWrite,
+      .MemWrite,
+      .MemRead,
+      .ChooseImm,
+      .xferByte,
+      .ChooseMovk,
+      .ChooseMovz,
+      .ALUOp,
+   
+      .ALUSrc_0,
+      .MemToReg_0,
+      .RegWrite_0,
+      .MemWrite_0,
+      .MemRead_0,
+      .ChooseImm_0,
+      .xferByte_0,
+      .ChooseMovk_0,
+      .ChooseMovz_0,
+      .ALUOp_0
+   );
+
+   parameter CLK_PERIOD = 10;
+   initial begin
+      clk <= 0;
+      forever #(CLK_PERIOD / 2) clk <= ~clk;
+   end
+
+   integer i;
+   initial begin
+      reset <= 1'b0; @(posedge clk);
+      reset <= 1'b1; @(posedge clk);
+      reset <= 1'b0;
+      
+      for (i = 0; i < 10; i++) begin
+         @(posedge clk);
+      end
+      $stop;
+   end
 endmodule
