@@ -105,7 +105,7 @@ module CPU_64 (clk, reset);
       .clk, .reset,
       .dOut(instruction),
       .WriteData(instruct_wait),
-      .wrEnable(1'b1),
+      .wrEnable(1'b1)
    );   
 
    // Control logic
