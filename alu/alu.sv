@@ -63,9 +63,6 @@ module alu (
    assign carry_out = c_Store[64];
    // xors the top carry_in and the carry_out
    xor #DELAY (overflow, c_Store[64], c_Store[63]);
-   
-   
-   
 endmodule
 
 module alu_testbench ();

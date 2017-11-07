@@ -33,7 +33,7 @@ module CPU_64 (clk, reset);
    assign Imm16 = instruction[20:5];
 
    // Program Counter
-   reg64 pc (
+   register pc (
       .clk,
       .reset,
       .dOut(instrAddr),

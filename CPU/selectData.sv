@@ -5,7 +5,7 @@ module selectData #(parameter WIDTH = 64) (
    output logic [WIDTH - 1 : 0] out, 
    input  logic [WIDTH - 1 : 0] A,
    input  logic [WIDTH - 1 : 0] B,
-   input  logic                   sel
+   input  logic                 sel
    );
 
    genvar i;

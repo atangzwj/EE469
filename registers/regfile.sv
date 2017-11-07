@@ -4,9 +4,9 @@ module regfile (
    output logic [63:0] ReadData1,
    output logic [63:0] ReadData2,
    input  logic [63:0] WriteData,
-   input  logic [4:0]  ReadRegister1,
-   input  logic [4:0]  ReadRegister2,
-   input  logic [4:0]  WriteRegister,
+   input  logic  [4:0] ReadRegister1,
+   input  logic  [4:0] ReadRegister2,
+   input  logic  [4:0] WriteRegister,
    input  logic        RegWrite,
    input  logic        clk
    );
@@ -18,8 +18,8 @@ module regfile (
    assign gprConcat[31][63:0] = 64'b0;
    genvar i;
    generate
-      for (i = 0; i < 31; i++) begin : reg64s
-         reg64 gpr (
+      for (i = 0; i < 31; i++) begin : registers
+         register gpr (
             .clk,
             .dOut(gprConcat[i][63:0]),
             .WriteData,

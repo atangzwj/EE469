@@ -1,17 +1,18 @@
 `timescale 1ns/10ps
 
-module reg64 (
-   input  logic        clk, reset,
-   output logic [63:0] dOut,
-   input  logic [63:0] WriteData,
-   input  logic        wrEnable
+module register #(parameter WIDTH = 64) (
+   input  logic                 clk, reset,
+   output logic [WIDTH - 1 : 0] dOut,
+   input  logic [WIDTH - 1 : 0] WriteData,
+   input  logic                 wrEnable
    );
 
-   logic [63:0] dIn;
+   logic [WIDTH - 1 : 0] dIn;
 
+   // Generate muxes that select between new data and old values
    genvar i;
    generate
-      for (i = 0; i < 64; i++) begin : regMuxes
+      for (i = 0; i < WIDTH; i++) begin : regMuxes
          mux2_1 mux (
             .out(dIn[i]),
             .i0(dOut[i]),
@@ -21,20 +22,21 @@ module reg64 (
       end
    endgenerate
 
+   // Generate D_FFs to hold data
    generate
-      for (i = 0; i < 64; i++) begin : regFFs
+      for (i = 0; i < WIDTH; i++) begin : regFFs
          D_FF dff (.q(dOut[i]), .d(dIn[i]), .reset, .clk);
       end
    endgenerate
 endmodule
 
-module reg64_testbench ();
+module register_testbench ();
    logic        clk, reset;
    logic [63:0] dOut;
    logic [63:0] WriteData;
    logic        wrEnable;
 
-   reg64 dut (.clk, .reset, .dOut, .WriteData, .wrEnable);
+   register dut (.clk, .reset, .dOut, .WriteData, .wrEnable);
 
    parameter CLK_PERIOD = 10;
    initial begin
