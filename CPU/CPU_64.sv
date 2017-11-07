@@ -95,8 +95,18 @@ module CPU_64 (clk, reset);
       .sel(BrTaken)
    );
 
+   
+   logic [31:0] instruct_wait;
    // Instruction Memory
-   instructmem iMem (.address(instrAddr), .instruction, .clk);
+   instructmem iMem (.address(instrAddr), .instruction(instruct_wait), .clk);
+   
+   // Instruction Fetch Register
+   register #(.WIDTH(32)) instFetch (
+      .clk, .reset,
+      .dOut(instruction),
+      .WriteData(instruct_wait),
+      .wrEnable(1'b1),
+   );   
 
    // Control logic
    logic       Reg2Loc, ALUSrc, MemToReg, RegWrite, MemWrite, MemRead,
