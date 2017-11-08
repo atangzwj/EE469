@@ -2,7 +2,6 @@
 
 module pipelineRegs (
    input  logic        clk, reset,
-   //output logic        Reg2Loc,
    output logic        ALUSrc,
    output logic        MemToReg,
    output logic        RegWrite,
@@ -12,9 +11,8 @@ module pipelineRegs (
    output logic        xferByte,
    output logic        ChooseMovk,
    output logic        ChooseMovz,
-   output logic  [2:0] ALUOp
+   output logic  [2:0] ALUOp,
    
-   //input  logic        Reg2Loc_0,
    input  logic        ALUSrc_0,
    input  logic        MemToReg_0,
    input  logic        RegWrite_0,
@@ -30,8 +28,7 @@ module pipelineRegs (
    // Create intitial control bus to be passed into the IDEX register
    logic [11:0] stage1;
    assign stage1 = {
-      //Reg2Loc_0,    //12
-      ALUSrc_0      //11
+      ALUSrc_0,      //11
       MemToReg_0,   //10
       RegWrite_0,   // 9
       MemWrite_0,   // 8
@@ -49,14 +46,14 @@ module pipelineRegs (
       .clk, .reset,
       .dOut(stage2),
       .WriteData(stage1),
-      .wrEnable(1'b1),
+      .wrEnable(1'b1)
    );
       
    assign ALUSrc     = stage2[11];
    assign ChooseImm  = stage2[6];
    assign ChooseMovk = stage2[4];
    assign ChooseMovz = stage2[3];
-   assign ALUOP      = stage2[2:0];
+   assign ALUOp      = stage2[2:0];
    
    // Execute/Memory Register
    logic [4:0] stage3, stage2b;
@@ -65,21 +62,26 @@ module pipelineRegs (
       .clk, .reset,
       .dOut(stage3),
       .WriteData(stage2b),
-      .wrEnable(1'b1),
+      .wrEnable(1'b1)
    );
    
-   assign MemToReg = stage3[10];   
-   assign MemWrite = stage3[8];
-   assign MemRead  = stage3[7];
-   assign xferByte = stage3[5];
+   // 10->4
+   //  9->3
+   //  8->2
+   //  7->1
+   //  5->0
+   assign MemToReg = stage3[4];   
+   assign MemWrite = stage3[2];
+   assign MemRead  = stage3[1];
+   assign xferByte = stage3[0];
    
    // Memory/WriteBack Register
    logic stage4;
    register #(.WIDTH(1)) MEMWB (
       .clk, .reset,
       .dOut(stage4),
-      .WriteData(stage3[9]),
-      .wrEnable(1'b1),
+      .WriteData(stage3[3]),
+      .wrEnable(1'b1)
    );
  
    // Note: Could be more direct and say .dOut(RegWrite) but maybe have to extend it later?
@@ -88,6 +90,16 @@ endmodule
 
 module pipelineRegs_testbench ();
    logic clk, reset;
+   logic ALUSrc,      ALUSrc_0,
+         MemToReg,    MemToReg_0,
+         RegWrite,    RegWrite_0,
+         MemWrite,    MemWrite_0,
+         MemRead,     MemRead_0,
+         ChooseImm,   ChooseImm_0,
+         xferByte,    xferByte_0,
+         ChooseMovk,  ChooseMovk_0,
+         ChooseMovz,  ChooseMovz_0;
+   logic [2:0] ALUOp, ALUOp_0;  
    
    pipelineRegs dut (
       .clk, .reset,
@@ -114,17 +126,32 @@ module pipelineRegs_testbench ();
       .ALUOp_0
    );
 
+   logic  [9:0] ctrlBus;
+   
    parameter CLK_PERIOD = 10;
    initial begin
       clk <= 0;
       forever #(CLK_PERIOD / 2) clk <= ~clk;
    end
 
+   assign ChooseMovz_0 = ctrlBus[9];
+   assign ChooseMovk_0 = ctrlBus[8];
+   assign xferByte_0   = ctrlBus[7];              
+   assign ChooseImm_0  = ctrlBus[6];
+   assign Reg2Loc_0    = ctrlBus[5];
+   assign ALUSrc_0     = ctrlBus[4];
+   assign MemToReg_0   = ctrlBus[3];
+   assign RegWrite_0   = ctrlBus[2];
+   assign MemWrite_0   = ctrlBus[1];
+   assign MemRead_0    = ctrlBus[0];
+   
    integer i;
    initial begin
       reset <= 1'b0; @(posedge clk);
       reset <= 1'b1; @(posedge clk);
       reset <= 1'b0;
+      ctrlBus = 10'b1111111111;
+      ALUOp_0 = 3'b001;
       
       for (i = 0; i < 10; i++) begin
          @(posedge clk);
