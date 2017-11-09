@@ -1,5 +1,40 @@
 `timescale 1ns/10ps
 
+/*
+   MAP:
+      ALUSrc     MemToReg   RegWrite
+      MemWrite   MemRead    ChooseImm
+      xferByte   ChooseMovk ChooseMovz ALUOp
+                       |
+                       |
+                       v
+      |-----------------------------------|
+       Instruction Decode/Execute Register
+      |-----------------------------------|
+       ALUSrc ChooseImm ChooseMovk ChooseMovz ALUOp --> RETURNED
+       
+      
+      MemToReg   RegWrite   MemWrite
+      MemRead    xferByte
+                       |
+                       |
+                       v
+      |-----------------------------------|
+             Execute/Memory Register
+      |-----------------------------------|
+      MemToReg MemWrite MemRead xferByte --> RETURNED
+      
+
+                    RegWrite
+                       |
+                       |
+                       v
+      |-----------------------------------|
+            Memory/WriteBack Register
+      |-----------------------------------|      
+                    RegWrite -> RETURNED
+*/
+
 module pipelineRegs (
    input  logic        clk, reset,
    output logic        ALUSrc,
@@ -24,11 +59,11 @@ module pipelineRegs (
    input  logic        ChooseMovz_0,
    input  logic  [2:0] ALUOp_0
    );
-
+   
    // Create intitial control bus to be passed into the IDEX register
    logic [11:0] stage1;
    assign stage1 = {
-      ALUSrc_0,      //11
+      ALUSrc_0,     //11
       MemToReg_0,   //10
       RegWrite_0,   // 9
       MemWrite_0,   // 8
