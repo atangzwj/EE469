@@ -246,7 +246,7 @@ module pipelineRegs_testbench ();
    assign Db_0      = 64'hFFFF_FFFF_FFFF_FFFF;
    assign ALU_out_0 = 64'hFFFF_FFFF_FFFF_FFFF;
    assign Dw_0      = 64'hFFFF_FFFF_FFFF_FFFF;
-   assign Rd        =  5'b11111;
+   assign Rd_0      =  5'b11111;
 
    integer i;
    initial begin
