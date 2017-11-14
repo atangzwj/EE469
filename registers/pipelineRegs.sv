@@ -44,62 +44,46 @@
 
 module pipelineRegs (
    input  logic        clk, reset,
-   output logic        ALUSrc,
    output logic        MemToReg,
    output logic        RegWrite,
    output logic        MemWrite,
    output logic        MemRead,
-   output logic        ChooseImm,
    output logic        xferByte,
-   output logic        ChooseMovk,
-   output logic        ChooseMovz,
    output logic  [2:0] ALUOp,
    
-   input  logic        ALUSrc_0,
    input  logic        MemToReg_0,
    input  logic        RegWrite_0,
    input  logic        MemWrite_0,
    input  logic        MemRead_0,
-   input  logic        ChooseImm_0,
    input  logic        xferByte_0,
-   input  logic        ChooseMovk_0,
-   input  logic        ChooseMovz_0,
    input  logic  [2:0] ALUOp_0
    );
    
    // Create initial control bus to be passed into the IDEX register
-   logic [11:0] stage1;
+   logic [7:0] stage1;
    assign stage1 = {
-      ALUSrc_0,     //11
-      MemToReg_0,   //10
-      RegWrite_0,   // 9
-      MemWrite_0,   // 8
-      MemRead_0,    // 7
-      ChooseImm_0,  // 6
-      xferByte_0,   // 5
-      ChooseMovk_0, // 4
-      ChooseMovz_0, // 3
+      MemToReg_0,   // 7 
+      RegWrite_0,   // 6
+      MemWrite_0,   // 5
+      MemRead_0,    // 4
+      xferByte_0,   // 3
       ALUOp_0       // 2-0            
    };
    
    // Instruction Decode/Execute Register
-   logic [11:0] stage2;
-   register #(.WIDTH(12)) IDEX (
+   logic [7:0] stage2;
+   register #(.WIDTH(8)) IDEX (
       .clk, .reset,
       .dOut(stage2),
       .WriteData(stage1),
       .wrEnable(1'b1)
    );
       
-   assign ALUSrc     = stage2[11];
-   assign ChooseImm  = stage2[6];
-   assign ChooseMovk = stage2[4];
-   assign ChooseMovz = stage2[3];
-   assign ALUOp      = stage2[2:0];
+   assign ALUOp = stage2[2:0];
    
    // Execute/Memory Register
    logic [4:0] stage3, stage2b;
-   assign stage2b = {stage2[10:7], stage2[5]};   
+   assign stage2b = stage2[7:3];;   
    register #(.WIDTH(5)) EXMEM (
       .clk, .reset,
       .dOut(stage3),
@@ -107,11 +91,6 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
    
-   // 10->4
-   //  9->3
-   //  8->2
-   //  7->1
-   //  5->0
    assign MemToReg = stage3[4];   
    assign MemWrite = stage3[2];
    assign MemRead  = stage3[1];
