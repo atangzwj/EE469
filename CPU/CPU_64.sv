@@ -111,34 +111,11 @@ module CPU_64 (clk, reset);
    // Control logic
    logic       Reg2Loc, ALUSrc, MemToReg, RegWrite, MemWrite, MemRead,
                ChooseImm, xferByte, ChooseMovk, ChooseMovz, storeFlags;
-   logic [2:0] ALUOp, ALUOp_0;
-   
-   logic       Reg2Loc_0, ALUSrc_0, MemToReg_0, RegWrite_0, MemWrite_0, MemRead_0,
-               ChooseImm_0, xferByte_0, ChooseMovk_0, ChooseMovz_0;
-   
+   logic [2:0] ALUOp;
+      
    logic [3:0] flags, regFlags;
    main_control control (
       .Reg2Loc,
-      .ALUSrc_0,
-      .MemToReg_0,
-      .RegWrite_0,
-      .MemWrite_0,
-      .MemRead_0,
-      .ChooseImm_0,
-      .xferByte_0,
-      .BrTaken,
-      .UncondBr,
-      .ChooseMovk_0,
-      .ChooseMovz_0,
-      .storeFlags,
-      .ALUOp_0,
-      .opcode,
-      .flags,
-      .regFlags
-   );
-
-   pipelineRegs plReg (
-      .clk, .reset,
       .ALUSrc,
       .MemToReg,
       .RegWrite,
@@ -146,20 +123,16 @@ module CPU_64 (clk, reset);
       .MemRead,
       .ChooseImm,
       .xferByte,
+      .BrTaken,
+      .UncondBr,
       .ChooseMovk,
       .ChooseMovz,
+      .storeFlags,
       .ALUOp,
-      .ALUSrc_0,
-      .MemToReg_0,
-      .RegWrite_0,
-      .MemWrite_0,
-      .MemRead_0,
-      .ChooseImm_0,
-      .xferByte_0,
-      .ChooseMovk_0,
-      .ChooseMovz_0,
-      .ALUOp_0
-   );   
+      .opcode,
+      .flags,
+      .regFlags
+   ); 
    
    // Datapath
    datapath dp (

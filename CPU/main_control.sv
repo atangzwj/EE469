@@ -2,19 +2,19 @@
 
 module main_control (
    output logic        Reg2Loc,
-   output logic        ALUSrc_0,
-   output logic        MemToReg_0,
-   output logic        RegWrite_0,
-   output logic        MemWrite_0,
-   output logic        MemRead_0,
-   output logic        ChooseImm_0,
-   output logic        xferByte_0,
+   output logic        ALUSrc,
+   output logic        MemToReg,
+   output logic        RegWrite,
+   output logic        MemWrite,
+   output logic        MemRead,
+   output logic        ChooseImm,
+   output logic        xferByte,
    output logic        BrTaken,
    output logic        UncondBr,
-   output logic        ChooseMovk_0,
-   output logic        ChooseMovz_0,
+   output logic        ChooseMovk,
+   output logic        ChooseMovz,
    output logic        storeFlags,
-   output logic  [2:0] ALUOp_0,
+   output logic  [2:0] ALUOp,
    input  logic [10:0] opcode,
    input  logic  [3:0] flags, regFlags
    );
@@ -38,211 +38,211 @@ module main_control (
       casex (opcode)
          B:        begin
                       Reg2Loc      = 1'bx;
-                      ALUSrc_0     = 1'bx;
-                      MemToReg_0   = 1'bx;
-                      RegWrite_0   = 1'b0;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'bx;
-                      xferByte_0   = 1'bx;
+                      ALUSrc     = 1'bx;
+                      MemToReg   = 1'bx;
+                      RegWrite   = 1'b0;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'bx;
+                      xferByte   = 1'bx;
                       BrTaken      = 1'b1;
                       UncondBr     = 1'b1;
-                      ChooseMovk_0 = 1'bx;
-                      ChooseMovz_0 = 1'bx;
+                      ChooseMovk = 1'bx;
+                      ChooseMovz = 1'bx;
                       storeFlags   = 1'b0;
-                      ALUOp_0      = 3'bxxx;
+                      ALUOp      = 3'bxxx;
                    end
          CBZ:      begin
                       Reg2Loc      = 1'b0;
-                      ALUSrc_0     = 1'b0;
-                      MemToReg_0   = 1'bx;
-                      RegWrite_0   = 1'b0;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'b0;
-                      xferByte_0   = 1'bx;
+                      ALUSrc     = 1'b0;
+                      MemToReg   = 1'bx;
+                      RegWrite   = 1'b0;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'b0;
+                      xferByte   = 1'bx;
                       BrTaken      = flags[2]; // zero flag from same clk cycle
                       UncondBr     = 1'b0;
-                      ChooseMovk_0 = 1'b0;
-                      ChooseMovz_0 = 1'b0;
+                      ChooseMovk = 1'b0;
+                      ChooseMovz = 1'b0;
                       storeFlags   = 1'b0;                    
-                      ALUOp_0      = 3'b000;
+                      ALUOp      = 3'b000;
                    end
          B_LT:     begin
                       Reg2Loc      = 1'bx;
-                      ALUSrc_0     = 1'b0;
-                      MemToReg_0   = 1'bx;
-                      RegWrite_0   = 1'b0;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'bx;
-                      xferByte_0   = 1'bx;
+                      ALUSrc     = 1'b0;
+                      MemToReg   = 1'bx;
+                      RegWrite   = 1'b0;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'bx;
+                      xferByte   = 1'bx;
                       BrTaken      = regFlags[3] ^ regFlags[1]; // from flag reg
                       UncondBr     = 1'b0;
-                      ChooseMovk_0 = 1'bx;
-                      ChooseMovz_0 = 1'bx;
+                      ChooseMovk = 1'bx;
+                      ChooseMovz = 1'bx;
                       storeFlags   = 1'b0;                      
-                      ALUOp_0      = 3'bxxx;
+                      ALUOp      = 3'bxxx;
                    end
          ADDS:     begin
                       Reg2Loc      = 1'b1;
-                      ALUSrc_0     = 1'b0;
-                      MemToReg_0   = 1'b0;
-                      RegWrite_0   = 1'b1;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'b0;
-                      xferByte_0   = 1'bx;
+                      ALUSrc     = 1'b0;
+                      MemToReg   = 1'b0;
+                      RegWrite   = 1'b1;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'b0;
+                      xferByte   = 1'bx;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'b0;
-                      ChooseMovz_0 = 1'b0;
+                      ChooseMovk = 1'b0;
+                      ChooseMovz = 1'b0;
                       storeFlags   = 1'b1;
-                      ALUOp_0      = 3'b010;
+                      ALUOp      = 3'b010;
                    end
          SUBS:     begin
                       Reg2Loc      = 1'b1;
-                      ALUSrc_0     = 1'b0;
-                      MemToReg_0   = 1'b0;
-                      RegWrite_0   = 1'b1;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'b0;
-                      xferByte_0   = 1'bx;
+                      ALUSrc     = 1'b0;
+                      MemToReg   = 1'b0;
+                      RegWrite   = 1'b1;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'b0;
+                      xferByte   = 1'bx;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'b0;
-                      ChooseMovz_0 = 1'b0;
+                      ChooseMovk = 1'b0;
+                      ChooseMovz = 1'b0;
                       storeFlags   = 1'b1;
-                      ALUOp_0      = 3'b011;
+                      ALUOp      = 3'b011;
                    end
          ADDI:     begin
                       Reg2Loc      = 1'bx;
-                      ALUSrc_0     = 1'bx;
-                      MemToReg_0   = 1'b0;
-                      RegWrite_0   = 1'b1;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'b1;
-                      xferByte_0   = 1'bx;
+                      ALUSrc     = 1'bx;
+                      MemToReg   = 1'b0;
+                      RegWrite   = 1'b1;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'b1;
+                      xferByte   = 1'bx;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'b0;
-                      ChooseMovz_0 = 1'b0;
+                      ChooseMovk = 1'b0;
+                      ChooseMovz = 1'b0;
                       storeFlags   = 1'b0;
-                      ALUOp_0      = 3'b010;
+                      ALUOp      = 3'b010;
                    end
          LDUR:     begin
                       Reg2Loc      = 1'bx;
-                      ALUSrc_0     = 1'b1;
-                      MemToReg_0   = 1'b1;
-                      RegWrite_0   = 1'b1;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'b1;
-                      ChooseImm_0  = 1'b0;
-                      xferByte_0   = 1'b0;
+                      ALUSrc     = 1'b1;
+                      MemToReg   = 1'b1;
+                      RegWrite   = 1'b1;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'b1;
+                      ChooseImm  = 1'b0;
+                      xferByte   = 1'b0;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'b0;
-                      ChooseMovz_0 = 1'b0;
+                      ChooseMovk = 1'b0;
+                      ChooseMovz = 1'b0;
                       storeFlags   = 1'b0;
-                      ALUOp_0      = 3'b010;
+                      ALUOp      = 3'b010;
                    end
          LDURB:    begin
                       Reg2Loc      = 1'bx;
-                      ALUSrc_0     = 1'b1;
-                      MemToReg_0   = 1'b1;
-                      RegWrite_0   = 1'b1;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'b1;
-                      ChooseImm_0  = 1'b0;
-                      xferByte_0   = 1'b1;
+                      ALUSrc     = 1'b1;
+                      MemToReg   = 1'b1;
+                      RegWrite   = 1'b1;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'b1;
+                      ChooseImm  = 1'b0;
+                      xferByte   = 1'b1;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'b0;
-                      ChooseMovz_0 = 1'b0;
+                      ChooseMovk = 1'b0;
+                      ChooseMovz = 1'b0;
                       storeFlags   = 1'b0;
-                      ALUOp_0      = 3'b010;
+                      ALUOp      = 3'b010;
                    end
          STUR:     begin
                       Reg2Loc      = 1'b0;
-                      ALUSrc_0     = 1'b1;
-                      MemToReg_0   = 1'bx;
-                      RegWrite_0   = 1'b0;
-                      MemWrite_0   = 1'b1;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'b0;
-                      xferByte_0   = 1'b0;
+                      ALUSrc     = 1'b1;
+                      MemToReg   = 1'bx;
+                      RegWrite   = 1'b0;
+                      MemWrite   = 1'b1;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'b0;
+                      xferByte   = 1'b0;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'b0;
-                      ChooseMovz_0 = 1'b0;
+                      ChooseMovk = 1'b0;
+                      ChooseMovz = 1'b0;
                       storeFlags   = 1'b0;
-                      ALUOp_0      = 3'b010;
+                      ALUOp      = 3'b010;
                    end
          STURB:    begin
                       Reg2Loc      = 1'b0;
-                      ALUSrc_0     = 1'b1;
-                      MemToReg_0   = 1'bx;
-                      RegWrite_0   = 1'b0;
-                      MemWrite_0   = 1'b1;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'b0;
-                      xferByte_0   = 1'b1;
+                      ALUSrc     = 1'b1;
+                      MemToReg   = 1'bx;
+                      RegWrite   = 1'b0;
+                      MemWrite   = 1'b1;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'b0;
+                      xferByte   = 1'b1;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'b0;
-                      ChooseMovz_0 = 1'b0;
+                      ChooseMovk = 1'b0;
+                      ChooseMovz = 1'b0;
                       storeFlags   = 1'b0;
-                      ALUOp_0      = 3'b010;
+                      ALUOp      = 3'b010;
                    end
          MOVK:     begin
                       Reg2Loc      = 1'b0;
-                      ALUSrc_0     = 1'bx;
-                      MemToReg_0   = 1'b0;
-                      RegWrite_0   = 1'b1;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'bx;
-                      xferByte_0   = 1'bx;
+                      ALUSrc     = 1'bx;
+                      MemToReg   = 1'b0;
+                      RegWrite   = 1'b1;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'bx;
+                      xferByte   = 1'bx;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'b1;
-                      ChooseMovz_0 = 1'b0;
+                      ChooseMovk = 1'b1;
+                      ChooseMovz = 1'b0;
                       storeFlags   = 1'b0;
-                      ALUOp_0      = 3'b000;
+                      ALUOp      = 3'b000;
                    end
          MOVZ:     begin
                       Reg2Loc      = 1'bx;
-                      ALUSrc_0     = 1'bx;
-                      MemToReg_0   = 1'b0;
-                      RegWrite_0   = 1'b1;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'bx;
-                      xferByte_0   = 1'bx;
+                      ALUSrc     = 1'bx;
+                      MemToReg   = 1'b0;
+                      RegWrite   = 1'b1;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'bx;
+                      xferByte   = 1'bx;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'bx;
-                      ChooseMovz_0 = 1'b1;
+                      ChooseMovk = 1'bx;
+                      ChooseMovz = 1'b1;
                       storeFlags   = 1'b0;
-                      ALUOp_0      = 3'b000;
+                      ALUOp      = 3'b000;
                    end
          default:  begin
                       Reg2Loc      = 1'bx;
-                      ALUSrc_0     = 1'bx;
-                      MemToReg_0   = 1'bx;
-                      RegWrite_0   = 1'b0;
-                      MemWrite_0   = 1'b0;
-                      MemRead_0    = 1'bx;
-                      ChooseImm_0  = 1'bx;
-                      xferByte_0   = 1'bx;
+                      ALUSrc     = 1'bx;
+                      MemToReg   = 1'bx;
+                      RegWrite   = 1'b0;
+                      MemWrite   = 1'b0;
+                      MemRead    = 1'bx;
+                      ChooseImm  = 1'bx;
+                      xferByte   = 1'bx;
                       BrTaken      = 1'b0;
                       UncondBr     = 1'bx;
-                      ChooseMovk_0 = 1'bx;
-                      ChooseMovz_0 = 1'bx;
+                      ChooseMovk = 1'bx;
+                      ChooseMovz = 1'bx;
                       storeFlags   = 1'b0;
-                      ALUOp_0      = 3'b000;
+                      ALUOp      = 3'b000;
                    end
       endcase
             
@@ -252,37 +252,37 @@ endmodule
 module main_control_testbench ();
    logic        clk;
    logic        Reg2Loc;
-   logic        ALUSrc_0;
-   logic        MemToReg_0;
-   logic        RegWrite_0;
-   logic        MemWrite_0;
-   logic        MemRead_0;
-   logic        ChooseImm_0;
-   logic        xferByte_0;
+   logic        ALUSrc;
+   logic        MemToReg;
+   logic        RegWrite;
+   logic        MemWrite;
+   logic        MemRead;
+   logic        ChooseImm;
+   logic        xferByte;
    logic        BrTaken;
    logic        UncondBr;
-   logic        ChooseMovk_0;
-   logic        ChooseMovz_0;
+   logic        ChooseMovk;
+   logic        ChooseMovz;
    logic        storeFlags;
-   logic  [2:0] ALUOp_0;
+   logic  [2:0] ALUOp;
    logic [10:0] opcode;
    logic  [3:0] flags, regFlags; 
 
    main_control dut (
       .Reg2Loc,
-      .ALUSrc_0,
-      .MemToReg_0,
-      .RegWrite_0,
-      .MemWrite_0,
-      .MemRead_0,
-      .ChooseImm_0,
-      .xferByte_0,
+      .ALUSrc,
+      .MemToReg,
+      .RegWrite,
+      .MemWrite,
+      .MemRead,
+      .ChooseImm,
+      .xferByte,
       .BrTaken,
       .UncondBr,
-      .ChooseMovk_0,
-      .ChooseMovz_0,
+      .ChooseMovk,
+      .ChooseMovz,
       .storeFlags,
-      .ALUOp_0,
+      .ALUOp,
       .opcode,
       .flags,
       .regFlags
