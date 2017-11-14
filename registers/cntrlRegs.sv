@@ -60,7 +60,7 @@ module cntrlRegs (
    input  logic  [2:0] ALUOp_0
    );
    
-   // Create intitial control bus to be passed into the IDEX register
+   // Create initial control bus to be passed into the IDEX register
    logic [11:0] stage1;
    assign stage1 = {
       ALUSrc_0,     //11
