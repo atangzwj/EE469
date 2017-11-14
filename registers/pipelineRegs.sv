@@ -2,29 +2,37 @@
 
 /*
    MAP:
-      ALUSrc     MemToReg   RegWrite
-      MemWrite   MemRead    ChooseImm
-      xferByte   ChooseMovk ChooseMovz ALUOp
+                  Output of Movz
+                  Da
+                  Db
+                  --------------
+                  ALUOp
+                  MemWrite
+                  Xfer_Byte
+                  Mem2Reg
+                  RegWrite
                        |
                        |
                        v
       |-----------------------------------|
        Instruction Decode/Execute Register
       |-----------------------------------|
-       ALUSrc ChooseImm ChooseMovk ChooseMovz ALUOp --> RETURNED
-       
       
-      MemToReg   RegWrite   MemWrite
-      MemRead    xferByte
+                  ALU_Out
+                  Db
+                  --------------
+                  MemWrite
+                  Xfer_Byte
+                  Mem2Reg
+                  RegWrite
                        |
                        |
                        v
       |-----------------------------------|
              Execute/Memory Register
-      |-----------------------------------|
-      MemToReg MemWrite MemRead xferByte --> RETURNED
-      
+      |-----------------------------------|      
 
+               Output of Datamem
                     RegWrite
                        |
                        |
@@ -32,7 +40,6 @@
       |-----------------------------------|
             Memory/WriteBack Register
       |-----------------------------------|      
-                    RegWrite -> RETURNED
 */
 
 module pipelineRegs (
