@@ -191,8 +191,8 @@ module pipelineRegs_testbench ();
                 Da,      Da_0,
                 Db,      Db_0,
                 ALU_out, ALU_out_0,
-                Dw,      Dw_0,
-                Rd,      Rd_0;
+                Dw,      Dw_0;
+   logic  [4:0] Rd,      Rd_0;
 
    pipelineRegs dut (
       .clk,
