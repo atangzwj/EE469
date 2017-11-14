@@ -35,7 +35,7 @@
                     RegWrite -> RETURNED
 */
 
-module pipelineRegs (
+module cntrlRegs (
    input  logic        clk, reset,
    output logic        ALUSrc,
    output logic        MemToReg,
@@ -136,7 +136,7 @@ module pipelineRegs_testbench ();
          ChooseMovz,  ChooseMovz_0;
    logic [2:0] ALUOp, ALUOp_0;  
    
-   pipelineRegs dut (
+   cntrlRegs dut (
       .clk, .reset,
       .ALUSrc,
       .MemToReg,
