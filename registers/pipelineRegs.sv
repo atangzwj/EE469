@@ -110,70 +110,53 @@ module pipelineRegs (
 endmodule
 
 module pipelineRegs_testbench ();
-   logic clk, reset;
-   logic ALUSrc,      ALUSrc_0,
-         MemToReg,    MemToReg_0,
-         RegWrite,    RegWrite_0,
-         MemWrite,    MemWrite_0,
-         MemRead,     MemRead_0,
-         ChooseImm,   ChooseImm_0,
-         xferByte,    xferByte_0,
-         ChooseMovk,  ChooseMovk_0,
-         ChooseMovz,  ChooseMovz_0;
+   logic       clk, reset;
+   logic       MemToReg, MemToReg_0,
+               RegWrite, RegWrite_0,
+               MemWrite, MemWrite_0,
+               MemRead,  MemRead_0,
+               xferByte, xferByte_0;
    logic [2:0] ALUOp, ALUOp_0;  
    
    pipelineRegs dut (
       .clk, .reset,
-      .ALUSrc,
       .MemToReg,
       .RegWrite,
       .MemWrite,
       .MemRead,
-      .ChooseImm,
       .xferByte,
-      .ChooseMovk,
-      .ChooseMovz,
       .ALUOp,
    
-      .ALUSrc_0,
       .MemToReg_0,
       .RegWrite_0,
       .MemWrite_0,
       .MemRead_0,
-      .ChooseImm_0,
       .xferByte_0,
-      .ChooseMovk_0,
-      .ChooseMovz_0,
       .ALUOp_0
    );
 
-   logic  [9:0] ctrlBus;
-   
+   logic [7:0] ctrlBus;
+
    parameter CLK_PERIOD = 10;
    initial begin
       clk <= 0;
       forever #(CLK_PERIOD / 2) clk <= ~clk;
    end
 
-   assign ChooseMovz_0 = ctrlBus[9];
-   assign ChooseMovk_0 = ctrlBus[8];
-   assign xferByte_0   = ctrlBus[7];              
-   assign ChooseImm_0  = ctrlBus[6];
-   assign Reg2Loc_0    = ctrlBus[5];
-   assign ALUSrc_0     = ctrlBus[4];
-   assign MemToReg_0   = ctrlBus[3];
-   assign RegWrite_0   = ctrlBus[2];
-   assign MemWrite_0   = ctrlBus[1];
-   assign MemRead_0    = ctrlBus[0];
-   
+   assign MemToReg_0   = ctrlBus[7];
+   assign RegWrite_0   = ctrlBus[6];
+   assign MemWrite_0   = ctrlBus[5];
+   assign MemRead_0    = ctrlBus[4];
+   assign xferByte_0   = ctrlBus[3];              
+   assign ALUOp_0      = ctrlBus[2:0];
+
    integer i;
    initial begin
       reset <= 1'b0; @(posedge clk);
       reset <= 1'b1; @(posedge clk);
       reset <= 1'b0;
-      ctrlBus = 10'b1111111111;
-      ALUOp_0 = 3'b001;
-      
+      ctrlBus = 8'b1111_1111;
+
       for (i = 0; i < 10; i++) begin
          @(posedge clk);
       end
