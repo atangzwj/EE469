@@ -4,7 +4,7 @@ module datapath (
    input  logic        clk, reset,
    output logic  [3:0] flags,
    // Data fields
-   input  logic  [4:0] Rd, Rm, Rn,
+   input  logic  [4:0] Rd_0, Rm, Rn,
    input  logic  [8:0] Daddr9,
    input  logic [11:0] Imm12,
    input  logic  [1:0] Shamt,
@@ -12,15 +12,15 @@ module datapath (
    // Control Logic
    input  logic        Reg2Loc,
    input  logic        ALUSrc,
-   input  logic        MemToReg,
-   input  logic        RegWrite,
-   input  logic        MemWrite,
-   input  logic        MemRead,
+   input  logic        MemToReg_0,
+   input  logic        RegWrite_0,
+   input  logic        MemWrite_0,
+   input  logic        MemRead_0,
    input  logic        ChooseImm,
-   input  logic        xferByte,
+   input  logic        xferByte_0,
    input  logic        ChooseMovk,
    input  logic        ChooseMovz,
-   input  logic  [2:0] ALUOp
+   input  logic  [2:0] ALUOp_0
    );
 
    // Gate delay
@@ -30,7 +30,7 @@ module datapath (
       logic [4:0] Ab_in;
    selectData #(.WIDTH(5)) intoAb (
       .out(Ab_in),
-      .A(Rd),
+      .A(Rd_0),
       .B(Rm),
       .sel(Reg2Loc)
    );  
@@ -40,11 +40,12 @@ module datapath (
    not (clk_regfile, clk);
 
    // Regfile for holding and writing the values into the 32 Registers
-   logic [63:0] Dw, Da, Db;
+   logic [63:0] Dw, Dw_0, Da, Da_0, Db, Db_0;
+   logic RegWrite;
    regfile rf (
       .clk(clk_regfile),
-      .ReadData1(Da),
-      .ReadData2(Db),
+      .ReadData1(Da_0),
+      .ReadData2(Db_0),
       .WriteData(Dw),
       .ReadRegister1(Rn),
       .ReadRegister2(Ab_in),
@@ -61,13 +62,13 @@ module datapath (
    logic [63:0] Db_Imm;
    selectData intoImmMux (
       .out(Db_Imm),
-      .A(Db),
+      .A(Db_0),
       .B(Daddr9_SE),
       .sel(ALUSrc)
    );
 
    // Zero extends the Immediate Constant Imm12 to a 64bit number
-   logic [63:0] Imm12_ZE, Db_ALU;
+   logic [63:0] Imm12_ZE, Db_ALU, Db_ALU_0;
    assign Imm12_ZE = {52'b0, Imm12};
 
    // Selects between the output from Db_Imm (which is either Db from regfile
@@ -122,7 +123,7 @@ module datapath (
          // invert each bit of clearBar to get our clear mask
          not #DELAY (clear[i], clearBar[i]);
          // set the desired section of Db to 0
-         and #DELAY (cleared[i], Db[i], clear[i]);
+         and #DELAY (cleared[i], Db_0[i], clear[i]);
          // replace the 0 section with the ShiftedImm 16
          or  #DELAY (movk_done[i], cleared[i], ShiftedImm16[i]); 
       end
@@ -141,7 +142,7 @@ module datapath (
    // Selects between output from previous Db value and result from MOVZ op.
    // Output goes into the ALU
    selectData intoALU (
-      .out(Db_ALU),
+      .out(Db_ALU_0),
       .A(Db_Movz),
       .B(ShiftedImm16),
       .sel(ChooseMovz)
@@ -166,6 +167,7 @@ module datapath (
       // xfer_size:
       // 4'b1000 = 64bits transferred
       // 4'd0001 =  8bits transferred
+   logic xferByte;
    logic [3:0] xfer_size;
    assign xfer_size[2:1] = 2'b0; // set middle two bits of xfer_size to 0
    assign xfer_size[0] = xferByte;
@@ -184,10 +186,10 @@ module datapath (
    );
    
    // For LDURB:
-   // Replaces top 56 bits of datamem's output with zeros (OR xs??????)
+   // Replaces top 56 bits of datamem's output with zeros
    // Output is sent to the regfile
    logic [63:0] ReplacedZero_56, fromDataMem;
-   assign ReplacedZero_56 = {56'b0, Dmem_out[7:0]}; // CLARIFY 56'b0 or 56'bx??????????
+   assign ReplacedZero_56 = {56'b0, Dmem_out[7:0]};
    selectData chooseZeroReplace (
       .out(fromDataMem),
       .A(Dmem_out),
@@ -198,9 +200,15 @@ module datapath (
    // selects between the output from the ALU and from the data memory
    // writes this selected value into the register
    selectData intoReg (
-      .out(Dw),
+      .out(Dw_0),
       .A(ALU_out),
       .B(fromDataMem),
       .sel(MemToReg)
    );
+   
+   // INSTANTIATE PIPELINE_REG HERE
+
+   
+   
+   
 endmodule

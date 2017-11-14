@@ -139,7 +139,7 @@ module CPU_64 (clk, reset);
       .clk,
       .reset,
       .flags,
-      .Rd,
+      .Rd_0(Rd),
       .Rm,
       .Rn,
       .Daddr9,
@@ -148,15 +148,15 @@ module CPU_64 (clk, reset);
       .Imm16,
       .Reg2Loc,
       .ALUSrc,
-      .MemToReg,
-      .RegWrite,
-      .MemWrite,
-      .MemRead,
+      .MemToReg_0(MemToReg),
+      .RegWrite_0(RegWrite),
+      .MemWrite_0(MemWrite),
+      .MemRead_0(MemRead),
       .ChooseImm,
-      .xferByte,
+      .xferByte_0(xferByte),
       .ChooseMovk,
       .ChooseMovz,
-      .ALUOp
+      .ALUOp_0(ALUOp)
    );
 
    // Selects between the preexisting flags in the register and 
