@@ -51,25 +51,59 @@ module pipelineRegs (
    output logic        xferByte,
    output logic  [2:0] ALUOp,
    
+   output logic [63:0] Db_ALU,
+   output logic [63:0] Da,
+   output logic [63:0] Db,
+
    input  logic        MemToReg_0,
    input  logic        RegWrite_0,
    input  logic        MemWrite_0,
    input  logic        MemRead_0,
    input  logic        xferByte_0,
-   input  logic  [2:0] ALUOp_0
+   input  logic  [2:0] ALUOp_0,
+
+   input  logic [63:0] Db_ALU_0,
+   input  logic [63:0] Da_0,
+   input  logic [63:0] Db_0
    );
    
    // Create initial control bus to be passed into the IDEX register
    logic [7:0] stage1;
    assign stage1 = {
-      MemToReg_0,   // 7 
-      RegWrite_0,   // 6
-      MemWrite_0,   // 5
-      MemRead_0,    // 4
-      xferByte_0,   // 3
-      ALUOp_0       // 2-0            
+      MemToReg_0, // 7 
+      RegWrite_0, // 6
+      MemWrite_0, // 5
+      MemRead_0,  // 4
+      xferByte_0, // 3
+      ALUOp_0     // 2-0            
    };
-   
+
+   // Data pipeline IDEX registers
+   logic [63:0] Db_1;
+   register Db_ALU_reg (
+      .clk,
+      .reset,
+      .dOut(Db_ALU),
+      .WriteData(Db_ALU_0),
+      .wrEnable(1'b1)
+   );
+
+   register Da_reg (
+      .clk,
+      .reset,
+      .dOut(Da),
+      .WriteData(Da_0),
+      .wrEnable(1'b1)
+   );
+
+   register Db_reg (
+      .clk,
+      .reset,
+      .dOut(Db_1),
+      .WriteData(Db_0),
+      .wrEnable(1'b1)
+   );
+
    // Instruction Decode/Execute Register
    logic [7:0] stage2;
    register #(.WIDTH(8)) IDEX (
@@ -95,7 +129,7 @@ module pipelineRegs (
    assign MemWrite = stage3[2];
    assign MemRead  = stage3[1];
    assign xferByte = stage3[0];
-   
+
    // Memory/WriteBack Register
    logic stage4;
    register #(.WIDTH(1)) MEMWB (
@@ -110,16 +144,20 @@ module pipelineRegs (
 endmodule
 
 module pipelineRegs_testbench ();
-   logic       clk, reset;
-   logic       MemToReg, MemToReg_0,
-               RegWrite, RegWrite_0,
-               MemWrite, MemWrite_0,
-               MemRead,  MemRead_0,
-               xferByte, xferByte_0;
-   logic [2:0] ALUOp, ALUOp_0;  
+   logic        clk, reset;
+   logic        MemToReg, MemToReg_0,
+                RegWrite, RegWrite_0,
+                MemWrite, MemWrite_0,
+                MemRead,  MemRead_0,
+                xferByte, xferByte_0;
+   logic  [2:0] ALUOp, ALUOp_0;  
    
+   logic [63:0] Db_ALU, Db_ALU_0,
+                Da,     Da_0,
+                Db,     Db_0;
    pipelineRegs dut (
-      .clk, .reset,
+      .clk,
+      .reset,
       .MemToReg,
       .RegWrite,
       .MemWrite,
@@ -127,12 +165,20 @@ module pipelineRegs_testbench ();
       .xferByte,
       .ALUOp,
    
+      .Db_ALU,
+      .Da,
+      .Db,
+
       .MemToReg_0,
       .RegWrite_0,
       .MemWrite_0,
       .MemRead_0,
       .xferByte_0,
-      .ALUOp_0
+      .ALUOp_0,
+
+      .Db_ALU_0,
+      .Da_0,
+      .Db_0
    );
 
    logic [7:0] ctrlBus;
@@ -143,12 +189,16 @@ module pipelineRegs_testbench ();
       forever #(CLK_PERIOD / 2) clk <= ~clk;
    end
 
-   assign MemToReg_0   = ctrlBus[7];
-   assign RegWrite_0   = ctrlBus[6];
-   assign MemWrite_0   = ctrlBus[5];
-   assign MemRead_0    = ctrlBus[4];
-   assign xferByte_0   = ctrlBus[3];              
-   assign ALUOp_0      = ctrlBus[2:0];
+   assign MemToReg_0 = ctrlBus[7];
+   assign RegWrite_0 = ctrlBus[6];
+   assign MemWrite_0 = ctrlBus[5];
+   assign MemRead_0  = ctrlBus[4];
+   assign xferByte_0 = ctrlBus[3];              
+   assign ALUOp_0    = ctrlBus[2:0];
+
+   assign Db_ALU_0 = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign Da_0     = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign Db_0     = 64'hFFFF_FFFF_FFFF_FFFF;
 
    integer i;
    initial begin
