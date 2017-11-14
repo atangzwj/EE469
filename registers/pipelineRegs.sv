@@ -54,6 +54,9 @@ module pipelineRegs (
    output logic [63:0] Db_ALU,
    output logic [63:0] Da,
    output logic [63:0] Db,
+   output logic [63:0] ALU_out,
+   output logic [63:0] Dw,
+   output logic  [4:0] Rd,
 
    input  logic        MemToReg_0,
    input  logic        RegWrite_0,
@@ -64,7 +67,10 @@ module pipelineRegs (
 
    input  logic [63:0] Db_ALU_0,
    input  logic [63:0] Da_0,
-   input  logic [63:0] Db_0
+   input  logic [63:0] Db_0,
+   input  logic [63:0] ALU_out_0,
+   input  logic [63:0] Dw_0,
+   input  logic  [4:0] Rd_0
    );
    
    // Create initial control bus to be passed into the IDEX register
@@ -78,9 +84,9 @@ module pipelineRegs (
       ALUOp_0     // 2-0            
    };
 
-   // Data pipeline IDEX registers
+   // Instruction Decode/Execute Registers for Data
    logic [63:0] Db_1;
-   register Db_ALU_reg (
+   register Db_ALU_reg_0 (
       .clk,
       .reset,
       .dOut(Db_ALU),
@@ -88,7 +94,7 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
-   register Da_reg (
+   register Da_reg_0 (
       .clk,
       .reset,
       .dOut(Da),
@@ -96,7 +102,7 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
-   register Db_reg (
+   register Db_reg_0 (
       .clk,
       .reset,
       .dOut(Db_1),
@@ -104,22 +110,41 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
-   // Instruction Decode/Execute Register
+   // Instruction Decode/Execute Register for Control Signals
    logic [7:0] stage2;
    register #(.WIDTH(8)) IDEX (
-      .clk, .reset,
+      .clk,
+      .reset,
       .dOut(stage2),
       .WriteData(stage1),
       .wrEnable(1'b1)
    );
       
    assign ALUOp = stage2[2:0];
-   
-   // Execute/Memory Register
+
+   // Execute/Memory Register for Data
+   register Db_reg_1 (
+      .clk,
+      .reset,
+      .dOut(Db),
+      .WriteData(Db_1),
+      .wrEnable(1'b1)
+   );
+
+   register ALU_out_reg (
+      .clk,
+      .reset,
+      .dOut(ALU_out),
+      .WriteData(ALU_out_0),
+      .wrEnable(1'b1)
+   );
+
+   // Execute/Memory Register for Control Signals
    logic [4:0] stage3, stage2b;
    assign stage2b = stage2[7:3];;   
    register #(.WIDTH(5)) EXMEM (
-      .clk, .reset,
+      .clk,
+      .reset,
       .dOut(stage3),
       .WriteData(stage2b),
       .wrEnable(1'b1)
@@ -130,10 +155,20 @@ module pipelineRegs (
    assign MemRead  = stage3[1];
    assign xferByte = stage3[0];
 
-   // Memory/WriteBack Register
+   // Memory/Writeback Register for Data
+   register Dw_reg (
+      .clk,
+      .reset,
+      .dOut(Dw),
+      .WriteData(Dw_0),
+      .wrEnable(1'b1)
+   );
+
+   // Memory/WriteBack Register for Control Signals
    logic stage4;
    register #(.WIDTH(1)) MEMWB (
-      .clk, .reset,
+      .clk,
+      .reset,
       .dOut(stage4),
       .WriteData(stage3[3]),
       .wrEnable(1'b1)
@@ -152,9 +187,13 @@ module pipelineRegs_testbench ();
                 xferByte, xferByte_0;
    logic  [2:0] ALUOp, ALUOp_0;  
    
-   logic [63:0] Db_ALU, Db_ALU_0,
-                Da,     Da_0,
-                Db,     Db_0;
+   logic [63:0] Db_ALU,  Db_ALU_0,
+                Da,      Da_0,
+                Db,      Db_0,
+                ALU_out, ALU_out_0,
+                Dw,      Dw_0,
+                Rd,      Rd_0;
+
    pipelineRegs dut (
       .clk,
       .reset,
@@ -168,6 +207,9 @@ module pipelineRegs_testbench ();
       .Db_ALU,
       .Da,
       .Db,
+      .ALU_out,
+      .Dw,
+      .Rd,
 
       .MemToReg_0,
       .RegWrite_0,
@@ -178,7 +220,10 @@ module pipelineRegs_testbench ();
 
       .Db_ALU_0,
       .Da_0,
-      .Db_0
+      .Db_0,
+      .ALU_out_0,
+      .Dw_0,
+      .Rd_0
    );
 
    logic [7:0] ctrlBus;
@@ -196,9 +241,12 @@ module pipelineRegs_testbench ();
    assign xferByte_0 = ctrlBus[3];              
    assign ALUOp_0    = ctrlBus[2:0];
 
-   assign Db_ALU_0 = 64'hFFFF_FFFF_FFFF_FFFF;
-   assign Da_0     = 64'hFFFF_FFFF_FFFF_FFFF;
-   assign Db_0     = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign Db_ALU_0  = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign Da_0      = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign Db_0      = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign ALU_out_0 = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign Dw_0      = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign Rd        =  5'b11111;
 
    integer i;
    initial begin
