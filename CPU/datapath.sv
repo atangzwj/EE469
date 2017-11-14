@@ -149,10 +149,10 @@ module datapath (
    
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
-   logic [63:0] ALU_out;
+   logic [63:0] ALU_out, ALU_out_0;
 
    alu op (
-      .result(ALU_out),
+      .result(ALU_out_0),
       .negative(flags[3]),
       .zero(flags[2]), // output to be used for cond branch in CPU_64
       .overflow(flags[1]),
