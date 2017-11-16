@@ -154,7 +154,7 @@ module pipelineRegs (
       .reset,
       .dOut(Rd_2),
       .WriteData(Rd_1),
-      .wr_Enable(1'b1)
+      .wrEnable(1'b1)
    );
 
    // Execute/Memory Register for Control Signals
