@@ -1,4 +1,4 @@
-`timescale 1ns/10ps
+`timescale 0ns/10ps
 
 /*
    MAP:
@@ -110,6 +110,15 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
+   logic [4:0] Rd_1;
+   register Rd_IDEX #(.WIDTH(5)) (
+      .clk,
+      .reset,
+      .dOut(Rd_1),
+      .WriteData(Rd_0),
+      .wrEnable(1'b1)
+   );
+
    // Instruction Decode/Execute Register for Control Signals
    logic [7:0] stage2;
    register #(.WIDTH(8)) IDEX (
@@ -139,6 +148,15 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
+   logic [4:0] Rd_2;
+   register Rd_EXMEM #(.WIDTH(5)) (
+      .clk,
+      .reset,
+      .dOut(Rd_2),
+      .WriteData(Rd_1),
+      .wr_Enable(1'b1),
+   );
+
    // Execute/Memory Register for Control Signals
    logic [4:0] stage3, stage2b;
    assign stage2b = stage2[7:3];;   
@@ -163,6 +181,14 @@ module pipelineRegs (
       .WriteData(Dw_0),
       .wrEnable(1'b1)
    );
+
+   register Rd_MEMWR #(.WIDTH(5)) (
+      .clk,
+      .reset,
+      .dOut(Rd),
+      .WriteData(Rd_2),
+      .wrEnable(1'b1)
+   )
 
    // Memory/WriteBack Register for Control Signals
    logic stage4;
