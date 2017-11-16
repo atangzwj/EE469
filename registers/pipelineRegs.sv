@@ -1,4 +1,4 @@
-`timescale 0ns/10ps
+`timescale 1ns/10ps
 
 /*
    MAP:
