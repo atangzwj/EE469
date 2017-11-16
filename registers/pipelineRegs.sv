@@ -111,7 +111,7 @@ module pipelineRegs (
    );
 
    logic [4:0] Rd_1;
-   register Rd_IDEX #(.WIDTH(5)) (
+   register #(.WIDTH(5)) Rd_IDEX (
       .clk,
       .reset,
       .dOut(Rd_1),
@@ -149,7 +149,7 @@ module pipelineRegs (
    );
 
    logic [4:0] Rd_2;
-   register Rd_EXMEM #(.WIDTH(5)) (
+   register #(.WIDTH(5)) Rd_EXMEM (
       .clk,
       .reset,
       .dOut(Rd_2),
@@ -182,7 +182,7 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
-   register Rd_MEMWR #(.WIDTH(5)) (
+   register #(.WIDTH(5)) Rd_MEMWR (
       .clk,
       .reset,
       .dOut(Rd),
