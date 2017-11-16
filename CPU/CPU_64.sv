@@ -32,6 +32,19 @@ module CPU_64 (clk, reset);
    logic [15:0] Imm16;
    assign Imm16 = instruction[20:5];
 
+   logic [31:0] instruct_wait;
+   // Instruction Memory
+   instructmem iMem (.address(instrAddr), .instruction(instruct_wait), .clk);
+
+   // Instruction Fetch Register
+   register #(.WIDTH(32)) instFetch (
+      .clk,
+      .reset,
+      .dOut(instruction),
+      .WriteData(instruct_wait),
+      .wrEnable(1'b1)
+   );
+
    // Program Counter
    register pc (
       .clk,
@@ -48,7 +61,7 @@ module CPU_64 (clk, reset);
 
    // Branching control signals
    logic UncondBr, BrTaken;
-   
+
    // Select between conditional or unconditional branch amount
    logic [63:0] brChoice, brChoice4x;
    selectData branchSelector (
@@ -95,24 +108,11 @@ module CPU_64 (clk, reset);
       .sel(BrTaken)
    );
 
-   
-   logic [31:0] instruct_wait;
-   // Instruction Memory
-   instructmem iMem (.address(instrAddr), .instruction(instruct_wait), .clk);
-   
-   // Instruction Fetch Register
-   register #(.WIDTH(32)) instFetch (
-      .clk, .reset,
-      .dOut(instruction),
-      .WriteData(instruct_wait),
-      .wrEnable(1'b1)
-   );   
-
    // Control logic
    logic       Reg2Loc, ALUSrc, MemToReg, RegWrite, MemWrite, MemRead,
                ChooseImm, xferByte, ChooseMovk, ChooseMovz, storeFlags;
    logic [2:0] ALUOp;
-      
+
    logic [3:0] flags, regFlags;
    main_control control (
       .Reg2Loc,
@@ -133,7 +133,7 @@ module CPU_64 (clk, reset);
       .flags,
       .regFlags
    ); 
-   
+
    // Datapath
    datapath dp (
       .clk,
@@ -181,5 +181,4 @@ module CPU_64 (clk, reset);
          D_FF fr (.q(regFlags[i]), .d(writeToFR[i]), .reset, .clk);
       end
    endgenerate
-   
 endmodule
