@@ -41,7 +41,8 @@ module datapath (
 
    // Regfile for holding and writing the values into the 32 Registers
    logic [63:0] Dw, Dw_0, Da, Da_0, Db, Db_0;
-   logic RegWrite;
+   logic        RegWrite;
+   logic  [4:0] Rd;
    regfile rf (
       .clk(clk_regfile),
       .ReadData1(Da_0),
@@ -151,6 +152,7 @@ module datapath (
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
    logic [63:0] ALU_out, ALU_out_0;
+   logic  [2:0] ALUOp;
 
    alu op (
       .result(ALU_out_0),
@@ -207,8 +209,36 @@ module datapath (
    );
    
    // INSTANTIATE PIPELINE_REG HERE
+   pipelineRegs plRegs (
+      .clk,
+      .reset,
+      .MemToReg,
+      .RegWrite,
+      .MemWrite,
+      .MemRead,
+      .xferByte,
+      .ALUOp,
 
-   
-   
+      .Db_ALU,
+      .Da,
+      .Db,
+      .ALU_out,
+      .Dw,
+      .Rd,
+
+      .MemToReg_0,
+      .RegWrite_0,
+      .MemWrite_0,
+      .MemRead_0,
+      .xferByte_0,
+      .ALUOp_0,
+
+      .Db_ALU_0,
+      .Da_0,
+      .Db_0,
+      .ALU_out_0,
+      .Dw_0,
+      .Rd_0
+   );
    
 endmodule
