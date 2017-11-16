@@ -8,19 +8,9 @@ add wave -noupdate -label reset /CPU_64_testbench/reset
 add wave -noupdate -label {instruct_wait-from instructmem before IfReg} /CPU_64_testbench/dut/instruct_wait
 add wave -noupdate /CPU_64_testbench/dut/instruction
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/Reg2Loc
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ALUSrc_0
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/MemToReg_0
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/RegWrite_0
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/MemWrite_0
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/MemRead_0
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ChooseImm_0
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/xferByte_0
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/BrTaken
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/UncondBr
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ChooseMovk_0
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ChooseMovz_0
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/storeFlags
-add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ALUOp_0
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/opcode
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/flags
 add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/regFlags
@@ -95,38 +85,43 @@ add wave -noupdate -group {In CPU_64} -group {Flag Register} -label {Q of Flag R
 add wave -noupdate -group {In CPU_64} -group {Flag Register} -label {D of Flag Reg} /CPU_64_testbench/dut/writeToFR
 add wave -noupdate -group {In CPU_64} -group {Flag Register} -label {Flags From ALU} /CPU_64_testbench/dut/flags
 add wave -noupdate -group {In CPU_64} -group {Flag Register} /CPU_64_testbench/dut/storeFlags
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/ALUSrc
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/MemToReg
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/RegWrite
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/MemWrite
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/MemRead
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/ChooseImm
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/xferByte
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/ChooseMovk
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/ChooseMovz
-add wave -noupdate -expand -group {Pipeline Regs} -group Outputs /CPU_64_testbench/dut/plReg/ALUOp
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/ALUSrc_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/MemToReg_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/RegWrite_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/MemWrite_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/MemRead_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/ChooseImm_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/xferByte_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/ChooseMovk_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/ChooseMovz_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Inputs /CPU_64_testbench/dut/plReg/ALUOp_0
-add wave -noupdate -expand -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/plReg/stage1
-add wave -noupdate -expand -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/plReg/stage2
-add wave -noupdate -expand -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/plReg/stage2b
-add wave -noupdate -expand -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/plReg/stage3
-add wave -noupdate -expand -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/plReg/stage4
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/MemToReg
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/RegWrite
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/MemWrite
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/MemRead
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/xferByte
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/ALUOp
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/Db_ALU
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/Da
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/Db
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/Db_1
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/ALU_out
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/Dw
+add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/Rd
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/MemToReg_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/RegWrite_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/MemWrite_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/MemRead_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/xferByte_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/ALUOp_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/Db_ALU_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/Da_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/Db_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/ALU_out_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/Dw_0
+add wave -noupdate -group {Pipeline Regs} -expand -group Inputs /CPU_64_testbench/dut/dp/plRegs/Rd_0
+add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage1
+add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage2
+add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage2b
+add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage3
+add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage4
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {28558 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 346
 configure wave -valuecolwidth 200
 configure wave -justifyvalue left
-configure wave -signalnamewidth 0
+configure wave -signalnamewidth 1
 configure wave -snapdistance 10
 configure wave -datasetprefix 0
 configure wave -rowmargin 4
