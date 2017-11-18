@@ -37,7 +37,7 @@ module main_control (
    always_comb begin
       casex (opcode)
          B:        begin
-                      Reg2Loc      = 1'bx;
+                      Reg2Loc    = 1'bx;
                       ALUSrc     = 1'bx;
                       MemToReg   = 1'bx;
                       RegWrite   = 1'b0;
@@ -45,15 +45,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'bx;
                       xferByte   = 1'bx;
-                      BrTaken      = 1'b1;
-                      UncondBr     = 1'b1;
+                      BrTaken    = 1'b1;
+                      UncondBr   = 1'b1;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'bx;
-                      storeFlags   = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'bxxx;
                    end
          CBZ:      begin
-                      Reg2Loc      = 1'b0;
+                      Reg2Loc    = 1'b0;
                       ALUSrc     = 1'b0;
                       MemToReg   = 1'bx;
                       RegWrite   = 1'b0;
@@ -61,15 +61,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'bx;
-                      BrTaken      = flags[2]; // zero flag from same clk cycle
-                      UncondBr     = 1'b0;
+                      BrTaken    = flags[2]; // zero flag from same clk cycle
+                      UncondBr   = 1'b0;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
-                      storeFlags   = 1'b0;                    
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b000;
                    end
          B_LT:     begin
-                      Reg2Loc      = 1'bx;
+                      Reg2Loc    = 1'bx;
                       ALUSrc     = 1'b0;
                       MemToReg   = 1'bx;
                       RegWrite   = 1'b0;
@@ -77,15 +77,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'bx;
                       xferByte   = 1'bx;
-                      BrTaken      = regFlags[3] ^ regFlags[1]; // from flag reg
-                      UncondBr     = 1'b0;
+                      BrTaken    = regFlags[3] ^ regFlags[1]; // from flag reg
+                      UncondBr   = 1'b0;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'bx;
-                      storeFlags   = 1'b0;                      
+                      storeFlags = 1'b0;
                       ALUOp      = 3'bxxx;
                    end
          ADDS:     begin
-                      Reg2Loc      = 1'b1;
+                      Reg2Loc    = 1'b1;
                       ALUSrc     = 1'b0;
                       MemToReg   = 1'b0;
                       RegWrite   = 1'b1;
@@ -93,15 +93,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'bx;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
-                      storeFlags   = 1'b1;
+                      storeFlags = 1'b1;
                       ALUOp      = 3'b010;
                    end
          SUBS:     begin
-                      Reg2Loc      = 1'b1;
+                      Reg2Loc    = 1'b1;
                       ALUSrc     = 1'b0;
                       MemToReg   = 1'b0;
                       RegWrite   = 1'b1;
@@ -109,15 +109,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'bx;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
-                      storeFlags   = 1'b1;
+                      storeFlags = 1'b1;
                       ALUOp      = 3'b011;
                    end
          ADDI:     begin
-                      Reg2Loc      = 1'bx;
+                      Reg2Loc    = 1'bx;
                       ALUSrc     = 1'bx;
                       MemToReg   = 1'b0;
                       RegWrite   = 1'b1;
@@ -125,15 +125,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b1;
                       xferByte   = 1'bx;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
-                      storeFlags   = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          LDUR:     begin
-                      Reg2Loc      = 1'bx;
+                      Reg2Loc    = 1'bx;
                       ALUSrc     = 1'b1;
                       MemToReg   = 1'b1;
                       RegWrite   = 1'b1;
@@ -141,15 +141,15 @@ module main_control (
                       MemRead    = 1'b1;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'b0;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
-                      storeFlags   = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          LDURB:    begin
-                      Reg2Loc      = 1'bx;
+                      Reg2Loc    = 1'bx;
                       ALUSrc     = 1'b1;
                       MemToReg   = 1'b1;
                       RegWrite   = 1'b1;
@@ -157,15 +157,15 @@ module main_control (
                       MemRead    = 1'b1;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'b1;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
-                      storeFlags   = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          STUR:     begin
-                      Reg2Loc      = 1'b0;
+                      Reg2Loc    = 1'b0;
                       ALUSrc     = 1'b1;
                       MemToReg   = 1'bx;
                       RegWrite   = 1'b0;
@@ -173,15 +173,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'b0;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
-                      storeFlags   = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          STURB:    begin
-                      Reg2Loc      = 1'b0;
+                      Reg2Loc    = 1'b0;
                       ALUSrc     = 1'b1;
                       MemToReg   = 1'bx;
                       RegWrite   = 1'b0;
@@ -189,15 +189,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'b1;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
-                      storeFlags   = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b010;
                    end
          MOVK:     begin
-                      Reg2Loc      = 1'b0;
+                      Reg2Loc    = 1'b0;
                       ALUSrc     = 1'bx;
                       MemToReg   = 1'b0;
                       RegWrite   = 1'b1;
@@ -205,15 +205,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'bx;
                       xferByte   = 1'bx;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'b1;
                       ChooseMovz = 1'b0;
-                      storeFlags   = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b000;
                    end
          MOVZ:     begin
-                      Reg2Loc      = 1'bx;
+                      Reg2Loc    = 1'bx;
                       ALUSrc     = 1'bx;
                       MemToReg   = 1'b0;
                       RegWrite   = 1'b1;
@@ -221,15 +221,15 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'bx;
                       xferByte   = 1'bx;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'b1;
-                      storeFlags   = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b000;
-                   end
+                   end                 
          default:  begin
-                      Reg2Loc      = 1'bx;
+                      Reg2Loc    = 1'bx;
                       ALUSrc     = 1'bx;
                       MemToReg   = 1'bx;
                       RegWrite   = 1'b0;
@@ -237,15 +237,14 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'bx;
                       xferByte   = 1'bx;
-                      BrTaken      = 1'b0;
-                      UncondBr     = 1'bx;
+                      BrTaken    = 1'b0;
+                      UncondBr   = 1'bx;
                       ChooseMovk = 1'bx;
                       ChooseMovz = 1'bx;
-                      storeFlags   = 1'b0;
+                      storeFlags = 1'b0;
                       ALUOp      = 3'b000;
                    end
-      endcase
-            
+      endcase      
    end
 endmodule
 
@@ -264,6 +263,7 @@ module main_control_testbench ();
    logic        ChooseMovk;
    logic        ChooseMovz;
    logic        storeFlags;
+   logic        startCase;
    logic  [2:0] ALUOp;
    logic [10:0] opcode;
    logic  [3:0] flags, regFlags; 
@@ -282,6 +282,7 @@ module main_control_testbench ();
       .ChooseMovk,
       .ChooseMovz,
       .storeFlags,
+      .startCase,
       .ALUOp,
       .opcode,
       .flags,

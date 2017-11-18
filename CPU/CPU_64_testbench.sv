@@ -5,7 +5,7 @@ module CPU_64_testbench ();
    
    CPU_64 dut (.clk, .reset);
 
-   parameter CLK_PERIOD = 10;
+   parameter CLK_PERIOD = 100;
    initial begin
       clk <= 0;
       forever #(CLK_PERIOD / 2) clk <= ~clk;

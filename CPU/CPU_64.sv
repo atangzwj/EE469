@@ -45,6 +45,15 @@ module CPU_64 (clk, reset);
       .wrEnable(1'b1)
    );
 
+   logic [63:0] instrAddr_Old;
+   register #(.WIDTH(64)) oldPC (
+      .clk,
+      .reset,
+      .dOut(instrAddr_Old),
+      .WriteData(instrAddr),
+      .wrEnable(1'b1)
+   );   
+   
    // Program Counter
    register pc (
       .clk,
@@ -70,12 +79,11 @@ module CPU_64 (clk, reset);
       .B(brAddr26_SE),
       .sel(UncondBr)
    );
-
+   
    // Branch amount times 4
    assign brChoice4x = {brChoice[61:0], 2'b0};
 
    logic [63:0] pcPlus4, pcPlusSEBranch;
-
    // Adder that produces PC + 4
    alu pcPlusFour (
       .result(pcPlus4),
@@ -96,7 +104,7 @@ module CPU_64 (clk, reset);
       .overflow(),
       .carry_out(),
       .A(brChoice4x),
-      .B(instrAddr),
+      .B(instrAddr_Old),
       .cntrl(3'b010)
    );
 
