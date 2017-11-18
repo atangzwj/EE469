@@ -45,6 +45,8 @@ module CPU_64 (clk, reset);
       .wrEnable(1'b1)
    );
 
+   // Generates an old PC value that is one clock cycle before
+   // To be used for Old_PC + SE(Branch)
    logic [63:0] instrAddr_Old;
    register #(.WIDTH(64)) oldPC (
       .clk,
