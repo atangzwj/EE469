@@ -148,16 +148,29 @@ module datapath (
       .B(ShiftedImm16),
       .sel(ChooseMovz)
    );
+      
+   // Accelerated Zero Flag Checker (for CBZ)
+   alu check_0 (
+      .result(),
+      .negative(),
+      .zero(flags[2]), // output to be used for cond branch in CPU_64
+      .overflow(),
+      .carry_out(),
+      .A(),
+      .B(Db_ALU_0),
+      .cntrl(3'b000)
+   );
+   
+   
    
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
    logic [63:0] ALU_out, ALU_out_0;
    logic  [2:0] ALUOp;
-
    alu op (
       .result(ALU_out_0),
       .negative(flags[3]),
-      .zero(flags[2]), // output to be used for cond branch in CPU_64
+      .zero(), // output to be used for cond branch in CPU_64
       .overflow(flags[1]),
       .carry_out(flags[0]),
       .A(Da),
