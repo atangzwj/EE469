@@ -7,32 +7,32 @@ add wave -noupdate -label clk /CPU_64_testbench/clk
 add wave -noupdate -label reset /CPU_64_testbench/reset
 add wave -noupdate -label {instruct_wait-from instructmem before IfReg} /CPU_64_testbench/dut/instruct_wait
 add wave -noupdate /CPU_64_testbench/dut/instruction
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/Reg2Loc
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/ALUSrc
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/MemToReg
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/RegWrite
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/MemWrite
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/MemRead
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/ChooseImm
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/xferByte
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/BrTaken
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/UncondBr
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/ChooseMovk
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/ChooseMovz
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/storeFlags
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/ALUOp
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/opcode
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/flags
-add wave -noupdate -expand -group {In Control} /CPU_64_testbench/dut/control/regFlags
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/Reg2Loc
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ALUSrc
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/MemToReg
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/RegWrite
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/MemWrite
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/MemRead
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ChooseImm
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/xferByte
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/BrTaken
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/UncondBr
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ChooseMovk
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ChooseMovz
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/storeFlags
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/ALUOp
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/opcode
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/flags
+add wave -noupdate -group {In Control} /CPU_64_testbench/dut/control/regFlags
 add wave -noupdate -group {In Datapath} /CPU_64_testbench/dut/dp/Dw
-add wave -noupdate -group {In Datapath} -expand -group {Data Fields} -radix unsigned /CPU_64_testbench/dut/dp/Rd
-add wave -noupdate -group {In Datapath} -expand -group {Data Fields} -radix unsigned /CPU_64_testbench/dut/dp/Rm
-add wave -noupdate -group {In Datapath} -expand -group {Data Fields} -radix unsigned /CPU_64_testbench/dut/dp/Rn
-add wave -noupdate -group {In Datapath} -expand -group {Data Fields} -label {After Reg2Loc Ab_in} -radix unsigned /CPU_64_testbench/dut/dp/Ab_in
-add wave -noupdate -group {In Datapath} -expand -group {Data Fields} /CPU_64_testbench/dut/dp/Daddr9
-add wave -noupdate -group {In Datapath} -expand -group {Data Fields} /CPU_64_testbench/dut/dp/Imm12
-add wave -noupdate -group {In Datapath} -expand -group {Data Fields} /CPU_64_testbench/dut/dp/Shamt
-add wave -noupdate -group {In Datapath} -expand -group {Data Fields} /CPU_64_testbench/dut/dp/Imm16
+add wave -noupdate -group {In Datapath} -group {Data Fields} -radix unsigned /CPU_64_testbench/dut/dp/Rd
+add wave -noupdate -group {In Datapath} -group {Data Fields} -radix unsigned /CPU_64_testbench/dut/dp/Rm
+add wave -noupdate -group {In Datapath} -group {Data Fields} -radix unsigned /CPU_64_testbench/dut/dp/Rn
+add wave -noupdate -group {In Datapath} -group {Data Fields} -label {After Reg2Loc Ab_in} -radix unsigned /CPU_64_testbench/dut/dp/Ab_in
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Daddr9
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Imm12
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Shamt
+add wave -noupdate -group {In Datapath} -group {Data Fields} /CPU_64_testbench/dut/dp/Imm16
 add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/Reg2Loc
 add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/ALUSrc
 add wave -noupdate -group {In Datapath} -group {Control Signals} /CPU_64_testbench/dut/dp/MemToReg
@@ -126,16 +126,30 @@ add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp
 add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage2b
 add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage3
 add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage4
-add wave -noupdate -expand -group ForwardingUnit /CPU_64_testbench/dut/dp/fu/MuxDa_Sel
-add wave -noupdate -expand -group ForwardingUnit /CPU_64_testbench/dut/dp/fu/MuxDb_Sel
-add wave -noupdate -expand -group ForwardingUnit -radix unsigned /CPU_64_testbench/dut/dp/fu/Rd_mem
-add wave -noupdate -expand -group ForwardingUnit -radix unsigned /CPU_64_testbench/dut/dp/fu/Rd_exe
-add wave -noupdate -expand -group ForwardingUnit -radix unsigned /CPU_64_testbench/dut/dp/fu/Rn
-add wave -noupdate -expand -group ForwardingUnit -radix unsigned /CPU_64_testbench/dut/dp/fu/Rmd
-add wave -noupdate -expand -group ForwardingUnit /CPU_64_testbench/dut/dp/fu/RegWrite_mem
-add wave -noupdate -expand -group ForwardingUnit /CPU_64_testbench/dut/dp/fu/RegWrite_exe
+add wave -noupdate -group ForwardingUnit /CPU_64_testbench/dut/dp/fu/MuxDa_Sel
+add wave -noupdate -group ForwardingUnit /CPU_64_testbench/dut/dp/fu/MuxDb_Sel
+add wave -noupdate -group ForwardingUnit -radix unsigned /CPU_64_testbench/dut/dp/fu/Rd_mem
+add wave -noupdate -group ForwardingUnit -radix unsigned /CPU_64_testbench/dut/dp/fu/Rd_exe
+add wave -noupdate -group ForwardingUnit -radix unsigned /CPU_64_testbench/dut/dp/fu/Rn
+add wave -noupdate -group ForwardingUnit -radix unsigned /CPU_64_testbench/dut/dp/fu/Rmd
+add wave -noupdate -group ForwardingUnit /CPU_64_testbench/dut/dp/fu/RegWrite_mem
+add wave -noupdate -group ForwardingUnit /CPU_64_testbench/dut/dp/fu/RegWrite_exe
+add wave -noupdate -expand -group {ForwardingMux DP} -radix decimal /CPU_64_testbench/dut/dp/Dw_0
+add wave -noupdate -expand -group {ForwardingMux DP} -radix decimal /CPU_64_testbench/dut/dp/ALU_out_0
+add wave -noupdate -expand -group {ForwardingMux DP} -radix decimal /CPU_64_testbench/dut/dp/Da_Fwd_0
+add wave -noupdate -expand -group {ForwardingMux DP} -radix decimal /CPU_64_testbench/dut/dp/Da_Fwd
+add wave -noupdate -expand -group {ForwardingMux DP} -radix decimal /CPU_64_testbench/dut/dp/Db_Fwd_0
+add wave -noupdate -expand -group {ForwardingMux DP} -radix decimal /CPU_64_testbench/dut/dp/Db_Fwd
+add wave -noupdate -expand -group {ForwardingMux DP} -radix binary /CPU_64_testbench/dut/dp/MuxDa_Sel
+add wave -noupdate -expand -group {ForwardingMux DP} -radix binary /CPU_64_testbench/dut/dp/MuxDb_Sel
+add wave -noupdate -expand -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/dut/dp/RegWrite
+add wave -noupdate -expand -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/dut/dp/RegWrite_mem
+add wave -noupdate -expand -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/dut/dp/RegWrite_exe
+add wave -noupdate -expand -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/dut/dp/Rd
+add wave -noupdate -expand -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/dut/dp/Rd_mem
+add wave -noupdate -expand -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/dut/dp/Rd_exe
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {684942 ps} 0}
+WaveRestoreCursors {{Cursor 1} {499157 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 200
 configure wave -valuecolwidth 200
