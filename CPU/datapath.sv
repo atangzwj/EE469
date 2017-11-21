@@ -160,9 +160,7 @@ module datapath (
       .B(Db_ALU_0),
       .cntrl(3'b000)
    );
-   
-   
-   
+
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
    logic [63:0] ALU_out, ALU_out_0;
