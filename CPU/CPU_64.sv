@@ -184,6 +184,7 @@ module CPU_64 (clk, reset);
       .sel(storeFlags) // 1 if instruction is ADDS or SUBS
    );   
 
+   logic zeroFlag_d;
    D_FF zeroFlag_delay (.q(zeroFlag_d), .d(writeToFR[2]), .reset, .clk);
 
    // Hold the flags until the next clock cycle for B.LT to use
