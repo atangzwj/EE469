@@ -1,7 +1,7 @@
 `timescale 1ns/10ps
 
 // Used to select one of two buses 
-module fowardingUnit (
+module forwardingUnit (
    output logic  [1:0] MuxDa_Sel,
    output logic  [1:0] MuxDb_Sel,
    
