@@ -117,7 +117,6 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
-   logic [4:0] Rd_exe;
    register #(.WIDTH(5)) Rd_IDEX (
       .clk,
       .reset,
@@ -156,7 +155,6 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
-   logic [4:0] Rd_mem;
    register #(.WIDTH(5)) Rd_EXMEM (
       .clk,
       .reset,

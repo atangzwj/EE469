@@ -28,17 +28,17 @@ module fowardingUnit (
 
    always_comb begin
       case (Rn)
-         Rd_exe_0: if (RegWrite_exe) MuxDa_Sel = 2'b11;
-                   else              MuxDa_Sel = 2'b00;
-         Rd_mem_0: if (RegWrite_mem) MuxDa_Sel = 2'b10;
-                   else              MuxDa_Sel = 2'b00;
+         Rd_exe: if (RegWrite_exe) MuxDa_Sel = 2'b11;
+                   else            MuxDa_Sel = 2'b00;
+         Rd_mem: if (RegWrite_mem) MuxDa_Sel = 2'b10;
+                   else            MuxDa_Sel = 2'b00;
       endcase
 
       case (Rmd)
-         Rd_exe_0: if (RegWrite_exe) MuxDb_Sel = 2'b11;
-                   else              MuxDb_Sel = 2'b00;
-         Rd_mem_0: if (RegWrite_mem) MuxDb_Sel = 2'b10;
-                   else              MuxDb_Sel = 2'b00;
+         Rd_exe: if (RegWrite_exe) MuxDb_Sel = 2'b11;
+                   else            MuxDb_Sel = 2'b00;
+         Rd_mem: if (RegWrite_mem) MuxDb_Sel = 2'b10;
+                   else            MuxDb_Sel = 2'b00;
       endcase
    end
 endmodule

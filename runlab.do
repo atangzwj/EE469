@@ -42,6 +42,7 @@ vlog "./CPU/math.sv"
 #CPU
 vlog "./CPU/CPU_64.sv"
 vlog "./CPU/CPU_64_testbench.sv"
+vlog "./CPU/forwardingUnit.sv"
 
 # Call vsim to invoke simulator
 #     Make sure the last item on the line is the name of the

@@ -41,7 +41,7 @@ module datapath (
 
    // Regfile for holding and writing the values into the 32 Registers
    logic [63:0] Dw, Dw_0, Da, Da_0, Db, Db_0;
-   logic        RegWrite;
+   logic        RegWrite, RegWrite_mem, RegWrite_exe;
    logic  [4:0] Rd, Rd_mem, Rd_exe;
    regfile rf (
       .clk(clk_regfile),
@@ -83,14 +83,14 @@ module datapath (
    //    0x = Db_0
    //    10 = Dw_0        (value from mem stage)
    //    11 = Alu_out_0   (value from exe stage) 
-   selectData Mux_fwd_Da (
+   selectData Mux_fwd_Db (
       .out(Da_Fwd_0),
       .A(Dw_0),
       .B(ALU_out_0),
       .sel(MuxDb_Sel[0])
    );
    
-   selectData Mux_fwd_Da_1 (
+   selectData Mux_fwd_Db_1 (
       .out(Da_Fwd),
       .A(Db_0),
       .B(Da_Fwd_0),
@@ -98,7 +98,7 @@ module datapath (
    );   
 
    // Instantiate forwarding mux
-   fowardingUnit (
+   forwardingUnit fu (
    .MuxDa_Sel,
    .MuxDb_Sel,
    
