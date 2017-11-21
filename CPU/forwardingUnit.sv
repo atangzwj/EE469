@@ -5,10 +5,8 @@ module fowardingUnit (
    output logic  [1:0] MuxDa_Sel,
    output logic  [1:0] MuxDb_Sel,
    
-   input  logic [63:0] ALU_out_mem_0, // alu out in mem stage
-   input  logic [63:0] ALU_out_exe_0, // alu out in exe stage
-   input  logic  [4:0] Rd_mem_0,      // destination register in exe stage
-   input  logic  [4:0] Rd_exe_0       // destination register in mem stage
+   input  logic  [4:0] Rd_mem,       // destination register in exe stage
+   input  logic  [4:0] Rd_exe,       // destination register in mem stage
    input  logic  [4:0] Rn,
    input  logic  [4:0] Rmd,
    input  logic        RegWrite_mem,
