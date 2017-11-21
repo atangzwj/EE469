@@ -198,19 +198,11 @@ module CPU_64 (clk, reset);
    // flag[2] = zero
    // flag[1] = overflow
    // flag[0] = carry_out
-
-   D_FF fr0 (.q(regFlags[0]), .d(writeToFR[0]), .reset, .clk);
-   D_FF fr1 (.q(regFlags[1]), .d(writeToFR[1]), .reset, .clk);
-   D_FF fr2 (.q(regFlags[2]), .d(writeToFR[2]), .reset, .clk);
-   D_FF fr3 (.q(regFlags[3]), .d(writeToFR[3]), .reset, .clk);
-
-//   genvar i;
-//   generate
-//      for(i = 0; i < 4; i++) begin : flagRegisters
-//         if (i == 2)
-//            D_FF fr (.q(regFlags[i]), .d(zeroFlag_d), .reset, .clk);
-//        else
-//            D_FF fr (.q(regFlags[i]), .d(writeToFR[i]), .reset, .clk);
-//      end
-//   endgenerate
+   genvar i;
+   generate
+     for(i = 0; i < 4; i++) begin : flagRegisters
+           D_FF fr (.q(regFlags[i]), .d(writeToFR[i]), .reset, .clk);
+     end
+   endgenerate
+   
 endmodule
