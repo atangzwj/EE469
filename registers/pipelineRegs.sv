@@ -46,6 +46,10 @@ module pipelineRegs (
    input  logic        clk, reset,
    output logic        MemToReg,
    output logic        RegWrite,
+   output logic        RegWrite_mem,
+   output logic        RegWrite_exe,
+   
+   
    output logic        MemWrite,
    output logic        MemRead,
    output logic        xferByte,
@@ -57,6 +61,9 @@ module pipelineRegs (
    output logic [63:0] ALU_out,
    output logic [63:0] Dw,
    output logic  [4:0] Rd,
+   output logic  [4:0] Rd_mem,
+   output logic  [4:0] Rd_exe,
+   
 
    input  logic        MemToReg_0,
    input  logic        RegWrite_0,
@@ -110,11 +117,11 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
-   logic [4:0] Rd_1;
+   logic [4:0] Rd_exe;
    register #(.WIDTH(5)) Rd_IDEX (
       .clk,
       .reset,
-      .dOut(Rd_1),
+      .dOut(Rd_exe),
       .WriteData(Rd_0),
       .wrEnable(1'b1)
    );
@@ -130,6 +137,7 @@ module pipelineRegs (
    );
       
    assign ALUOp = stage2[2:0];
+   assign RegWrite_exe = stage2[6];
 
    // Execute/Memory Register for Data
    register Db_reg_1 (
@@ -148,18 +156,18 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
 
-   logic [4:0] Rd_2;
+   logic [4:0] Rd_mem;
    register #(.WIDTH(5)) Rd_EXMEM (
       .clk,
       .reset,
-      .dOut(Rd_2),
-      .WriteData(Rd_1),
+      .dOut(Rd_mem),
+      .WriteData(Rd_exe),
       .wrEnable(1'b1)
    );
 
    // Execute/Memory Register for Control Signals
    logic [4:0] stage3, stage2b;
-   assign stage2b = stage2[7:3];;   
+   assign stage2b = stage2[7:3];   
    register #(.WIDTH(5)) EXMEM (
       .clk,
       .reset,
@@ -168,10 +176,11 @@ module pipelineRegs (
       .wrEnable(1'b1)
    );
    
-   assign MemToReg = stage3[4];   
-   assign MemWrite = stage3[2];
-   assign MemRead  = stage3[1];
-   assign xferByte = stage3[0];
+   assign MemToReg     = stage3[4]; 
+   assign RegWrite_mem = stage3[3];   
+   assign MemWrite     = stage3[2];
+   assign MemRead      = stage3[1];
+   assign xferByte     = stage3[0];
 
    // Memory/Writeback Register for Data
    register Dw_reg (
@@ -186,7 +195,7 @@ module pipelineRegs (
       .clk,
       .reset,
       .dOut(Rd),
-      .WriteData(Rd_2),
+      .WriteData(Rd_mem),
       .wrEnable(1'b1)
    );
 
@@ -207,7 +216,8 @@ endmodule
 module pipelineRegs_testbench ();
    logic        clk, reset;
    logic        MemToReg, MemToReg_0,
-                RegWrite, RegWrite_0,
+                RegWrite, RegWrite_0, 
+                RegWrite_exe, RegWrite_mem,
                 MemWrite, MemWrite_0,
                 MemRead,  MemRead_0,
                 xferByte, xferByte_0;
@@ -218,13 +228,15 @@ module pipelineRegs_testbench ();
                 Db,      Db_0,
                 ALU_out, ALU_out_0,
                 Dw,      Dw_0;
-   logic  [4:0] Rd,      Rd_0;
+   logic  [4:0] Rd,      Rd_0, Rd_mem, Rd_exe;
 
    pipelineRegs dut (
       .clk,
       .reset,
       .MemToReg,
       .RegWrite,
+      .RegWrite_mem,
+      .RegWrite_exe,
       .MemWrite,
       .MemRead,
       .xferByte,
@@ -236,6 +248,8 @@ module pipelineRegs_testbench ();
       .ALU_out,
       .Dw,
       .Rd,
+      .Rd_mem,
+      .Rd_exe,
 
       .MemToReg_0,
       .RegWrite_0,

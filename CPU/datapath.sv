@@ -42,7 +42,7 @@ module datapath (
    // Regfile for holding and writing the values into the 32 Registers
    logic [63:0] Dw, Dw_0, Da, Da_0, Db, Db_0;
    logic        RegWrite;
-   logic  [4:0] Rd;
+   logic  [4:0] Rd, Rd_mem, Rd_exe;
    regfile rf (
       .clk(clk_regfile),
       .ReadData1(Da_0),
@@ -54,6 +54,63 @@ module datapath (
       .RegWrite
    );
 
+   logic [63:0] ALU_out_0, Da_Fwd_0, Da_Fwd;
+   logic  [1:0] MuxDa_Sel, MuxDb_Sel;
+   
+   // FORWARD MUX for Da
+   // Cases for MuxDa_Sel:
+   //    0x = Da_0
+   //    0x = Da_0
+   //    10 = Dw_0        (value from mem stage)
+   //    11 = Alu_out_0   (value from exe stage)   
+   selectData Mux_fwd_Da (
+      .out(Da_Fwd_0),
+      .A(Dw_0),
+      .B(ALU_out_0),
+      .sel(MuxDa_Sel[0])
+   );
+   
+   selectData Mux_fwd_Da_1 (
+      .out(Da_Fwd),
+      .A(Da_0),
+      .B(Da_Fwd_0),
+      .sel(MuxDa_Sel[1])
+   );   
+
+   // FORWARD MUX for Db
+   // Cases for MuxDb_Sel:
+   //    0x = Db_0
+   //    0x = Db_0
+   //    10 = Dw_0        (value from mem stage)
+   //    11 = Alu_out_0   (value from exe stage) 
+   selectData Mux_fwd_Da (
+      .out(Da_Fwd_0),
+      .A(Dw_0),
+      .B(ALU_out_0),
+      .sel(MuxDb_Sel[0])
+   );
+   
+   selectData Mux_fwd_Da_1 (
+      .out(Da_Fwd),
+      .A(Db_0),
+      .B(Da_Fwd_0),
+      .sel(MuxDb_Sel[1])
+   );   
+
+   // Instantiate forwarding mux
+   fowardingUnit (
+   .MuxDa_Sel,
+   .MuxDb_Sel,
+   
+   .Rd_mem,       // destination register in exe stage
+   .Rd_exe,       // destination register in mem stage
+   .Rn,
+   .Rmd(Ab_in),
+   .RegWrite_mem,
+   .RegWrite_exe
+   );   
+   
+   
    // Sign extends Daddr_9 to a 64bit number
    logic [63:0] Daddr9_SE;
    assign Daddr9_SE = {{55{Daddr9[8]}}, Daddr9};
@@ -163,7 +220,7 @@ module datapath (
 
    // ALU used for arithmetic between the outputs of the regfile
    // or as an address offset from DAddr9 (from STUR or LDUR)
-   logic [63:0] ALU_out, ALU_out_0;
+   logic [63:0] ALU_out;
    logic  [2:0] ALUOp;
    alu op (
       .result(ALU_out_0),
@@ -225,6 +282,8 @@ module datapath (
       .reset,
       .MemToReg,
       .RegWrite,
+      .RegWrite_exe,
+      .RegWrite_mem,
       .MemWrite,
       .MemRead,
       .xferByte,
@@ -236,6 +295,8 @@ module datapath (
       .ALU_out,
       .Dw,
       .Rd,
+      .Rd_exe,
+      .Rd_mem,
 
       .MemToReg_0,
       .RegWrite_0,
