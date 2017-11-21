@@ -74,18 +74,18 @@ add wave -noupdate -expand -group {In CPU_64} -group {Branch Selector (cond or u
 add wave -noupdate -expand -group {In CPU_64} -group {Branch Selector (cond or uncond)} -radix hexadecimal /CPU_64_testbench/dut/brAddr26_SE
 add wave -noupdate -expand -group {In CPU_64} -group {Branch Selector (cond or uncond)} -radix hexadecimal /CPU_64_testbench/dut/condAddr19_SE
 add wave -noupdate -expand -group {In CPU_64} -group {Branch Selector (cond or uncond)} -radix hexadecimal /CPU_64_testbench/dut/UncondBr
-add wave -noupdate -expand -group {In CPU_64} -expand -group {PC + SE(branch)} -radix hexadecimal /CPU_64_testbench/dut/pcPlusSEBranch
-add wave -noupdate -expand -group {In CPU_64} -expand -group {PC + SE(branch)} -radix hexadecimal /CPU_64_testbench/dut/brChoice4x
-add wave -noupdate -expand -group {In CPU_64} -expand -group {PC + SE(branch)} -radix hexadecimal /CPU_64_testbench/dut/instrAddr
-add wave -noupdate -expand -group {In CPU_64} -expand -group {PC + SE(branch)} /CPU_64_testbench/dut/instrAddr_Old
+add wave -noupdate -expand -group {In CPU_64} -group {PC + SE(branch)} -radix hexadecimal /CPU_64_testbench/dut/pcPlusSEBranch
+add wave -noupdate -expand -group {In CPU_64} -group {PC + SE(branch)} -radix hexadecimal /CPU_64_testbench/dut/brChoice4x
+add wave -noupdate -expand -group {In CPU_64} -group {PC + SE(branch)} -radix hexadecimal /CPU_64_testbench/dut/instrAddr
+add wave -noupdate -expand -group {In CPU_64} -group {PC + SE(branch)} /CPU_64_testbench/dut/instrAddr_Old
 add wave -noupdate -expand -group {In CPU_64} -group {BrTaken Mux} /CPU_64_testbench/dut/instrAddrNext
 add wave -noupdate -expand -group {In CPU_64} -group {BrTaken Mux} /CPU_64_testbench/dut/pcPlus4
 add wave -noupdate -expand -group {In CPU_64} -group {BrTaken Mux} /CPU_64_testbench/dut/pcPlusSEBranch
 add wave -noupdate -expand -group {In CPU_64} -group {BrTaken Mux} /CPU_64_testbench/dut/BrTaken
-add wave -noupdate -expand -group {In CPU_64} -group {Flag Register} -label {Q of Flag Reg} /CPU_64_testbench/dut/regFlags
-add wave -noupdate -expand -group {In CPU_64} -group {Flag Register} -label {D of Flag Reg} /CPU_64_testbench/dut/writeToFR
-add wave -noupdate -expand -group {In CPU_64} -group {Flag Register} -label {Flags From ALU} /CPU_64_testbench/dut/flags
-add wave -noupdate -expand -group {In CPU_64} -group {Flag Register} /CPU_64_testbench/dut/storeFlags
+add wave -noupdate -expand -group {In CPU_64} -expand -group {Flag Register} -label {Q of Flag Reg} /CPU_64_testbench/dut/regFlags
+add wave -noupdate -expand -group {In CPU_64} -expand -group {Flag Register} -label {D of Flag Reg} /CPU_64_testbench/dut/writeToFR
+add wave -noupdate -expand -group {In CPU_64} -expand -group {Flag Register} -label {Flags From ALU} /CPU_64_testbench/dut/flags
+add wave -noupdate -expand -group {In CPU_64} -expand -group {Flag Register} /CPU_64_testbench/dut/storeFlags
 add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/MemToReg
 add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/RegWrite
 add wave -noupdate -group {Pipeline Regs} -expand -group Outputs /CPU_64_testbench/dut/dp/plRegs/MemWrite
@@ -117,7 +117,7 @@ add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp
 add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage3
 add wave -noupdate -group {Pipeline Regs} -group Stages /CPU_64_testbench/dut/dp/plRegs/stage4
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {487888 ps} 0}
+WaveRestoreCursors {{Cursor 1} {1150000 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 200
 configure wave -valuecolwidth 200
@@ -133,4 +133,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {1408901 ps}
+WaveRestoreZoom {311545 ps} {1720446 ps}
