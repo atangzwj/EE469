@@ -27,18 +27,22 @@ module forwardingUnit (
    // value forwarded from mem stage, and value from exe stage   
 
    always_comb begin
-      case (Rn)
-         Rd_exe: if (RegWrite_exe) MuxDa_Sel = 2'b11;
-                   else            MuxDa_Sel = 2'b00;
-         Rd_mem: if (RegWrite_mem) MuxDa_Sel = 2'b10;
-                   else            MuxDa_Sel = 2'b00;
+      casex (Rn)
+         5'd31:                     MuxDa_Sel = 2'b0x;
+         Rd_exe:  if (RegWrite_exe) MuxDa_Sel = 2'b11;
+                  else              MuxDa_Sel = 2'b0x;
+         Rd_mem:  if (RegWrite_mem) MuxDa_Sel = 2'b10;
+                  else              MuxDa_Sel = 2'b0x;
+         default:                   MuxDa_Sel = 2'b0x;
       endcase
 
       case (Rmd)
-         Rd_exe: if (RegWrite_exe) MuxDb_Sel = 2'b11;
-                   else            MuxDb_Sel = 2'b00;
-         Rd_mem: if (RegWrite_mem) MuxDb_Sel = 2'b10;
-                   else            MuxDb_Sel = 2'b00;
+         5'd31:                     MuxDb_Sel = 2'b0x;
+         Rd_exe:  if (RegWrite_exe) MuxDb_Sel = 2'b11;
+                   else             MuxDb_Sel = 2'b0x;
+         Rd_mem:  if (RegWrite_mem) MuxDb_Sel = 2'b10;
+                  else              MuxDb_Sel = 2'b0x;
+         default:                   MuxDb_Sel = 2'b0x;
       endcase
    end
 endmodule
