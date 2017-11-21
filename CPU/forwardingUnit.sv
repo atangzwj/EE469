@@ -19,19 +19,28 @@ module fowardingUnit (
    // ADD X0, X1, X2
    // ADD .., X0, ..
    // ADD .., .., X0 <-- Checks value
-   
+
    // If RegWrite_mem is false, then two instructions before we weren't going to write to regfile
    // If RegWrite_exe is false, then one instruction before ....
-   
+
    // If Rn and/or Rmd is X31, don't forward anything
-   
+
    // Output the control which selects between original value, 
    // value forwarded from mem stage, and value from exe stage   
-   
+
    always_comb begin
-      case()
-   
+      case (Rn)
+         Rd_exe_0: if (RegWrite_exe) MuxDa_Sel = 2'b11;
+                   else              MuxDa_Sel = 2'b00;
+         Rd_mem_0: if (RegWrite_mem) MuxDa_Sel = 2'b10;
+                   else              MuxDa_Sel = 2'b00;
+      endcase
+
+      case (Rmd)
+         Rd_exe_0: if (RegWrite_exe) MuxDb_Sel = 2'b11;
+                   else              MuxDb_Sel = 2'b00;
+         Rd_mem_0: if (RegWrite_mem) MuxDb_Sel = 2'b10;
+                   else              MuxDb_Sel = 2'b00;
       endcase
    end
-   
 endmodule
