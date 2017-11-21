@@ -8,7 +8,8 @@ module datapath_testbench ();
    logic [11:0]  Imm12;
    logic  [1:0]  Shamt;
    logic [15:0]  Imm16;
-   logic  [3:0]  flags;   
+   logic  [2:0]  flags;
+   logic         zeroFlag;
    // Control Logic
    logic        Reg2Loc;
    logic        ALUSrc;
@@ -26,6 +27,7 @@ module datapath_testbench ();
    
    datapath dut (.clk, .reset,
                  .flags,
+                 .zeroFlag,
                  .Rd, .Rm, .Rn,
                  .Daddr9,
                  .Imm12,

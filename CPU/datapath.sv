@@ -2,7 +2,8 @@
 
 module datapath (
    input  logic        clk, reset,
-   output logic  [3:0] flags,
+   output logic  [2:0] flags,
+   output logic        zeroFlag,
    // Data fields
    input  logic  [4:0] Rd_0, Rm, Rn,
    input  logic  [8:0] Daddr9,
@@ -210,7 +211,7 @@ module datapath (
    alu check_0 (
       .result(),
       .negative(),
-      .zero(flags[2]), // output to be used for cond branch in CPU_64
+      .zero(zeroFlag), // output to be used for cond branch in CPU_64
       .overflow(),
       .carry_out(),
       .A(),
@@ -224,7 +225,7 @@ module datapath (
    logic  [2:0] ALUOp;
    alu op (
       .result(ALU_out_0),
-      .negative(flags[3]),
+      .negative(flags[2]),
       .zero(), // output to be used for cond branch in CPU_64
       .overflow(flags[1]),
       .carry_out(flags[0]),

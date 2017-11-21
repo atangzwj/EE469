@@ -16,7 +16,8 @@ module main_control (
    output logic        storeFlags,
    output logic  [2:0] ALUOp,
    input  logic [10:0] opcode,
-   input  logic  [3:0] flags, regFlags
+   input  logic  [3:0] regFlags,
+   input  logic        zeroFlag
    );
    
    // Instruction opcodes
@@ -61,7 +62,7 @@ module main_control (
                       MemRead    = 1'bx;
                       ChooseImm  = 1'b0;
                       xferByte   = 1'bx;
-                      BrTaken    = flags[2]; // zero flag from same clk cycle
+                      BrTaken    = zeroFlag; // zero flag from same clk cycle
                       UncondBr   = 1'b0;
                       ChooseMovk = 1'b0;
                       ChooseMovz = 1'b0;
@@ -266,7 +267,8 @@ module main_control_testbench ();
    logic        startCase;
    logic  [2:0] ALUOp;
    logic [10:0] opcode;
-   logic  [3:0] flags, regFlags; 
+   logic  [3:0] regFlags;
+   logic        zeroFlag;
 
    main_control dut (
       .Reg2Loc,
@@ -285,8 +287,8 @@ module main_control_testbench ();
       .startCase,
       .ALUOp,
       .opcode,
-      .flags,
-      .regFlags
+      .regFlags,
+      .zeroFlag
    );
 
    parameter CLK_PERIOD = 10;
@@ -310,13 +312,13 @@ module main_control_testbench ();
    MOVZ  = 11'b001_1010_0101;
 
    initial begin
-      opcode <= B;     flags <= 4'b0000; @(posedge clk);
+      opcode <= B;  regFlags <= 4'b0000; @(posedge clk);
       opcode <= CBZ;                     @(posedge clk);
-                       flags <= 4'b0100; @(posedge clk);
+                    regFlags <= 4'b0100; @(posedge clk);
       opcode <= B_LT;                    @(posedge clk);
-                       flags <= 4'b0010; @(posedge clk);
-                       flags <= 4'b1000; @(posedge clk);
-                       flags <= 4'b1010; @(posedge clk);
+                    regFlags <= 4'b0010; @(posedge clk);
+                    regFlags <= 4'b1000; @(posedge clk);
+                    regFlags <= 4'b1010; @(posedge clk);
       opcode <= ADDS;                    @(posedge clk);
       opcode <= SUBS;                    @(posedge clk);
       opcode <= ADDI;                    @(posedge clk);

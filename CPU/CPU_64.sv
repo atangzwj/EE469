@@ -123,7 +123,9 @@ module CPU_64 (clk, reset);
                ChooseImm, xferByte, ChooseMovk, ChooseMovz, storeFlags_0;
    logic [2:0] ALUOp;
 
-   logic [3:0] flags, regFlags;
+   logic [2:0] flags; 
+   logic [3:0] regFlags;
+   logic       zeroFlag;
    main_control control (
       .Reg2Loc,
       .ALUSrc,
@@ -140,7 +142,7 @@ module CPU_64 (clk, reset);
       .storeFlags(storeFlags_0),
       .ALUOp,
       .opcode,
-      .flags,
+      .zeroFlag,
       .regFlags
    ); 
 
@@ -149,6 +151,7 @@ module CPU_64 (clk, reset);
       .clk,
       .reset,
       .flags,
+      .zeroFlag,
       .Rd_0(Rd),
       .Rm,
       .Rn,
@@ -176,17 +179,20 @@ module CPU_64 (clk, reset);
    // Selects between the preexisting flags in the register and 
    // new flags from the most recent ALU execution
    // Output gets written (or rewritten) into the flag register
-   logic [3:0] writeToFR;
+   logic zeroFlag_d;
+   D_FF zeroFlag_delay (.q(zeroFlag_d), .d(zeroFlag), .reset, .clk);   
+   
+   
+   logic [3:0] writeToFR, newFlags;
+   assign newFlags = {flags[2], zeroFlag_d, flags[1:0]};
+   
    selectData #(.WIDTH(4)) toFlagReg (
       .out(writeToFR),
       .A(regFlags),
-      .B(flags),
+      .B(newFlags),
       .sel(storeFlags) // 1 if instruction is ADDS or SUBS
    );   
-
-   logic zeroFlag_d;
-   D_FF zeroFlag_delay (.q(zeroFlag_d), .d(writeToFR[2]), .reset, .clk);
-
+   
    // Hold the flags until the next clock cycle for B.LT to use
    // flag[3] = negative
    // flag[2] = zero
@@ -195,7 +201,7 @@ module CPU_64 (clk, reset);
 
    D_FF fr0 (.q(regFlags[0]), .d(writeToFR[0]), .reset, .clk);
    D_FF fr1 (.q(regFlags[1]), .d(writeToFR[1]), .reset, .clk);
-   D_FF fr2 (.q(regFlags[2]), .d(zeroFlag_d),   .reset, .clk);
+   D_FF fr2 (.q(regFlags[2]), .d(writeToFR[2]), .reset, .clk);
    D_FF fr3 (.q(regFlags[3]), .d(writeToFR[3]), .reset, .clk);
 
 //   genvar i;
