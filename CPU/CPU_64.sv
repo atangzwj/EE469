@@ -171,13 +171,7 @@ module CPU_64 (clk, reset);
 
    // Delay storeFlags for use in EXEC stage
    logic storeFlags;
-   register #(.WIDTH(1)) storeFlagsReg (
-      .clk,
-      .reset,
-      .dOut(storeFlags),
-      .WriteData(storeFlags_0),
-      .wrEnable(1'b1)
-   );
+   D_FF storeFlags_delay (.q(storeFlags), .d(storeFlags_0), .reset, .clk);
 
    // Selects between the preexisting flags in the register and 
    // new flags from the most recent ALU execution
@@ -190,6 +184,8 @@ module CPU_64 (clk, reset);
       .sel(storeFlags) // 1 if instruction is ADDS or SUBS
    );   
 
+   D_FF zeroFlag_delay (.q(zeroFlag_d), .d(writeToFR[2]), .reset, .clk);
+
    // Hold the flags until the next clock cycle for B.LT to use
    // flag[3] = negative
    // flag[2] = zero
@@ -198,7 +194,10 @@ module CPU_64 (clk, reset);
    genvar i;
    generate
       for(i = 0; i < 4; i++) begin : flagRegisters
-         D_FF fr (.q(regFlags[i]), .d(writeToFR[i]), .reset, .clk);
+         if (i == 2)
+            D_FF fr (.q(regFlags[i]), .d(zeroFlag_d), .reset, .clk);
+         else
+            D_FF fr (.q(regFlags[i]), .d(writeToFR[i]), .reset, .clk);
       end
    endgenerate
 endmodule
