@@ -205,5 +205,5 @@ module CPU_64 (clk, reset);
 //        else
 //            D_FF fr (.q(regFlags[i]), .d(writeToFR[i]), .reset, .clk);
 //      end
-   endgenerate
+//   endgenerate
 endmodule
