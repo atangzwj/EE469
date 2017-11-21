@@ -120,7 +120,7 @@ module CPU_64 (clk, reset);
 
    // Control logic
    logic       Reg2Loc, ALUSrc, MemToReg, RegWrite, MemWrite, MemRead,
-               ChooseImm, xferByte, ChooseMovk, ChooseMovz, storeFlags;
+               ChooseImm, xferByte, ChooseMovk, ChooseMovz, storeFlags_0;
    logic [2:0] ALUOp;
 
    logic [3:0] flags, regFlags;
@@ -137,7 +137,7 @@ module CPU_64 (clk, reset);
       .UncondBr,
       .ChooseMovk,
       .ChooseMovz,
-      .storeFlags,
+      .storeFlags(storeFlags_0),
       .ALUOp,
       .opcode,
       .flags,
@@ -167,6 +167,16 @@ module CPU_64 (clk, reset);
       .ChooseMovk,
       .ChooseMovz,
       .ALUOp_0(ALUOp)
+   );
+
+   // Delay storeFlags for use in EXEC stage
+   logic storeFlags;
+   register #(.WIDTH(1)) storeFlagsReg (
+      .clk,
+      .reset,
+      .dOut(storeFlags),
+      .WriteData(storeFlags_0),
+      .wrEnable(1'b1)
    );
 
    // Selects between the preexisting flags in the register and 
