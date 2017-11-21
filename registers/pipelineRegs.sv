@@ -73,8 +73,8 @@ module pipelineRegs (
    input  logic  [2:0] ALUOp_0,
 
    input  logic [63:0] Db_ALU_0,
-   input  logic [63:0] Da_0,
-   input  logic [63:0] Db_0,
+   input  logic [63:0] Da_Fwd,
+   input  logic [63:0] Db_Fwd,
    input  logic [63:0] ALU_out_0,
    input  logic [63:0] Dw_0,
    input  logic  [4:0] Rd_0
@@ -105,7 +105,7 @@ module pipelineRegs (
       .clk,
       .reset,
       .dOut(Da),
-      .WriteData(Da_0),
+      .WriteData(Da_Fwd),
       .wrEnable(1'b1)
    );
 
@@ -113,7 +113,7 @@ module pipelineRegs (
       .clk,
       .reset,
       .dOut(Db_1),
-      .WriteData(Db_0),
+      .WriteData(Db_Fwd),
       .wrEnable(1'b1)
    );
 
@@ -222,8 +222,8 @@ module pipelineRegs_testbench ();
    logic  [2:0] ALUOp, ALUOp_0;  
    
    logic [63:0] Db_ALU,  Db_ALU_0,
-                Da,      Da_0,
-                Db,      Db_0,
+                Da,      Da_Fwd,
+                Db,      Db_Fwd,
                 ALU_out, ALU_out_0,
                 Dw,      Dw_0;
    logic  [4:0] Rd,      Rd_0, Rd_mem, Rd_exe;
@@ -257,8 +257,8 @@ module pipelineRegs_testbench ();
       .ALUOp_0,
 
       .Db_ALU_0,
-      .Da_0,
-      .Db_0,
+      .Da_Fwd,
+      .Db_Fwd,
       .ALU_out_0,
       .Dw_0,
       .Rd_0
@@ -280,8 +280,8 @@ module pipelineRegs_testbench ();
    assign ALUOp_0    = ctrlBus[2:0];
 
    assign Db_ALU_0  = 64'hFFFF_FFFF_FFFF_FFFF;
-   assign Da_0      = 64'hFFFF_FFFF_FFFF_FFFF;
-   assign Db_0      = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign Da_Fwd      = 64'hFFFF_FFFF_FFFF_FFFF;
+   assign Db_Fwd      = 64'hFFFF_FFFF_FFFF_FFFF;
    assign ALU_out_0 = 64'hFFFF_FFFF_FFFF_FFFF;
    assign Dw_0      = 64'hFFFF_FFFF_FFFF_FFFF;
    assign Rd_0      =  5'b11111;

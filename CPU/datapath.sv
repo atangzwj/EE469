@@ -120,7 +120,7 @@ module datapath (
    logic [63:0] Db_Imm;
    selectData intoImmMux (
       .out(Db_Imm),
-      .A(Db_0),
+      .A(Db_Fwd),
       .B(Daddr9_SE),
       .sel(ALUSrc)
    );
@@ -306,8 +306,8 @@ module datapath (
       .ALUOp_0,
 
       .Db_ALU_0,
-      .Da_0,
-      .Db_0,
+      .Da_Fwd,
+      .Db_Fwd,
       .ALU_out_0,
       .Dw_0,
       .Rd_0
