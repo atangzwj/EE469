@@ -54,7 +54,7 @@ module datapath (
       .RegWrite
    );
 
-   logic [63:0] ALU_out_0, Da_Fwd_0, Da_Fwd;
+   logic [63:0] ALU_out_0, Da_Fwd_0, Da_Fwd, Db_Fwd_0, Db_Fwd;
    logic  [1:0] MuxDa_Sel, MuxDb_Sel;
    
    // FORWARD MUX for Da
@@ -84,16 +84,16 @@ module datapath (
    //    10 = Dw_0        (value from mem stage)
    //    11 = Alu_out_0   (value from exe stage) 
    selectData Mux_fwd_Db (
-      .out(Da_Fwd_0),
+      .out(Db_Fwd_0),
       .A(Dw_0),
       .B(ALU_out_0),
       .sel(MuxDb_Sel[0])
    );
    
    selectData Mux_fwd_Db_1 (
-      .out(Da_Fwd),
+      .out(Db_Fwd),
       .A(Db_0),
-      .B(Da_Fwd_0),
+      .B(Db_Fwd_0),
       .sel(MuxDb_Sel[1])
    );   
 
