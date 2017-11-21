@@ -39,7 +39,7 @@ module forwardingUnit (
       case (Rmd)
          5'd31:                     MuxDb_Sel = 2'b0x;
          Rd_exe:  if (RegWrite_exe) MuxDb_Sel = 2'b11;
-                   else             MuxDb_Sel = 2'b0x;
+                  else              MuxDb_Sel = 2'b0x;
          Rd_mem:  if (RegWrite_mem) MuxDb_Sel = 2'b10;
                   else              MuxDb_Sel = 2'b0x;
          default:                   MuxDb_Sel = 2'b0x;
