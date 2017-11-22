@@ -182,7 +182,7 @@ module datapath (
          // invert each bit of clearBar to get our clear mask
          not #DELAY (clear[i], clearBar[i]);
          // set the desired section of Db to 0
-         and #DELAY (cleared[i], Db_0[i], clear[i]);
+         and #DELAY (cleared[i], Db_Fwd[i], clear[i]);
          // replace the 0 section with the ShiftedImm 16
          or  #DELAY (movk_done[i], cleared[i], ShiftedImm16[i]); 
       end
