@@ -126,6 +126,7 @@ module CPU_64 (clk, reset);
    logic [2:0] flags; 
    logic [3:0] regFlags;
    logic       zeroFlag;
+   logic [3:0] ctrlFlags;
    main_control control (
       .Reg2Loc,
       .ALUSrc,
@@ -143,7 +144,7 @@ module CPU_64 (clk, reset);
       .ALUOp,
       .opcode,
       .zeroFlag,
-      .regFlags
+      .regFlags(ctrlFlags)
    ); 
 
    // Datapath
@@ -174,7 +175,15 @@ module CPU_64 (clk, reset);
 
    // Delay storeFlags for use in EXEC stage
    logic storeFlags;
-   D_FF storeFlags_delay (.q(storeFlags), .d(storeFlags_0), .reset, .clk);
+   D_FF storeFlags_delay  (.q(storeFlags), .d(storeFlags_0), .reset, .clk);
+
+   logic [3:0] writeToFR, newFlags;
+   selectData #(.WIDTH(4)) toControlLogic (
+      .out(ctrlFlags),
+      .A(regFlags),
+      .B(writeToFR),
+      .sel(storeFlags) // 1 if instruction is ADDS or SUBS
+   );
 
    // Selects between the preexisting flags in the register and 
    // new flags from the most recent ALU execution
@@ -182,8 +191,7 @@ module CPU_64 (clk, reset);
    logic zeroFlag_d;
    D_FF zeroFlag_delay (.q(zeroFlag_d), .d(zeroFlag), .reset, .clk);   
    
-   
-   logic [3:0] writeToFR, newFlags;
+
    assign newFlags = {flags[2], zeroFlag_d, flags[1:0]};
    
    selectData #(.WIDTH(4)) toFlagReg (
@@ -191,7 +199,7 @@ module CPU_64 (clk, reset);
       .A(regFlags),
       .B(newFlags),
       .sel(storeFlags) // 1 if instruction is ADDS or SUBS
-   );   
+   );
    
    // Hold the flags until the next clock cycle for B.LT to use
    // flag[3] = negative
