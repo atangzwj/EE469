@@ -165,13 +165,16 @@ add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64
 add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[1]}
 add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[0]}
 add wave -noupdate /CPU_64_testbench/dut/instruction
+add wave -noupdate -color Gold -radix decimal /CPU_64_testbench/dut/dp/Dw_0
+add wave -noupdate -color Gold -radix decimal /CPU_64_testbench/dut/dp/ALU_out_0
+add wave -noupdate -color Gold -radix decimal /CPU_64_testbench/dut/dp/Db_Fwd_0
 add wave -noupdate -radix decimal /CPU_64_testbench/dut/dp/Db_Fwd
 add wave -noupdate -radix decimal /CPU_64_testbench/dut/dp/plRegs/Db_1
 add wave -noupdate -radix decimal /CPU_64_testbench/dut/dp/Db
 add wave -noupdate -radix decimal /CPU_64_testbench/dut/dp/ALU_out
 add wave -noupdate -label clk /CPU_64_testbench/clk
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {50000 ps} 0}
+WaveRestoreCursors {{Cursor 1} {39529 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 200
 configure wave -valuecolwidth 200
