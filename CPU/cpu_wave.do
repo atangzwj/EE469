@@ -148,28 +148,30 @@ add wave -noupdate -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/d
 add wave -noupdate -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/dut/dp/Rd
 add wave -noupdate -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/dut/dp/Rd_mem
 add wave -noupdate -group {ForwardingMux DP} -radix unsigned /CPU_64_testbench/dut/dp/Rd_exe
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[15]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[15]}
 add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[14]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[13]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[12]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[11]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[10]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[9]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[8]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[7]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[6]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[5]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[4]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[3]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[2]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[1]}
-add wave -noupdate -group {DataMem 0-15} -color Cyan -height 15 -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[0]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[13]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[12]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[11]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[10]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[9]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[8]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[7]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[6]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[5]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[4]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[3]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[2]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[1]}
+add wave -noupdate -group {DataMem 0-15} -color Cyan -radix hexadecimal {/CPU_64_testbench/dut/dp/dm/mem[0]}
 add wave -noupdate /CPU_64_testbench/dut/instruction
+add wave -noupdate -radix decimal /CPU_64_testbench/dut/dp/Db_Fwd
+add wave -noupdate -radix decimal /CPU_64_testbench/dut/dp/plRegs/Db_1
 add wave -noupdate -radix decimal /CPU_64_testbench/dut/dp/Db
 add wave -noupdate -radix decimal /CPU_64_testbench/dut/dp/ALU_out
 add wave -noupdate -label clk /CPU_64_testbench/clk
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {0 ps} 0}
+WaveRestoreCursors {{Cursor 1} {50000 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 200
 configure wave -valuecolwidth 200
