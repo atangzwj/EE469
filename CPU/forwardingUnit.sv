@@ -36,7 +36,7 @@ module forwardingUnit (
          default:                   MuxDa_Sel = 2'b0x;
       endcase
 
-      case (Rmd)
+      casex (Rmd)
          5'd31:                     MuxDb_Sel = 2'b0x;
          Rd_exe:  if (RegWrite_exe) MuxDb_Sel = 2'b11;
                   else              MuxDb_Sel = 2'b0x;

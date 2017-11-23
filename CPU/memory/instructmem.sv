@@ -16,6 +16,8 @@
 //`define BENCHMARK "./CPU/benchmarks/test10_forwarding.arm"
 //`define BENCHMARK "./CPU/benchmarks/test11_Sort.arm"
 //`define BENCHMARK "./CPU/benchmarks/test12_ToUpper.arm"
+//`define BENCHMARK "./CPU/benchmarks/testSturb_Rad.arm"
+
 
 `timescale 1ns/10ps
 
